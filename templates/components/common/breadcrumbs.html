@@ -1,0 +1,43 @@
+{{#unless theme_settings.hide_breadcrumbs }}
+<nav aria-label="Breadcrumb" class="my-4 text-secondary text-sm">
+    <ol class="flex-row-middle">
+        {{#each breadcrumbs}}
+            <li class="flex-row-middle">
+                {{#if @first}}
+                    <a href="{{url}}" aria-current="page" class="flex-row-middle gap-2">
+                        <span class="material-symbols-outlined icon-base">home</span> <span>{{name}}</span>
+                    </a>
+                {{else}}
+                    <a href="{{url}}" {{#if @last}}aria-current="page"{{/if}}>
+                        <span>{{name}}</span>
+                    </a>
+                {{/if}}
+
+                {{#unless @last}}
+                    <span class="material-symbols-outlined icon-base">keyboard_arrow_right</span>
+                {{/unless}}
+            </li>
+        {{/each}}
+    </ol>
+</nav>
+{{/unless}}
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement":
+    [
+        {{#each breadcrumbs}}
+        {
+            "@type": "ListItem",
+            "position": {{add @index 1}},
+            "item": {
+                "@id": {{{JSONstringify url}}},
+                "name": {{{JSONstringify name}}}
+            }
+        }{{#unless @last}},{{/unless}}
+        {{/each}}
+    ]
+}
+</script>

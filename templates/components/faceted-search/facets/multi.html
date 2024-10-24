@@ -1,0 +1,31 @@
+{{#if items}}
+<div class="w-full">
+    {{> components/faceted-search/faceted-search-navigation}}
+
+    <ul class="flex flex-col w-full">
+        {{#each items}}
+        <li class="border-b border-transparent hover:border-divider py-[2px]" x-data="serenityFacetItem({
+            selected: {{selected}},
+            url: '{{url}}'
+        })">
+            <a x-bind="button" href="{{url}}" rel="nofollow" class="flex flex-row justify-between items-center gap-1">
+                <span x-show="isSelected && !isLoading" class="material-symbols-outlined icon-base">select_check_box</span>
+                <span x-cloak x-show="!isSelected && !isLoading" class="material-symbols-outlined icon-base">check_box_outline_blank</span>
+                <span x-cloak x-show="isLoading" class="material-symbols-outlined animate-spin icon-base">refresh</span>
+
+                <span class="grow text-base">{{{sanitize title}}}</span>
+                {{#if ../show_product_counts}}
+                {{> components/faceted-search/products-count count=count}}
+                {{/if}}
+            </a>
+        </li>
+        {{/each}}
+    </ul>
+
+    {{#if show_more_toggle}}
+    <a role="button">
+        <span>{{lang 'search.faceted.show-more'}}</span>
+    </a>
+    {{/if}}
+</div>
+{{/if}}

@@ -1,0 +1,20 @@
+<div x-data="serenityProductAttribute({ id: {{id}} })">
+    <label class="flex-row-middle gap-2 mb-1" id="radio-group-label-{{id}}">
+        <span class="font-semibold">{{display_name}}:</span>
+        <span class="required">{{> components/common/requireness-msg}}</span>
+    </label>
+    <input type="hidden" name="attribute[{{id}}]" value="{{noValue}}" />
+    <div class="flex-row-middle cursor-pointer">
+        <input
+            class="cursor-pointer"
+            x-bind="attributeInput"
+            type="checkbox"
+            name="attribute[{{id}}]"
+            id="attribute-check-{{id}}"
+            value="{{value}}"
+            {{#if selected}}checked{{/if}}
+            {{#if required}}required{{/if}}>
+
+        <label class="cursor-pointer pl-1" for="attribute-check-{{id}}">{{label}}</label>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+<form novalidate x-data="serenityFacetForm" x-bind="form">
+    <input type="hidden" name="search_query" value="{{search_query}}">
+    {{#if this.sort}}
+        <input type="hidden" name="sort" value="{{this.sort}}">
+    {{/if}}
+    <fieldset class="flex flex-col gap-1 text-sm">
+        <div class="flex flex-row gap-1">
+            <div class="grow">
+                <input
+                    title="{{lang 'search.faceted.range.min-description'}}"
+                    class="input"
+                    name="{{#if shop_by_price}}price_min{{else}}min_price{{/if}}"
+                    placeholder="{{lang 'search.faceted.range.min-placeholder'}}"
+                    min="0"
+                    required
+                    type="number"
+                    value="{{min_price}}"
+                    aria-label="{{lang 'search.faceted.range.min-placeholder'}}"
+                    aria-describedby="min_price_description"
+                />
+            </div>
+
+            <div class="grow">
+                <input
+                    title="{{lang 'search.faceted.range.max-description'}}"
+                    class="input"
+                    name="{{#if shop_by_price}}price_max{{else}}max_price{{/if}}"
+                    placeholder="{{lang 'search.faceted.range.max-placeholder'}}"
+                    min="0"
+                    required
+                    type="number"
+                    value="{{max_price}}"
+                    aria-label="{{lang 'search.faceted.range.max-placeholder'}}"
+                    aria-describedby="max_price_description"
+                />
+            </div>
+        </div>
+
+        <button class="button-primary w-full" type="submit" x-bind="button">
+            <span :class="{ 'animate-spin': isLoading }" class="material-symbols-outlined icon-sm" aria-label="{{lang 'search.faceted.range.update'}}">refresh</span>
+            {{lang 'search.faceted.range.update'}}
+        </button>
+    </fieldset>
+</form>

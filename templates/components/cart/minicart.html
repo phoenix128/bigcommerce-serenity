@@ -1,0 +1,33 @@
+<div x-data="serenityMiniCart">
+    <a href="{{urls.cart}}" aria-label="{{lang 'cart.nav_aria_label'}}" class="flex-row-middle md:hidden h-6">
+        <span class="hidden sm:block mr-2">{{lang 'common.cart'}}</span>
+        <span class="material-symbols-outlined icon-base block sm:hidden">shopping_cart</span>
+        <span x-cloak class="chip" x-show="productsCount > 0 || productsCount === null">
+            <span x-cloak x-show="isLoading" class="material-symbols-outlined icon-base animate-spin">refresh</span>
+            <span x-show="!isLoading" x-text="productsCount"></span>
+        </span>
+    </a>
+    <a href="{{urls.cart}}" x-bind="miniCartPreviewButton" aria-label="{{lang 'cart.nav_aria_label'}}" class="gap-2 hidden md:flex-row-middle">
+        <span>{{lang 'common.cart'}}</span>
+        <span x-cloak class="chip" x-show="productsCount > 0 || isLoading">
+            <span x-cloak x-show="isLoading" class="material-symbols-outlined icon-base animate-spin">refresh</span>
+            <span x-show="!isLoading" x-text="productsCount"></span>
+        </span>
+    </a>
+    <template x-teleport="body">
+        <div
+            x-bind="miniCartPreviewWrapper"
+            class="fixed right-0 top-0 h-screen w-96 bg-white backdrop-blur-md bg-opacity-70 z-40 p-4 shadow-xl shadow-black transition-all"
+            :class="{ 'translate-x-full opacity-0': !isMiniCartOpen }"
+        >
+            <button @click="close()" class="absolute -left-6 text-2xl" aria-label="{{lang 'common.close'}}">
+                <span class="material-symbols-outlined icon-xl filled-icon bg-white rounded-full">cancel</span>
+            </button>
+            <div x-html="cartContent" x-cloak x-show="cartContent != null" class="w-full"></div>
+            <div x-cloak x-show="cartContent == null" class="w-full h-full flex flex-col justify-center items-center">
+                <span class="material-symbols-outlined icon-2xl animate-spin">refresh</span>
+                <span class="animate-pulse">{{lang 'common.loading'}}</span>
+            </div>
+        </div>
+    </template>
+</div>

@@ -1,0 +1,25 @@
+<div x-data="serenityQuickSearch({searchUrl: '{{urls.search}}'})" class="w-full absolute bg-gray-100 p-4 shadow-lg shadow-slate-400">
+    <form class="form" onsubmit="return false">
+        <div class="w-full p-4 border border-divider rounded-md bg-white flex flex-row gap-4">
+            <span x-show="!isLoading" class="material-symbols-outlined shrink">search</span>
+            <span x-bind="loading" class="material-symbols-outlined shrink animate-spin">refresh</span>
+            <input
+                aria-label="{{lang "search.quick_search.input_label"}}"
+                x-bind="input"
+                class="w-full outline-none grow text-gray-600"
+                name="{{name}}"
+                id="{{name}}"
+                data-error-message="{{lang 'search.error.empty_field'}}"
+                placeholder="{{lang 'search.quick_search.input_placeholder'}}"
+                autocomplete="off"
+            >
+            <button x-bind="clearButton" class="material-symbols-outlined icon-base shrink text-sm">close</button>
+        </div>
+
+        <section x-bind="results"></section>
+        <p
+            role="status"
+            data-search-aria-message-predefined-text="{{{lang 'search.results.quick_count_live'}}}"
+        ></p>
+    </form>
+</div>

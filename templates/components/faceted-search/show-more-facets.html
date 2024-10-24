@@ -1,0 +1,17 @@
+<div>
+    <h1>{{all_facets}}</h1>
+    <div>
+        <input type="search" placeholder="{{lang 'forms.search.search'}}" />
+    </div>
+    <ul>
+        {{#each facets}} {{#if facet '===' ../all_facets}} {{#each items}}
+        <li class="navList-item">
+            <a href="{{url}}" rel="nofollow" data-id="{{id}}" data-faceted-search-facet>
+                {{{title}}} {{#if ../show_product_counts}} {{#if count}}
+                <span>({{count}})</span>
+                {{/if}} {{/if}}
+            </a>
+        </li>
+        {{/each}} {{/if}} {{/each}}
+    </ul>
+</div>

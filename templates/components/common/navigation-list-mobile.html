@@ -1,0 +1,31 @@
+{{#if children}}
+<a class="flex-row-middle hover:text-primary-light cursor-pointer text-xl">
+    <span :class="{'selected-menu-item': isActive}">{{name}}</span>
+    <span class="material-symbols-outlined icon-base transition-transform" :class="{'rotate-180': isOpen}">keyboard_arrow_down</span>
+</a>
+
+<div x-bind="childrenMenu" class="w-full" x-cloak>
+    <ul class="flex flex-col text-lg py-2">
+        <li class="px-4 py-1">
+            <a
+                href="{{url}}"
+                aria-label="{{lang 'category.view_all.name' category=name}}"
+            >
+                {{lang 'category.view_all.name' category=name}}
+            </a>
+        </li>
+        {{#each children}}
+            <li class="px-4 py-1">
+                <a href="{{url}}" aria-label="{{name}}">
+                    {{name}}
+                </a>
+            </li>
+        {{/each}}
+    </ul>
+</div>
+
+{{else}}
+<a :class="{'selected-menu-item': path === '{{url}}'}" href="{{url}}" aria-label="{{name}}" class="hover:text-primary-light text-xl">
+    {{name}}
+</a>
+{{/if}}

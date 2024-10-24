@@ -1,0 +1,13 @@
+<div class="
+    my-3 uppercase
+    {{#if theme_settings.logo-position '===' 'center'}}text-center{{else}}{{#if theme_settings.logo-position '===' 'right'}}text-right{{else}}text-left{{/if}}{{/if}}">
+    {{#if page_type '===' 'default'}}
+    <h1 class="text-4xl font-light tracking-wider">
+        {{> components/common/store-logo}}
+    </h1>
+    {{else}}
+    <div class="text-4xl font-light tracking-wider">
+        {{> components/common/store-logo}}
+    </div>
+    {{/if}}
+</div>

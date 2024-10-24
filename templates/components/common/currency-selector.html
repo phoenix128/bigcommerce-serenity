@@ -1,0 +1,24 @@
+{{#if currency_selector.currencies.length '>' 1}}
+<div class="relative" x-data="serenityDropdown">
+    <button x-bind="button" id="currencyDropdownButton" type="button" class="flex-row-middle text-left flex-nowrap">
+        <span>{{lang 'common.currency' code=currency_selector.active_currency_code}}</span>
+        <span class="material-symbols-outlined transition-transform w-6" :class="{'rotate-180': isOpen}">keyboard_arrow_down</span>
+    </button>
+
+    <div x-bind="menu" x-cloak class="z-10 absolute mt-2 bg-primary border border-divider items-center shadow-xl">
+        <ul class="py-2 text-sm text-primary w-44" aria-labelledby="currencyDropdownButton">
+            {{#each currency_selector.currencies}}
+            <li class="block px-4 py-2 hover:bg-gray-100">
+                {{#if is_active}}
+                    <div class="font-bold cursor-default">{{name}}</div>
+                {{else}}
+                    <a href="{{{switch_url}}}">
+                        {{name}}
+                    </a>
+                {{/if}}
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+</div>
+{{/if}}

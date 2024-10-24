@@ -1,0 +1,63 @@
+{{#if errors}}
+    {{lang 'errors.shipping_quote_failure'}}
+    <ul>
+        {{#each errors}}
+            <li>{{this}}</li>
+        {{/each}}
+    </ul>
+{{else}}
+    <form x-bind="shippingQuotesForm">
+        {{#if quotes.shipping_methods}}
+            <div class="my-4">
+                <ul class="flex flex-col gap-2">
+                {{#each quotes.shipping_methods}}
+                    <li class="flex-row-middle justify-between">
+                        <div class="flex-row-middle gap-2">
+                            <input x-model="shippingQuoteId" class="w-4" id="shipping-quote-{{type}}-{{id}}" type="radio" name="shipping_method" value="{{id}}" />
+                            <label for="shipping-quote-{{type}}-{{id}}">
+                                {{provider_name}}
+                            </label>
+                        </div>
+                        <label for="shipping-quote-{{type}}-{{id}}">
+                            <b>{{cost.formatted}}</b>
+                        </label>
+                    </li>
+                {{/each}}
+                </ul>
+                {{#if quotes.ups_shipping_methods}}
+                    <a href="#">{{lang 'cart.shipping_estimator.show_ups_rates'}}</a>
+                {{/if}}
+            </div>
+        {{/if}}
+        {{#if quotes.ups_shipping_methods}}
+            <div class="my-4{{#if quotes.shipping_methods}} hidden{{/if}}">
+                <ul class="flex flex-col gap-2">
+                {{#each quotes.ups_shipping_methods}}
+                    <li class="flex-row-middle justify-between">
+                        <div class="flex-row-middle gap-2">
+                            <input x-model="shippingQuoteId" type="radio" name="shipping_method" value="{{id}}" />
+                            <label for="shipping-quote-{{type}}-{{id}}">
+                                {{#if logo_path}}
+                                    <img class="lazyload" data-sizes="auto" src="{{cdn 'img/loading.svg'}}" data-src="{{logo_path}}" alt="{{description}}" title="{{description}}" />
+                                {{/if}}
+                                {{provider_name}} &mdash; {{description}}
+                            </label>
+                        </div>
+                        <label for="shipping-quote-{{type}}-{{id}}">
+                            <b>{{cost.formatted}}</b>
+                        </label>
+                    </li>
+                {{/each}}
+                </ul>
+                {{#if quotes.shipping_methods}}
+                    <a href="#">{{lang 'cart.shipping_estimator.hide_ups_rates'}}</a>
+                {{/if}}
+            </div>
+        {{/if}}
+        <button x-bind="shippingEstimatorSubmit" class="button-primary flex-row-middle" type="submit">
+            <span x-show="!isSubmitting" class="material-symbols-outlined icon-base">refresh</span>
+            <span x-cloak x-show="isSubmitting" class="material-symbols-outlined animate-spin icon-base">refresh</span>
+            <span>{{lang 'cart.checkout.update'}}</span>
+        </button>
+    </form>
+{{/if}}

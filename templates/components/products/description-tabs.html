@@ -1,0 +1,44 @@
+<div x-data="serenityTab({ activeTab: 'description' })" class="my-4">
+    <ul class="flex-row-middle -mb-[1px]">
+        {{#if product.description}}
+            <li class="tab-button" x-data="serenityTabButton({ code: 'description' })">
+                {{lang 'products.description'}}
+            </li>
+        {{/if}}
+        {{#if product.warranty}}
+            <li class="tab-button" x-data="serenityTabButton({ code: 'warranty' })">{{lang 'products.warranty'}}</li>
+        {{/if}}
+        {{#all product.custom_fields theme_settings.show_custom_fields_tabs}}
+            <li class="tab-button" x-data="serenityTabButton({ code: '{{dashcase (lowercase (sanitize theme_settings.pdp-custom-fields-tab-label))}}' })">
+                {{sanitize theme_settings.pdp-custom-fields-tab-label}}
+            </li>
+        {{/all}}
+        {{#all settings.show_product_reviews theme_settings.show_product_reviews product.reviews.total}}
+            <li class="tab-button" x-data="serenityTabButton({ code: 'reviews' })">{{lang 'products.reviews.header' total=product.reviews.total}}</li>
+        {{/all}}
+    </ul>
+    <div class="p-4 border border-divider">
+        {{#if product.description}}
+            <div x-cloak x-data="serenityTabContent({ code: 'description' })">
+                {{{product.description}}}
+            </div>
+        {{/if}}
+        {{#if product.warranty}}
+            <div x-cloak x-data="serenityTabContent({ code: 'warranty' })">
+                {{{product.warranty}}}
+            </div>
+        {{/if}}
+        {{#all product.custom_fields theme_settings.show_custom_fields_tabs}}
+          <div x-cloak x-data="serenityTabContent({ code: '{{dashcase (lowercase (sanitize theme_settings.pdp-custom-fields-tab-label))}}' })">
+             <dl class="productView-info">
+                {{> components/products/custom-fields }}
+             </dl>
+          </div>
+        {{/all}}
+        {{#all settings.show_product_reviews theme_settings.show_product_reviews}}
+           <div x-cloak x-data="serenityTabContent({ code: 'reviews' })">
+               {{> components/products/reviews reviews=product.reviews product=product urls=urls}}
+           </div>
+        {{/all}}
+    </div>
+</div>

@@ -1,0 +1,28 @@
+<div x-data="serenityTab" class="my-4">
+    <ul role="tablist" class="flex-row-middle -mb-[1px]">
+        {{#if product.related_products}}
+            <li role="presentation" class="tab-button" x-data="serenityTabButton({ code: 'related' })">
+                {{lang 'products.related_products'}}
+            </li>
+        {{/if}}
+        {{#if product.similar_by_views}}
+            <li role="presentation" class="tab-button" x-data="serenityTabButton({ code: 'similar' })">
+            {{lang 'products.similar_by_views'}}
+            </li>
+        {{/if}}
+    </ul>
+
+    <div class="p-4 border border-divider">
+        {{#if product.related_products}}
+            <div role="tabpanel" x-cloak x-data="serenityTabContent({ code: 'related' })">
+                {{> components/products/carousel products=product.related_products list="Related Products"}}
+            </div>
+        {{/if}}
+
+        {{#if product.similar_by_views}}
+            <div role="tabpanel" x-cloak x-data="serenityTabContent({ code: 'similar' })">
+                {{> components/products/carousel products=product.similar_by_views list="Customers Also Viewed"}}
+            </div>
+        {{/if}}
+    </div>
+</div>

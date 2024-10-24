@@ -1,0 +1,23 @@
+<ul class="ml-4">
+    {{#each this}}
+        <li class="border-b border-transparent hover:border-divider py-[2px]" x-data="serenityFacetItem({
+            selected: {{selected}},
+            url: '{{url}}'
+        })">
+            <a x-bind="button" href="{{url}}" rel="nofollow" class="flex flex-row justify-between items-center gap-1">
+                <span x-show="isSelected && !isLoading" class="material-symbols-outlined icon-base">select_check_box</span>
+                <span x-cloak x-show="!isSelected && !isLoading" class="material-symbols-outlined icon-base">check_box_outline_blank</span>
+                <span x-cloak x-show="isLoading" class="material-symbols-outlined animate-spin icon-base">refresh</span>
+
+                <span class="grow text-base">{{{sanitize title}}}</span>
+                {{#if ../show_product_counts}}
+                {{> components/faceted-search/products-count count=count}}
+                {{/if}}
+            </a>
+
+            {{#if children}}
+                {{> components/faceted-search/facets/hierarchy-children children}}
+            {{/if}}
+        </li>
+    {{/each}}
+</ul>

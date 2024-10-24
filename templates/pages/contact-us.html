@@ -1,0 +1,32 @@
+{{#partial "page"}}
+
+{{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+
+<main class="page">
+    {{#unless theme_settings.hide_contact_us_page_heading }}
+        <h1 class="page-heading">{{page.title}}</h1>
+    {{/unless}}
+
+    {{#if page.sub_pages}}
+        <nav>
+            <ul class="flex-row-middle gap-2">
+                {{#each page.sub_pages}}
+                    <li><a href="{{url}}" class="underscore underline-offset-2">{{title}}</a></li>
+                {{/each}}
+            </ul>
+        </nav>
+    {{/if}}
+
+    <div class="max-w-screen-md m-auto">
+        {{#if forms.contact.success}}
+            <div class="text-center my-10 text-xl text-green-600 font-semibold">{{{lang 'forms.contact_us.successful' shopPath=urls.home}}}</div>
+        {{else}}
+            <p class="my-6 text-lg">{{{page.content}}}</p>
+            {{> components/page/contact-us-form}}
+        {{/if}}
+    </div>
+</main>
+
+{{/partial}}
+
+{{> layout/base}}

@@ -1,0 +1,106 @@
+<div class="modal-heading">
+    <h2>{{lang 'cart.gift_wrapping.title'}}</h2>
+</div>
+
+<div>
+    {{#if quantity '>' 1}}
+        <p class="mb-2 text-lg font-semibold">{{lang 'cart.gift_wrapping.choose_how'}}</p>
+    {{/if}}
+
+    <form action="{{urls.cart}}" method="post" x-data='serenityGiftWrapForm({ wrappings: {{JSONstringify gift_wrappings}} })' x-bind="giftWrapForm">
+        <input type="hidden" name="action" value="save_giftwrapping">
+        <input type="hidden" name="item_id" value="{{item_id}}">
+        <fieldset>
+            <div class="{{#if quantity '===' 1}}hidden{{else}}flex{{/if}} flex-col gap-1 mb-2">
+                <div class="flex-row-middle gap-2">
+                    <input x-model="giftWrapMode" type="radio" name="giftwraptype" id="giftWrapping-radio-same" checked="checked" value="same">
+                    <label for="giftWrapping-radio-same">{{lang 'cart.gift_wrapping.option_same'}}</label>
+                </div>
+
+                <div class="flex-row-middle gap-2">
+                    <input x-model="giftWrapMode" type="radio" name="giftwraptype" id="giftWrapping-radio-all" value="different">
+                    <label for="giftWrapping-radio-all">{{lang 'cart.gift_wrapping.option_different'}}</label>
+                </div>
+            </div>
+
+            <div x-show="isSingleGiftWrap" x-transition x-data="serenityGiftWrapItemDetail">
+                <div class="flex flex-row justify-start w-full py-2">
+                    <div x-show="!!previewImageUrl" x-cloak x-transition class="flex flex-col gap-1 items-center justify-start">
+                        <a :href="previewImageZoomUrl" target="_blank"><img :src="previewImageUrl" class="w-36 h-36 object-cover rounded-lg" :alt="previewImageAlt" /></a>
+                        <span x-text="previewImageAlt" />
+                    </div>
+                    <div class="flex flex-col gap-1 mb-4 px-4 grow w-full">
+                        <div>
+                            <label for="giftWrapping-select-same" class="block mb-2">
+                                {{lang 'cart.gift_wrapping.item_single' name=product_name}}
+                            </label>
+                            <select x-model="selectedWrapping" class="select" name="giftwrapping[all]" id="giftWrapping-select-same" data-index="all">
+                                <option value="">{{lang 'cart.gift_wrapping.choose_type'}}</option>
+                                {{#each gift_wrappings}}
+                                    <option {{#if selected}}selected{{/if}} value="{{id}}" data-allow-message="{{allow_message}}">{{name}} - ({{price.formatted}})</option>
+                                {{/each}}
+                            </select>
+                        </div>
+
+                        <div x-cloak x-show="hasMessage" x-transition>
+                            <label for="giftMessage" class="block mb-2">{{lang 'cart.gift_wrapping.gift_message'}}</label>
+                            <textarea class="input" name="giftmessage[all]" id="giftMessage" rows="3">{{selected_wrapping.message}}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div x-show="!isSingleGiftWrap" x-cloak x-transition class="flex flex-col gap-2 mb-4">
+                {{#for quantity this}}
+                    <div class="flex flex-col border-t first:border-0 border-divider py-2 px-4 mb-2 gap-2" x-data="serenityGiftWrapItemDetail">
+                        <div class="flex flex-row justify-start w-full py-2">
+                            <div x-show="!!previewImageUrl" x-cloak x-transition class="flex flex-col gap-1 items-center justify-start">
+                                <a :href="previewImageZoomUrl" target="_blank"><img :src="previewImageUrl" class="w-36 h-36 object-cover rounded-lg" :alt="previewImageAlt" /></a>
+                                <span x-text="previewImageAlt" />
+                            </div>
+                            <div class="flex flex-col gap-1 mb-4 px-4 grow w-full">
+                                <div>
+                                    <label for="giftWrapping-select-{{$index}}" class="block mb-2">
+                                        {{lang 'cart.gift_wrapping.item_multiple' index=$index name=product_name}}
+                                        {{#each gift_wrappings}}
+                                            {{#if preview_image}}
+                                                <a id="giftWrapping-image-{{../$index}}-{{id}}" style="display:none" target="_blank" href="{{getImage preview_image}}">
+                                                    {{lang 'cart.gift_wrapping.preview'}}
+                                                </a>
+                                            {{/if}}
+                                        {{/each}}
+                                    </label>
+                                    <select x-model="selectedWrapping" class="select" name="giftwrapping[{{$index}}]" id="giftWrapping-select-{{$index}}" data-index="{{$index}}">
+                                        <option value="">{{lang 'cart.gift_wrapping.choose_type'}}</option>
+                                        {{#each gift_wrappings}}
+                                            <option {{#if selected}}selected{{/if}} value="{{id}}" data-allow-message="{{allow_message}}">{{name}} - ({{price.formatted}})</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+
+                                <div x-cloak x-show="hasMessage" x-transition>
+                                    <label for="giftMessage" class="block mb-2">{{lang 'cart.gift_wrapping.gift_message'}}</label>
+                                    <textarea class="input" name="giftmessage[{{$index}}]" id="giftMessage" rows="3">{{selected_wrapping.message}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {{/for}}
+            </div>
+
+        </fieldset>
+        <div class="modal-footer">
+            <button
+                :disabled="isGiftWrapSubmitting"
+                :class="{ 'opacity-50 cursor-progress': isGiftWrapSubmitting }"
+                x-bind="giftWrapSubmitButton"
+                class="button-primary gap-2 w-48"
+                type="submit"
+            >
+                <span x-show="!isGiftWrapSubmitting" class="material-symbols-outlined icon-base">featured_seasonal_and_gifts</span>
+                <span x-cloak x-show="isGiftWrapSubmitting" class="material-symbols-outlined animate-spin icon-base">refresh</span>
+                {{lang 'common.form_submit'}}
+            </button>
+        </div>
+    </form>
+</div>

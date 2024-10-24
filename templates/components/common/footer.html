@@ -1,0 +1,94 @@
+{{#if banners.bottom}}
+    <div data-banner-location="bottom">
+        {{#each (limit banners.bottom_metadata 1)}}
+            <div data-event-type="promotion" data-entity-id="{{this.id}}" data-name="{{this.banner-name}}" data-position="{{this.location}}" data-name="{{this.banner-name}}">
+                <div data-event-type="promotion-click">
+                    {{{this.content}}}
+                </div>
+            </div>
+        {{/each}}
+    </div>
+{{/if}}
+
+<footer role="contentinfo" aria-label="{{lang 'footer.title'}}" class="border-t border-divider mb-12 px-4">
+    <div class="w-full px-10">
+        {{#if theme_settings.social_icon_placement_bottom '!==' 'bottom_none'}}
+
+        <div class="flex flex-row my-3 {{#if theme_settings.social_icon_placement_bottom '===' 'bottom_left'}}justify-start{{else}}justify-end{{/if}}">
+            <article data-section-type="footer-webPages">
+                <h3>{{lang 'social.connect'}}</h3>
+                {{> components/common/social-links}}
+            </article>
+        </div>
+        {{/if}}
+
+        <section class="flex flex-row py-12 flex-wrap justify-between gap-y-4">
+            <article class="basis-32 grow" data-section-type="footer-webPages">
+                <h3 class="mb-4 font-semibold text-lg">{{lang 'footer.navigate'}}</h3>
+                <ul>
+                    {{#each pages}}
+                        <li>
+                            <a href="{{url}}">{{name}}</a>
+                        </li>
+                    {{/each}}
+                    <li>
+                        <a href="{{urls.sitemap}}">{{lang 'sitemap.page_title'}}</a>
+                    </li>
+                </ul>
+            </article>
+
+            <article class="basis-32 grow" data-section-type="footer-categories">
+                <h3 class="mb-4 font-semibold text-lg">{{lang 'footer.categories'}}</h3>
+                <ul>
+                    {{#each categories}}
+                        <li>
+                            <a href="{{url}}">{{name}}</a>
+                        </li>
+                    {{/each}}
+                </ul>
+            </article>
+
+            {{#and theme_settings.shop_by_brand_show_footer shop_by_brand.length}}
+            <article class="basis-32 grow" data-section-type="footer-brands">
+                <h3 class="mb-4 font-semibold text-lg">{{lang 'footer.brands'}}</h3>
+                <ul>
+                    {{#each shop_by_brand}}
+                        <li>
+                            <a href="{{url}}">{{name}}</a>
+                        </li>
+                    {{/each}}
+                    <li><a href="{{urls.brands}}">{{lang 'common.view_all'}}</a></li>
+                </ul>
+            </article>
+            {{/and}}
+
+            {{#if settings.address}}
+            <article class="basis-32 grow" data-section-type="storeInfo">
+                <h3 class="mb-4 font-semibold text-lg">{{lang 'footer.info'}}</h3>
+                <address>{{nl2br settings.address}}</address>
+                {{#if settings.phone_number}}
+                    <strong>{{lang 'footer.call_us' phone_number=settings.phone_number}}</strong>
+                {{/if}}
+            </article>
+            {{/if}}
+
+            <article class="grow" data-section-type="newsletterSubscription">
+                {{#if settings.show_newsletter_box}}
+                    {{> components/common/subscription-form}}
+                {{/if}}
+                {{> components/common/payment-icons}}
+            </article>
+        </section>
+        {{#if theme_settings.show_powered_by}}
+            <div class="text-sm">
+                <p>{{lang 'footer.powered_by'}} <a href="https://www.bigcommerce.com?utm_source=merchant&amp;utm_medium=poweredbyBC" rel="nofollow">BigCommerce</a></p>
+            </div>
+        {{/if}}
+        {{#if theme_settings.show_copyright_footer}}
+            <div class="text-sm">
+                <p>&copy; {{moment format="YYYY"}} {{settings.store_name}} </p>
+            </div>
+        {{/if}}
+    </div>
+    {{{region name="ssl_site_seal--global"}}}
+</footer>

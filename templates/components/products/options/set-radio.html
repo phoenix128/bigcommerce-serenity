@@ -1,0 +1,40 @@
+<div x-data="serenityProductAttribute({ id: {{id}} })" role="radiogroup" aria-labelledby="radio-group-label-{{id}}">
+    <label class="flex-row-middle gap-2 mb-1" id="radio-group-label-{{id}}">
+        <span class="font-semibold">{{display_name}}:</span>
+        <span class="required">{{> components/common/requireness-msg}}</span>
+    </label>
+
+    <div class="flex flex-col">
+        {{#unless required}}
+        <div x-data="serenityProductOption({ id: {{id}} })" class="flex-row-middle">
+            <input
+                x-bind="optionInput"
+                type="radio"
+                id="attribute_radio_{{id}}_none"
+                name="attribute[{{id}}]"
+                checked="{{#if defaultValue '==' ''}}checked{{/if}}"
+                value=""
+            >
+            <label class="pl-1" x-bind="optionLabel" for="attribute_radio_{{id}}_none">{{lang 'products.none'}}</label>
+        </div>
+        {{/unless}}
+
+        {{#each this.values}}
+        <div x-data="serenityProductOption({ id: {{id}} })" class="flex-row-middle">
+            <input
+                type="radio"
+                x-bind="optionInput"
+                id="attribute_radio_{{../id}}_{{id}}"
+                name="attribute[{{../id}}]"
+                value="{{id}}"
+                {{#if selected}}checked{{/if}}
+                {{#if ../required}}required{{/if}}>
+            <label
+                class="pl-1"
+                x-bind="optionLabel"
+                for="attribute_radio_{{../id}}_{{id}}"
+            >{{this.label}}</label>
+        </div>
+        {{/each}}
+    </div>
+</div>

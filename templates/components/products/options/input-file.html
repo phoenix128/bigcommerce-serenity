@@ -1,0 +1,29 @@
+<div class="form-field" data-product-attribute="input-file">
+    <label class="flex-row-middle gap-2 mb-1" id="radio-group-label-{{id}}">
+        <span class="font-semibold">{{display_name}}:</span>
+        <span class="required">{{> components/common/requireness-msg}}</span>
+    </label>
+
+    <div>
+        <input
+            class="input"
+            type="file"
+            id="attribute_file_{{id}}"
+            name="attribute[{{this.id}}]"
+            {{#and required (unless prefill)}}required{{/and}}
+        >
+        {{#if original_name}}
+            {{{lang 'products.file_option_set' url=file_url name=original_name}}}
+            <label>{{lang 'cart.remove_file'}}<input type="checkbox" name="{{file_remove}}"></label>
+        {{/if}}
+        <p class="form-fileDescription">
+            {{#if file_size}}
+                {{lang 'products.max_filesize'}}
+                <strong>{{file_size}}{{lang 'products.kilobytes_abbreviation'}}</strong>,
+            {{/if}}
+            {{#if file_types}}
+                {{lang 'products.filetypes'}} <strong>{{file_types}}</strong>
+            {{/if}}
+        </p>
+    </div>
+</div>

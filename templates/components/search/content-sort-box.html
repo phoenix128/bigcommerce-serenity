@@ -1,0 +1,15 @@
+<div class="mb-4" method="get" x-data="serenityContentSortBox">
+    <fieldset>
+        <div class="flex-row-middle gap-2">
+            <label class="shrink-0" for="sort">{{lang 'common.sorter.sort_by'}}</label>
+            <select x-bind="select" class="select cursor-pointer w-64" name="sort" id="sort">
+                <option value="relevance" {{#if sort '==' 'relevance'}}selected{{/if}}>{{lang 'common.sorter.relevance'}}</option>
+                <option value="alphaasc" {{#if sort '==' 'alphaasc'}}selected{{/if}}>{{lang 'common.sorter.alpha_asc'}}</option>
+                <option value="alphadesc" {{#if sort '==' 'alphadesc'}}selected{{/if}}>{{lang 'common.sorter.alpha_desc'}}</option>
+            </select>
+            <div x-show="isLoading" x-cloak>
+                <span class="material-symbols-outlined animate-spin icon-base">refresh</span>
+            </div>
+        </div>
+    </fieldset>
+</div>

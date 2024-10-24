@@ -1,0 +1,44 @@
+{{#unless customer.addresses}}
+    {{> components/common/alert/alert-info (lang 'account.addresses.no_addresses')}}
+{{/unless}}
+
+<ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+    {{#each customer.addresses}}
+        <li class="bg-gray-50 p-4 border border-divider aspect-crt flex flex-col">
+            <div class="grow">
+                <h5 class="font-semibold mb-1 text-xl">{{first_name}} {{last_name}}</h5>
+                <ul>
+                    <li>{{{company}}}</li>
+                    <li>{{address1}}</li>
+                    <li>{{address2}}</li>
+                    <li>{{city}}{{#if state}}, {{state}}{{/if}} {{zip}}</li>
+                    <li>{{country}}</li>
+                </ul>
+                {{#if phone}}
+                    <dl>
+                        <dt>{{lang 'account.addresses.phone' }}</dt>
+                        <dd>{{phone}}</dd>
+                    </dl>
+                {{/if}}
+            </div>
+
+            <form
+                x-data="serenityConfirm({ message: {{ JSONstringify (lang 'forms.address.confirm_delete') }} })"
+                x-bind="confirmForm"
+                action="{{delete_url}}"
+                method="post"
+            >
+                <div class="mt-4 flex flex-col justify-center sm:flex-row gap-2 w-full">
+                    <a class="button-primary" href="{{edit_url}}">{{lang 'common.edit' }}</a>
+                    <button type="submit" class="button-secondary">{{lang 'common.delete' }}</button>
+                </div>
+            </form>
+        </li>
+    {{/each}}
+    <li class="bg-gray-50 hover:bg-gray-100 border border-divider aspect-crt">
+        <a href="{{urls.account.add_address}}" class="flex flex-col justify-center items-center gap-2 w-full h-full">
+            <span class="material-symbols-outlined icon-xl">add_circle</span>
+            <h5>{{lang 'account.addresses.new_address' }}</h5>
+        </a>
+    </li>
+</ul>

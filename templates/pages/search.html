@@ -1,0 +1,168 @@
+---
+product_results:
+    limit: {{theme_settings.searchpage_products_per_page}}
+---
+{{inject 'categoryTree' forms.search.category_options}}
+{{inject 'searchProductsPerPage' theme_settings.searchpage_products_per_page}}
+{{inject 'searchResultsCount' (lang 'search.results.count' count=result_count search_query=(sanitize forms.search.query))}}
+{{#partial "head"}}
+    {{#if pagination.product_results.previous}}
+        <link rel="prev" href="{{pagination.product_results.previous}}">
+    {{/if}}
+    {{#if pagination.product_results.next}}
+        <link rel="next" href="{{pagination.product_results.next}}">
+    {{/if}}
+{{/partial}}
+
+{{#partial "page"}}
+
+{{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+
+<section>
+    {{#if forms.search.query}}
+        <div>
+            {{>components/search/heading}}
+        </div>
+    {{/if}}
+    <nav class="w-full">
+        <span class="hidden">
+            {{lang 'search.tabs_accesibility_hint'}}
+        </span>
+        <ul role="tablist" class="flex-row-middle w-full m-auto justify-center gap-4 sm:gap-10 my-8 text-base md:text-xl font-semibold text-gray-500">
+            <li role="presentation">
+                <a class="underline underline-offset-2" aria-describedby="search-tabs-widget-description" role="tab" aria-controls="product-listing-container" href="{{forms.search.product_url}}">
+                    {{>components/search/product-count}}
+                </a>
+            </li>
+            <li role="presentation">
+                <a class="underline underline-offset-2" aria-describedby="search-tabs-widget-description" role="tab" aria-controls="search-results-content" href="{{forms.search.content_url}}">
+                    {{>components/search/content-count}}
+                </a>
+            </li>
+        </ul>
+    </nav>
+    {{#unless product_results.faceted_search_enabled}}
+        {{>components/search/advanced-search}}
+    {{/unless}}
+</section>
+
+<div
+    x-data="serenityProductList({
+        productListingTemplate: 'search/product-listing',
+        facetSidebarTemplate: 'search/sidebar'
+    })"
+    class="flex flex-row gap-4 w-full flex-wrap"
+>
+    {{#if forms.search.section '==' 'product'}}
+        {{#if product_results.faceted_search_enabled}}
+            <div x-data="serenityDropdown" class="w-full block sm:hidden">
+                <button x-bind="button" class="flex-row-middle w-full gap-1 p-1" :class="{'border-b border-divider': !isOpen}">
+                    <span class="material-symbols-outlined icon-base shrink grow-0 w-6">tune</span>
+
+                    <span class="grow text-left">
+                        {{#if product_results.facets.length '>' 2}}
+                            {{lang 'search.faceted.browse-by'}} {{join (pluck product_results.facets 'title') ', ' limit=2}} &amp; {{toLowerCase (lang 'search.faceted.more')}}
+                        {{else}}
+                            {{lang 'search.faceted.browse-by'}} {{join (pluck product_results.facets 'title') ', ' lastSeparator=' & '}}
+                        {{/if}}
+                        
+                    </span>
+
+                    <span class="material-symbols-outlined icon-base transition-transform" :class="{'rotate-180': isOpen}">keyboard_arrow_down</span>
+                </button>
+                <div x-bind="menu" x-cloak class="w-full mt-2 bg-gray-50 border border-gray-100 p-4">
+                    <aside class="min-w-60 sm:w-60 2xl:w-80 w-full shrink-0" x-bind="facetSidebar" x-data="serenityFacets">
+                        {{> components/faceted-search/index product_results}}
+                    </aside>
+                </div>
+            </div>
+
+            <aside class="hidden sm:block min-w-60 sm:w-60 2xl:w-80 w-full shrink-0" x-bind="facetSidebar" x-data="serenityFacets">
+                {{> components/faceted-search/index product_results}}
+            </aside>
+        {{/if}}
+    {{/if}}
+
+    <div class="basis-1 flex-grow">
+        <main class="w-full" x-bind="productListing">
+        {{#if forms.search.has_suggestions}}
+            <div>
+                <div class="flex flex-col gap-3">
+                    {{#if forms.search.suggested_query}}
+                        <div>
+                            {{lang 'forms.search.did_you_mean'}} <strong>{{forms.search.suggested_query.query}}</strong>
+                            <a href="{{forms.search.suggested_query.url}}">{{lang 'forms.search.refine'}}</a>
+                        </div>
+
+                        {{#if result_count '===' 0}}
+                            <div>
+                                <p>
+                                    {{lang 'forms.search.your_search_for'}}
+                                    "<strong>{{{sanitize forms.search.query}}}</strong>"
+                                    {{lang 'forms.search.no_match'}}
+                                </p>
+                            </div>
+                        {{/if}}
+                    {{/if}}
+
+                    {{#if category_results.length}}
+                        <div class="my-4 p-4 bg-primary w-full 2xl:w-1/2 xl:w-2/3 max-w-screen-2xl m-auto flex flex-row justify-start items-start gap-4">
+                            <h5 class="font-semibold text-lg w-20">{{lang 'forms.search.categories'}}:</h5>
+                            <ul class="flex flex-row flex-wrap gap-6 justify-start">
+                                {{#each category_results}}
+                                <li>
+
+                                    {{#each this}}
+                                        <a href="{{url}}" class="underline underline-offset-2">{{name}}</a>
+                                        {{#unless @last}} > {{/unless}}
+                                    {{/each}}
+
+                                </li>
+                                {{/each}}
+                            </ul>
+                        </div>
+                    {{/if}}
+
+                    {{#if brand_results.length}}
+                        <div class="my-4 p-4 bg-primary w-full 2xl:w-1/2 xl:w-2/3 max-w-screen-2xl m-auto flex flex-row justify-start items-start gap-4">
+                            <h5 class="font-semibold text-lg w-20">{{lang 'forms.search.brand'}}:</h5>
+                            <ul class="flex flex-row flex-wrap gap-6 justify-start">
+                                {{#each brand_results}}
+                                <li>
+                                    {{#each this}}
+                                        <a href="{{url}}" class="underline underline-offset-2">{{name}}</a>
+                                        {{#unless @last}} > {{/unless}}
+                                    {{/each}}
+                                </li>
+                                {{/each}}
+                            </ul>
+                        </div>
+                    {{/if}}
+
+                    {{#if result_count '===' 0}}
+                        <div class="my-4 p-4 bg-primary w-full 2xl:w-1/2 xl:w-2/3 max-w-screen-2xl m-auto flex flex-row justify-start items-start gap-4">
+                            <h5 class="font-semibold text-lg w-20">{{lang 'forms.search.suggestions.title'}}:</h5>
+                            <ul class="flex flex-row flex-wrap gap-6 justify-start">
+                                <li>{{lang 'forms.search.suggestions.line1'}}</li>
+                                <li>{{lang 'forms.search.suggestions.line2'}}</li>
+                                <li>{{lang 'forms.search.suggestions.line3'}}</li>
+                            </ul>
+                        </div>
+                    {{/if}}
+                </div>
+            </div>
+        {{/if}}
+
+        {{#if forms.search.section '==' 'content'}}
+            {{> components/search/content-listing}}
+        {{else}}
+            {{> components/search/product-listing}}
+        {{/if}}
+
+        {{{region name="search_below_content"}}}
+        </main>
+    </div>
+</section>
+
+{{/partial}}
+{{> layout/base}}

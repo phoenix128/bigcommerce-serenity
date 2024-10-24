@@ -1,0 +1,58 @@
+<nav class="hidden sm:block" x-data="serenityFacets">
+    {{#if category.subcategories}}
+        <div class="border-b border-divider mb-2 pb-2">
+            <h2 class="font-semibold mb-p2">{{category.name}}</h2>
+            <ul class="p-1">
+                {{#each category.subcategories}}
+                    <li>
+                        <a href="{{url}}" title="{{name}}">{{name}}</a>
+                    </li>
+                {{/each}}
+            </ul>
+        </div>
+    {{/if}}
+
+    {{#if category.faceted_search_enabled}}
+        {{> components/faceted-search/index category}}
+    {{else}}
+        {{> components/category/shop-by-price}}
+    {{/if}}
+</nav>
+
+<nav class="block sm:hidden" x-data="serenityFacets">
+    <div x-data="serenityDropdown">
+        <button x-bind="button" class="flex-row-middle w-full gap-1 p-1" :class="{'border-b border-divider': !isOpen}">
+            <span class="material-symbols-outlined icon-base shrink grow-0 w-6">tune</span>
+
+            <span class="grow text-left">
+                {{#if category.facets.length '>' 2}}
+                    {{lang 'search.faceted.browse-by'}} {{join (pluck category.facets 'title') ', ' limit=2}} &amp; {{toLowerCase (lang 'search.faceted.more')}}
+                {{else}}
+                    {{lang 'search.faceted.browse-by'}} {{join (pluck category.facets 'title') ', ' lastSeparator=' & '}}
+                {{/if}}
+            </span>
+
+            <span class="material-symbols-outlined icon-base transition-transform" :class="{'rotate-180': isOpen}">keyboard_arrow_down</span>
+        </button>
+        <div x-bind="menu" x-cloak class="w-full mt-2 bg-gray-50 border border-gray-100 p-4">
+            {{#if category.subcategories}}
+                <div class="border-b border-divider mb-2 pb-2">
+                    <h2 class="font-semibold mb-p2">{{category.name}}</h2>
+                    <ul class="p-1">
+                        {{#each category.subcategories}}
+                            <li>
+                                <a href="{{url}}" title="{{name}}">{{name}}</a>
+                            </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            {{/if}}
+
+            {{#if category.faceted_search_enabled}}
+                {{> components/faceted-search/index category}}
+            {{else}}
+                {{> components/category/shop-by-price}}
+            {{/if}}
+        </div>
+    </div>
+</nav>

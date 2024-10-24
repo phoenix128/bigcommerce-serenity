@@ -1,0 +1,56 @@
+{{#if current}}
+<nav aria-label="pagination" class="my-6">
+    <ul class="flex-row-middle gap-2 justify-center" x-data="serenityPaginator({
+        currentPage: {{current}}
+    })">
+        {{#if previous}}
+            <li x-data="serenityPaginatorPage({
+                number: {{subtract current 1}},
+                url: '{{previous}}'
+            })">
+                <a x-bind="pageLink" href="{{previous}}" aria-label="{{lang 'common.previous'}}" class="flex-row-middle">
+                    <span x-show="!isLoading" class="material-symbols-outlined">keyboard_arrow_left</span>
+                    <span x-cloak x-show="isLoading" class="material-symbols-outlined animate-spin">refresh</span>
+                    <span>{{lang 'common.previous'}}</span>
+                </a>
+            </li>
+        {{/if}}
+        {{#each links}}
+            <li x-data="serenityPaginatorPage({{JSONstringify this}})">
+                {{#if this.number '==' ../current}}
+                <span
+                    class="flex-row-middle justify-center w-8 h-8 border border-divider font-semibold"
+                    aria-current="page"
+                    aria-label="{{lang 'common.paginator.page_of' current=this.number total=../links.length}}"
+                >
+                    <span>{{this.number}}</span>
+                </span>
+                {{else}}
+                <a
+                    href="{{this.url}}"
+                    x-bind="pageLink"
+                    class="flex-row-middle hover:bg-gray-100 justify-center w-8 h-8 border border-divider"
+                    aria-label="{{lang 'common.paginator.page_of' current=this.number total=../links.length}}"
+                >
+                    <span x-show="!isLoading">{{this.number}}</span>
+                    <span x-cloak x-show="isLoading" class="material-symbols-outlined animate-spin">refresh</span>
+                </a>
+                {{/if}}
+            </li>
+        {{/each}}
+
+        {{#if next}}
+            <li x-data="serenityPaginatorPage({
+                number: {{add current 1}},
+                url: '{{next}}'
+            })">
+                <a x-bind="pageLink" href="{{next}}" aria-label="{{lang 'common.next'}}" class="flex-row-middle">
+                    <span>{{lang 'common.next'}}</span>
+                    <span x-show="!isLoading" class="material-symbols-outlined">keyboard_arrow_right</span>
+                    <span x-cloak x-show="isLoading" class="material-symbols-outlined animate-spin">refresh</span>
+                </a>
+            </li>
+        {{/if}}
+    </ul>
+</nav>
+{{/if}}

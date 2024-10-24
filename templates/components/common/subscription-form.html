@@ -1,0 +1,35 @@
+<h3 class="mb-4 font-semibold text-lg">{{lang 'newsletter.subscribe'}}</h3>
+<p>{{lang 'newsletter.subscribe_intro'}}</p>
+
+<form class="form" action="{{urls.subscribe.action}}" method="post" x-data="serenitySubscribeForm" x-bind="subscribeForm">
+    <fieldset>
+        <input type="hidden" name="action" value="subscribe">
+        <input type="hidden" name="nl_first_name" value="bc">
+        <input type="hidden" name="check" value="1">
+        <div class="mt-2">
+            <div class="flex flex-row w-full max-w-96 mt-2">
+                <input
+                    id="nl_email"
+                    class="input"
+                    name="nl_email"
+                    type="email"
+                    value="{{customer.email}}"
+                    placeholder="{{lang 'newsletter.email_placeholder'}}"
+                    aria-describedby="alertBox-message-text"
+                    aria-required="true"
+                    autocomplete="email"
+                    required
+                >
+                <input
+                    x-bind="subscribeFormSubmit"
+                    class="button-primary w-32"
+                    type="submit"
+                    value="{{lang 'newsletter.subscribe_submit'}}"
+                >
+            </div>
+            {{#if settings.show_newsletter_summary }}
+                <div>{{settings.newsletter_summary}}</div>
+            {{/if}}
+        </div>
+    </fieldset>
+</form>

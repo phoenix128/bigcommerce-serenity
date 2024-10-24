@@ -1,0 +1,292 @@
+{{inject 'outOfStockDefaultMessage' (lang 'products.out_of_stock_default_message')}}
+
+<div
+    class="w-full"
+    data-event-type="product"
+    data-entity-id="{{product.id}}"
+    data-name="{{product.title}}"
+    data-product-category="
+    {{#each product.category}}
+        {{#if @last}}{{this}}{{else}}{{this}}, {{/if}}
+    {{/each}}"
+    data-product-brand="{{product.brand.name}}"
+    data-product-price="
+    {{#or customer (unless settings.hide_price_from_guests)}}
+        {{#if product.price.with_tax}}
+            {{product.price.with_tax.value}}
+        {{else}}
+            {{product.price.without_tax.value}}
+        {{/if}}
+    {{else}}
+        {{lang 'common.login_for_pricing'}}
+    {{/or}}"
+    data-product-variant="single-product-option">
+
+    {{#each product.reviews.messages}}
+        {{#if error}}
+            {{> components/common/alert/alert-error error}}
+        {{/if}}
+        {{#if success}}
+            {{> components/common/alert/alert-success success}}
+        {{/if}}
+    {{/each}}
+
+    <h1 class="page-heading">{{product.title}}</h1>
+
+    <div class="w-full flex flex-row flex-wrap">
+        <section class="w-1/2 flex-grow min-w-96 p-6" x-data="serenitySlider">
+            <div x-bind="main" class="shadow-xl">
+                {{!--
+                    Note that these image sizes are coupled to image sizes used in /assets/js/theme/common/product-details.js
+                    for variant/rule image replacement
+                --}}
+                {{#if product.images.length '>' 1 }}
+                {{> components/carousel-content-announcement}}
+                {{/if}}
+                <div x-bind="wrapper">
+                    {{#each product.images}}
+                        <a x-bind="slide"
+                            href="{{getImageSrcset this (cdn ../theme_settings.default_image_product) 1x=../theme_settings.zoom_size}}"
+                            data-image-gallery-item
+                            data-image-gallery-new-image-url="{{getImageSrcset this (cdn ../theme_settings.default_image_product) 1x=../theme_settings.product_size}}"
+                            data-image-gallery-new-image-srcset="{{getImageSrcset this use_default_sizes=true}}"
+                            data-image-gallery-zoom-image-url="{{getImageSrcset this (cdn ../theme_settings.default_image_product) 1x=../theme_settings.zoom_size}}"
+                        >
+                        {{> components/common/responsive-img
+                            class="w-full aspect-square"
+                            image=this
+                            fallback_size=../theme_settings.productview_thumb_size
+                            lazyload=../theme_settings.lazyload_mode
+                        }}
+                        </a>
+                    {{/each}}
+                </div>
+
+                <div x-bind="buttonPrev"></div>
+                <div x-bind="buttonNext"></div>
+            </div>
+
+            <div class="pt-4 mt-4 border-t border-divider" x-cloak x-show="isReady" x-transition>
+                <div x-bind="thumbs">
+                    <div x-bind="thumbsWrapper" class="pb-8">
+                        {{#each product.images}}
+                        <div x-bind="thumbsSlide" class="shadow-lg border border-divider cursor-pointer overflow-hidden">
+                            {{> components/common/responsive-img
+                                class="w-full hover:scale-125 transition-all aspect-square"
+                                image=this
+                                fallback_size=../theme_settings.productview_thumb_size
+                                lazyload=../theme_settings.lazyload_mode
+                            }}
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="w-1/2 flex-grow">
+            <div>
+                {{#if product.brand}}
+                    <h2>
+                        <a href="{{product.brand.url}}"><span>{{product.brand.name}}</span></a>
+                    </h2>
+                {{/if}}
+                {{#if product.call_for_price}}
+                    <p class="text-base">
+                        <span>{{product.call_for_price}}</span>
+                    </p>
+                {{/if}}
+                <div class="my-4 text-base">
+                    {{#or customer (unless settings.hide_price_from_guests)}}
+                        {{> components/products/price price=product.price productId=product.id}}
+                    {{else}}
+                        {{> components/common/login-for-pricing}}
+                    {{/or}}
+                </div>
+                {{{region name="product_below_price"}}}
+                <div class="my-4">
+                    {{#if settings.show_product_rating}}
+                    <div class="flex flex-row text-sm items-center mb-1 gap-2">
+                        <div class="text-sm">{{> components/products/ratings rating=product.rating}}</div>
+                        {{#if product.num_reviews '>' 0}}
+                            <a href="{{product.url}}{{#if is_ajax}}#product-reviews{{/if}}">
+                                {{lang 'products.reviews.link_to_review' total=product.num_reviews}}
+                            </a>
+                        {{else}}
+                            <span>{{lang 'products.reviews.link_to_review' total=product.num_reviews}}</span>
+                        {{/if}}
+                    </div>
+                    {{/if}}
+                    {{#if settings.show_product_reviews}}
+                    <button x-data="serenityWriteReview({
+                        ajaxUrl: '{{product.url}}',
+                        isAjax: {{is_ajax}}
+                    })">
+                        <span>{{lang 'products.reviews.new'}}</span>
+                        <span x-bind="content" x-cloak>
+                            {{> components/products/modals/writeReview}}
+                        </span>
+                    </button>
+                    {{/if}}
+                </div>
+            </div>
+            {{#if product.detail_messages}}
+            <div>
+                {{product.detail_messages}}
+            </div>
+            {{/if}}
+            <div x-data="serenityProductInformation({
+                product: {{JSONstringify product}}
+            })">
+                <dl class="grid grid-cols-2 gap-y-1 border border-divider p-4">
+                    {{#if product.sku}}
+                    <dt class="font-semibold">{{lang 'products.sku'}}</dt>
+                    <dd x-text="product?.sku">{{product.sku}}</dd>
+                    {{/if}}
+                    {{#if product.upc}}
+                    <dt class="font-semibold">{{lang 'products.upc'}}</dt>
+                    <dd x-text="product?.upc">{{product.upc}}</dd>
+                    {{/if}}
+                    {{#if product.condition}}
+                        <dt class="font-semibold">{{lang 'products.condition'}}</dt>
+                        <dd>{{product.condition}}</dd>
+                    {{/if}}
+                    {{#if product.availability}}
+                        <dt class="font-semibold">{{lang 'products.availability'}}</dt>
+                        <dd>{{product.availability}}</dd>
+                    {{/if}}
+                    {{#all product.weight theme_settings.show_product_weight}}
+                        <dt class="font-semibold">{{lang 'products.weight'}}</dt>
+                        <dd x-text="product?.weight">{{product.weight}}</dd>
+                    {{/all}}
+                    {{#all product.width product.height product.depth theme_settings.show_product_dimensions}}
+                        <dt class="font-semibold">{{lang 'products.width'}}</dt>
+                        <dd>
+                            {{product.width}}
+                            {{#if settings.measurements.length '==' 'Centimeters'}}
+                            ({{lang 'products.measurement.metric'}})
+                            {{else}}
+                            ({{lang 'products.measurement.imperial'}})
+                            {{/if}}
+                        </dd>
+                        <dt class="font-semibold">{{lang 'products.height'}}</dt>
+                        <dd>
+                            {{product.height}}
+                            {{#if settings.measurements.length '==' 'Centimeters'}}
+                            ({{lang 'products.measurement.metric'}})
+                            {{else}}
+                            ({{lang 'products.measurement.imperial'}})
+                            {{/if}}
+                        </dd>
+                        <dt class="font-semibold">{{lang 'products.depth'}}</dt>
+                        <dd>
+                            {{product.depth}}
+                            {{#if settings.measurements.length '==' 'Centimeters'}}
+                            ({{lang 'products.measurement.metric'}})
+                            {{else}}
+                            ({{lang 'products.measurement.imperial'}})
+                            {{/if}}
+                        </dd>
+                    {{/all}}
+                    {{#if product.min_purchase_quantity}}
+                        <dt class="font-semibold">{{lang 'products.min_purchase_quantity'}}</dt>
+                        <dd>{{lang 'products.purchase_units' quantity=product.min_purchase_quantity}}</dd>
+                    {{/if}}
+                    {{#if product.max_purchase_quantity}}
+                        <dt class="font-semibold">{{lang 'products.max_purchase_quantity'}}</dt>
+                        <dd>{{lang 'products.purchase_units' quantity=product.max_purchase_quantity}}</dd>
+                    {{/if}}
+                    {{#if product.gift_wrapping_available}}
+                        <dt class="font-semibold">{{lang 'products.gift_wrapping'}}</dt>
+                        <dd>{{lang 'products.gift_wrapping_available'}}</dd>
+                    {{/if}}
+                    {{#if product.shipping}}
+                        {{#if product.shipping.calculated}}
+                            <dt class="font-semibold">{{lang 'products.shipping'}}</dt>
+                            <dd>{{lang 'products.shipping_calculated'}}</dd>
+                        {{else}}
+                            {{#if product.shipping.price.value '===' 0}}
+                                <dt class="font-semibold">{{lang 'products.shipping'}}</dt>
+                                <dd>{{lang 'products.shipping_free'}}</dd>
+                            {{else}}
+                                <dt class="font-semibold">{{lang 'products.shipping'}}</dt>
+                                <dd>{{lang 'products.shipping_fixed' amount=product.shipping.price.formatted}}</dd>
+                            {{/if}}
+                        {{/if}}
+                    {{/if}}
+
+                    {{#if theme_settings.show_custom_fields_tabs '!==' true}}
+                        {{> components/products/custom-fields }}
+                    {{/if}}
+                </dl>
+            </div>
+
+            {{#if settings.bulk_discount_enabled}}
+            <div class="mt-4">
+                {{> components/products/bulk-discount-rates bulk_discount_rates=product.bulk_discount_rates}}
+            </div>
+            {{/if}}
+
+            <div class="mt-4">
+                {{#if product.release_date }}
+                    <p>{{product.release_date}}</p>
+                {{/if}}
+                <form x-data="serenityAddToCartForm({
+                    strings: {
+                        message: {{JSONstringify (lang 'category.add_cart_announcement')}},
+                        continueShopping: {{JSONstringify (lang 'cart.added_to_cart.continue_shopping')}},
+                        viewCart: {{JSONstringify (lang 'cart.added_to_cart.view_or_edit_cart')}}
+                    }
+                })" method="post" action="{{product.cart_url}}" enctype="multipart/form-data">
+                    <input type="hidden" name="action" value="add">
+                    <input type="hidden" name="product_id" value="{{product.id}}"/>
+                    {{#if product.cart_order_source}}
+                        <input type="hidden" name="cart_order_source" value="{{product.cart_order_source}}"/>
+                    {{/if}}
+                    {{#if product.options}}
+                    <div x-data="serenityProductOptions({
+                        productId: {{product.id}},
+                    })"
+                        class="relative border border-divider"
+                    >
+                        <div x-cloak x-show="isLoading" x-transition class="absolute z-10 w-full h-full bg-white bg-opacity-50 backdrop-blur-sm transition-all"></div>
+            <div x-cloak x-show="isLoading" x-transition class="z-20 absolute right-2 top-4"><span class="text-6xl material-symbols-outlined animate-spin">refresh</span></div>
+                        <div class="flex flex-col gap-4 transition-all duration-200 p-4">
+                            {{inject 'showSwatchNames' theme_settings.show_product_swatch_names}}
+                            {{#each product.options}}
+                                {{{dynamicComponent 'components/products/options'}}}
+                            {{/each}}
+                        </div>
+                    </div>
+                    {{/if}}
+                    <div class="{{#unless product.stock_level}}hidden{{/unless}}">
+                        <label>
+                            {{lang 'products.current_stock'}}
+                            <span>{{product.stock_level}}</span>
+                        </label>
+                    </div>
+                    {{> components/products/add-to-cart with_wallet_buttons=true}}
+                    {{#if product.out_of_stock}}
+                        {{#if product.out_of_stock_message}}
+                            {{> components/common/alert/alert-error product.out_of_stock_message}}
+                        {{else}}
+                            {{> components/common/alert/alert-error (lang 'products.sold_out')}}
+                        {{/if}}
+                    {{/if}}
+                </form>
+                {{#if settings.show_wishlist}}
+                    {{> components/common/wishlist-dropdown}}
+                {{/if}}
+            </div>
+            {{> components/common/share url=product.url}}
+
+            <article>
+                {{#if theme_settings.show_product_details_tabs}}
+                    {{> components/products/description-tabs}}
+                {{else}}
+                    {{> components/products/description}}
+                {{/if}}
+            </article>
+        </section>
+    </div>
+</div>

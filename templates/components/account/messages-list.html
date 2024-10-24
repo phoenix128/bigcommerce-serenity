@@ -1,0 +1,24 @@
+<ul class="flex flex-col gap-2 w-full">
+    {{#each messages}}
+    <li class="mb-4 {{#if is_reply}}pl-10{{else}}pr-10{{/if}}">
+        <div class="w-full border-b border-divider p-4 bg-gray-100 rounded-lg">
+            <div class="flex flex-row justify-between flex-wrap">                
+                <h5 class="{{#if unread}}italic{{/if}} font-semibold text-2xl">
+                    {{subject}}
+                </h5>
+                <div>{{date}}</div>
+            </div>
+            <div class="{{#if unread}}italic{{/if}} text-xl">
+                <div class="font-semibold text-base">
+                    {{#if is_reply}}
+                        {{lang 'account.messages.merchant_said' store_name=../settings.store_name}}
+                    {{else}}
+                        {{lang 'account.messages.customer_said'}}
+                    {{/if}}
+                </div>
+                <p>{{message}}</p>
+            </div>
+        </div>
+    </li>
+    {{/each}}
+</ul>

@@ -1,0 +1,27 @@
+<a href="#main-content" class="-translate-x-1/2 -translate-y-[200%] absolute">{{lang 'header.skip_to_main'}}</a>
+{{#if banners.top}}
+<div class="banners" data-banner-location="top">
+    {{#each (limit banners.top_metadata 1)}}
+    <div class="banner" data-event-type="promotion" data-entity-id="{{this.id}}" data-name="{{this.banner-name}}" data-position="{{this.location}}" data-banner-id="{{this.banner-name}}">
+        <div data-event-type="promotion-click">
+            {{{this.content}}}
+        </div>
+    </div>
+    {{/each}}
+</div>
+{{/if}}
+<header>
+    {{> components/common/navigation}}
+
+    <div class="lg:my-10 my-5">
+        {{> components/common/logo}}
+    </div>
+
+    {{{region name="header_navigation_bottom--global"}}}
+</header>
+<div class="sticky top-0 z-20">
+    {{> components/common/navigation-menu}}
+</div>
+
+{{{region name="header_bottom--global"}}}
+{{{region name="header_bottom"}}}

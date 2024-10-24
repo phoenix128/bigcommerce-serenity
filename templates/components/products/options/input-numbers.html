@@ -1,0 +1,25 @@
+<div x-data="serenityProductAttribute({ id: {{id}}, autoUpdate: false })">
+    <label class="flex-row-middle gap-2 mb-1" id="radio-group-label-{{id}}">
+        <span class="font-semibold">{{display_name}}:</span>
+        <span class="required">{{> components/common/requireness-msg}}</span>
+    </label>
+
+    <input
+        x-data="serenityProductAttributeValueNumber({
+            min: {{this.lowest}},
+            max: {{this.highest}},
+            limit: '{{this.limit_input_option}}',
+            integerOnly: {{this.integer_only}},
+        })"
+        x-bind="attributeInput"
+        class="input"
+        :class="{'input-invalid': !isValid}"
+        type="number"
+        id="attribute_number_{{id}}"
+        name="attribute[{{this.id}}]"
+        value="{{this.prefill}}"
+        {{#if this.lowest}}min="{{this.lowest}}"{{/if}}
+        {{#if this.highest}}max="{{this.highest}}"{{/if}}
+        {{#unless this.integer_only}}step="any"{{/unless}}
+        {{#if required}}required{{/if}} />
+</div>

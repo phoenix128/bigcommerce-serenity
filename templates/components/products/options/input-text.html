@@ -1,0 +1,16 @@
+<div x-data="serenityProductAttribute({ id: {{id}}, autoUpdate: false })">
+    <label class="flex-row-middle gap-2 mb-1" id="radio-group-label-{{id}}">
+        <span class="font-semibold">{{display_name}}:</span>
+        <span class="required">{{> components/common/requireness-msg}}</span>
+    </label>
+
+    <input
+        x-bind="attributeInput"
+        class="input"
+        type="text"
+        id="attribute_text_{{id}}"
+        name="attribute[{{this.id}}]"
+        value="{{this.prefill}}"
+        {{#if required}}required{{/if}}
+        {{#if max_length}}maxlength="{{max_length}}"{{/if}} />
+</div>

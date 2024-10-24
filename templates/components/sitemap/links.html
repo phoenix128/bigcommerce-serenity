@@ -1,0 +1,10 @@
+<li>
+    <a href="{{url}}" class="underline underline-offset-2">{{label}}</a>
+    {{#if children}}
+        <ul class="list-disc pl-4">
+            {{#each children}}
+                {{> components/sitemap/links}}
+            {{/each}}
+        </ul>
+    {{/if}}
+</li>

@@ -1,0 +1,38 @@
+<section class="my-4" x-data="serenityProductVideo({
+    featuredId: '{{this.featured.id}}'
+})">
+    <h4 class="text-2xl font-semibold mb-4">
+        {{lang 'products.videos.header'}}
+    </h4>
+
+    <div class="w-full flex flex-col">
+        <iframe
+            x-bind="iframe"
+            type="text/html"
+            class="lazyload w-full aspect-video"
+            frameborder="0"
+            webkitAllowFullScreen
+            mozallowfullscreen
+            allowFullScreen
+            data-src="//www.youtube.com/embed/{{this.featured.id}}?rel=0" />
+        </iframe>
+
+        <div class="grid grid-cols-1 xl:grid-cols-2 my-4 gap-4">
+        {{#each this.list}}
+            <div
+                class="flex flex-row items-start gap-2 cursor-pointer transition-all"
+                :class="{ 'opacity-40': ! isActive() }"
+                x-data="serenityProductVideoThumb({ id: '{{id}}' })"
+            >
+                <div class="shrink">
+                    <img class="lazyload" src="{{cdn 'img/loading.svg'}}" data-src="//i.ytimg.com/vi/{{id}}/default.jpg"/>
+                </div>
+                <div class="grow">
+                    <h5 class="text-xl font-semibold">{{title_long}}</h5>
+                    <p class="text-lg">{{description_short}}</p>
+                </div>
+            </div>
+        {{/each}}
+        </div>
+    </div>
+</section>

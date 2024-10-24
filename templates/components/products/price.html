@@ -1,0 +1,99 @@
+{{!-- There are 2 code paths for generating the PDP pricing HTML determined by the following #and condition.
+If a 'price_range' exists then we generate all HTML in price-range.html, otherwise it is defined here. Both code
+paths generate the same HTML structure with some differences in whether that element is displayed by default (css styling).
+
+If you are making a change here or in price-range.html, you probably want to make that change in both files. --}}
+
+<div x-data="serenityProductInformation({ product: { price: {{JSONstringify price}}, id: '{{productId}}' } })">
+{{#and price.price_range (if theme_settings.price_ranges '==' true)}}
+    {{> components/products/price-range price=price productId=productId}}
+{{else}}
+    {{#if price.with_tax}}
+        <div {{#unless price.rrp_with_tax}}class="hidden"{{/unless}}>
+            <span>
+                {{> components/products/price-label
+                    label_value=theme_settings.pdp-retail-price-label
+                    fallback=(lang "page_builder.pdp-retail-price-label")
+                }}
+            </span>
+            <span x-text="product?.price?.rrp_with_tax?.formatted" class="text-price font-semibold">
+                {{price.rrp_with_tax.formatted}}
+            </span>
+        </div>
+        <div class="{{#unless price.non_sale_price_with_tax}}hidden{{/unless}}">
+            <span>
+                {{> components/products/price-label
+                    label_value=theme_settings.pdp-non-sale-price-label
+                    fallback=(lang "page_builder.pdp-non-sale-price-label")
+                }}
+            </span>
+            <span x-text="product?.price?.non_sale_price_with_tax?.formatted" class="text-price font-semibold">
+                {{price.non_sale_price_with_tax.formatted}}
+            </span>
+        </div>
+        <div>
+            <span class="{{#if price.non_sale_price_with_tax}}hidden{{/if}}">
+                {{theme_settings.pdp-price-label}}
+            </span>
+            <span class="{{#unless price.non_sale_price_with_tax}}hidden{{/unless}}">
+                {{> components/products/price-label
+                    label_value=theme_settings.pdp-sale-price-label
+                    fallback=(lang "page_builder.pdp-sale-price-label")
+                }}
+            </span>
+            <span x-text="product?.price?.with_tax?.formatted" class="text-price font-semibold">{{price.with_tax.formatted}}</span>
+            {{#if price.without_tax}}
+                <abbr title="{{lang 'products.including_tax'}}">{{lang 'products.price_with_tax' tax_label=price.tax_label}}</abbr>
+            {{/if}}
+        </div>
+    {{/if}}
+    {{#if price.without_tax}}
+        <div class="{{#if price.with_tax}}text-xs{{/if}}{{#unless price.rrp_without_tax}} hidden{{/unless}}">
+            <span>
+                {{> components/products/price-label
+                    label_value=theme_settings.pdp-retail-price-label
+                    fallback=(lang "page_builder.pdp-retail-price-label")
+                }}
+            </span>
+            <span x-text="product?.price?.rrp_without_tax?.formatted" class="text-non-sale-price font-semibold line-through">
+                {{price.rrp_without_tax.formatted}}
+            </span>
+        </div>
+        <div class="{{#if price.with_tax}}text-xs{{/if}}{{#unless price.non_sale_price_without_tax}} hidden{{/unless}}" >
+            <span>
+                {{> components/products/price-label
+                    label_value=theme_settings.pdp-non-sale-price-label
+                    fallback=(lang "page_builder.pdp-non-sale-price-label")
+                }}
+            </span>
+            <span x-text="product?.price?.non_sale_price_without_tax?.formatted" class="text-non-sale-price font-semibold line-through">
+                {{price.non_sale_price_without_tax.formatted}}
+            </span>
+        </div>
+        <div>
+            <span class="{{#if price.non_sale_price_without_tax}} hidden{{/if}}">
+                {{theme_settings.pdp-price-label}}
+            </span>
+            <span class="{{#unless price.non_sale_price_without_tax}} hidden{{/unless}}">
+                {{> components/products/price-label
+                    label_value=theme_settings.pdp-sale-price-label
+                    fallback=(lang "page_builder.pdp-sale-price-label")
+                }}
+            </span>
+            <span x-text="product?.price?.without_tax?.formatted" class="text-price font-semibold{{#if price.with_tax}} hidden{{/if}}">{{price.without_tax.formatted}}</span>
+            {{#if price.with_tax}}
+                <abbr title="{{lang 'products.excluding_tax'}}">{{lang 'products.price_without_tax' tax_label=price.tax_label}}</abbr>
+            {{/if}}
+        </div>
+    {{/if}}
+    {{#if page_type '===' 'product'}}
+         <div class="{{#unless price.saved}} hidden{{/unless}}">
+            <span>{{lang 'products.you_save_opening_text'}}</span>
+            <span x-text="product?.price?.saved?.formatted" class="text-price font-semibold">
+                {{price.saved.formatted}}
+            </span>
+            <span>{{lang 'products.you_save_closing_bracket'}}</span>
+         </div>
+    {{/if}}
+{{/and}}
+</div>

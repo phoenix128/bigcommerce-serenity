@@ -1,0 +1,31 @@
+{{#if children}}
+<a class="flex-row-middle hover:text-primary-light cursor-pointer">
+    <span :class="{'selected-menu-item': isActive}">{{name}}</span>
+    <span class="material-symbols-outlined icon-base transition-transform" :class="{'rotate-180': isOpen}">keyboard_arrow_down</span>
+</a>
+<template x-teleport="#submenuContainer">
+    <div x-bind="childrenMenu" class="absolute w-full z-10 bg-primary bg-opacity-70 backdrop-blur-sm border-t border-gray-200" x-cloak>
+        <ul class="grid grid-cols-1 md:grid-cols-4 max-w-screen-lg mx-auto">
+            <li class="p-4">
+                <a
+                    href="{{url}}"
+                    aria-label="{{lang 'category.view_all.name' category=name}}"
+                >
+                    {{lang 'category.view_all.name' category=name}}
+                </a>
+            </li>
+            {{#each children}}
+                <li class="p-4">
+                    <a href="{{url}}" aria-label="{{name}}">
+                        {{name}}
+                    </a>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
+</template>
+{{else}}
+<a :class="{'selected-menu-item': path === '{{url}}'}" href="{{url}}" aria-label="{{name}}" class="hover:text-primary-light">
+    {{name}}
+</a>
+{{/if}}

@@ -1,0 +1,27 @@
+{{#if items}}
+<div class="w-full">
+    {{> components/faceted-search/faceted-search-navigation}}
+
+    <ul>
+        {{#each items}}
+            <li class="border-b border-transparent hover:border-divider py-[2px]" x-data="serenityFacetItem({
+                selected: {{selected}},
+                url: '{{url}}'
+            })">
+                <a x-bind="button"
+                   href="{{url}}"
+                   class="flex-row-middle justify-between gap-1"
+                   rel="nofollow"
+                   data-faceted-search-facet
+                >
+                    <span>{{> components/products/ratings rating=title}}</span>
+                    <span class="text-base grow">{{lang 'search.faceted.rating.and-up'}}</span>
+                    {{#if ../show_product_counts}}
+                    {{> components/faceted-search/products-count count=count}}
+                    {{/if}}
+                </a>
+            </li>
+        {{/each}}
+    </ul>
+</div>
+{{/if}}

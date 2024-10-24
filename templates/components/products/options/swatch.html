@@ -1,0 +1,56 @@
+<div x-data="serenityProductAttribute({ id: {{id}} })" data-product-attribute="swatch" role="radiogroup" aria-labelledby="swatchGroup_{{id}}">
+    <label class="flex-row-middle gap-2 mb-1">
+        <span class="font-semibold">{{display_name}}:</span>
+        <span class="required">{{> components/common/requireness-msg}}</span>
+    </label>
+
+    {{#unless required}}
+    <div x-data="serenityProductOption({ id: {{id}} })">
+        <input
+            x-bind="optionInput"
+            type="radio"
+            name="attribute[{{id}}]"
+            value=""
+            id="attribute_swatch_{{id}}_none"
+            checked="{{#if defaultValue '==' ''}}checked{{/if}}"
+            aria-label="{{lang 'products.none'}}"
+        >
+        <label x-bind="optionSquareButton" for="attribute_swatch_{{id}}_none">
+            <span title="{{lang 'products.none'}}">{{lang 'products.none'}}</span>
+        </label>
+    </div>
+    {{/unless}}
+
+    <div class="flex-row-middle gap-1">
+        {{#each this.values}}
+        <div x-data="serenityProductOption({ id: {{id}} })">
+            <input
+                x-bind="optionInput"
+                class="hidden"
+                type="radio"
+                name="attribute[{{../id}}]"
+                value="{{id}}"
+                id="attribute_watch__{{../id}}_{{id}}"
+                {{#if selected}}checked{{/if}}
+                {{#if ../required}}required{{/if}}
+                aria-label="{{this.label}}"
+            >
+            <label
+                x-bind="optionSquareButton"
+                for="attribute_watch__{{../id}}_{{id}}"
+                class="product-option-swatch"
+            >
+                {{#if image}}
+                    <span title="{{this.label}}"
+                          class="product-option-swatch-inner"
+                          style="background-image: url('{{getImage image "swatch_option_size"}}');"></span>
+                {{else}}
+                    {{#each data}}
+                        <span class="product-option-swatch-inner" title="{{this.label}}" style="background-color: #{{this}}"></span>
+                    {{/each}}
+                {{/if}}
+            </label>
+        </div>
+        {{/each}}
+    </div>
+</div>

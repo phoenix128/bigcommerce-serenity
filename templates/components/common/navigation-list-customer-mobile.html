@@ -1,0 +1,34 @@
+<div x-bind="childrenMenu" class="w-full" x-cloak></div>
+    <ul class="flex flex-col text-lg py-2">
+        <li class="px-4 py-1">
+            <a href="{{urls.account.orders.all}}">{{lang 'account.nav.orders'}}</a>
+        </li>
+        {{#if settings.returns_enabled}}
+            <li class="px-4 py-1">
+                <a href="{{urls.account.returns}}">{{lang 'account.nav.returns'}}</a>
+            </li>
+        {{/if}}
+        <li class="px-4 py-1">
+            <a href="{{urls.account.inbox}}">{{lang 'account.nav.messages' num_new_messages=customer.num_new_messages}}</a>
+        </li>
+        <li class="px-4 py-1">
+            <a href="{{urls.account.addresses}}">{{lang 'account.nav.addresses'}}</a>
+        </li>
+        {{#if settings.show_payment_methods}}
+            <li class="px-4 py-1">
+                <a href="{{urls.account.payment_methods.all}}">{{lang 'account.nav.payment_methods'}}</a>
+            </li>
+        {{/if}}
+        {{#if settings.show_wishlist}}
+            <li class="px-4 py-1">
+                <a href="{{urls.account.wishlists.all}}">{{lang 'account.nav.wishlists'}}</a>
+            </li>
+        {{/if}}
+        <li class="px-4 py-1">
+            <a href="{{urls.account.recent_items}}">{{lang 'account.nav.recently_viewed'}}</a>
+        </li>
+        <li class="px-4 py-1">
+            <a href="{{urls.account.details}}">{{lang 'account.nav.settings'}}</a>
+        </li>
+    </ul>
+</div>

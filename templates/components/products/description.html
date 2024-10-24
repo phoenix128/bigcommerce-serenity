@@ -1,0 +1,14 @@
+
+{{#if product.description}}
+    <p class="font-semibold mt-4 mb-2 text-lg">{{lang 'products.description'}}</p>
+    <div data-event-type="product" class="mb-4">
+        {{{product.description}}}
+    </div>
+{{/if}}
+
+{{#if product.warranty}}
+    <p class="font-semibold mt-4 mb-2 text-lg">{{lang 'products.warranty'}}</p>
+    <div class="mb-4">
+        {{{product.warranty}}}
+    </div>
+{{/if}}

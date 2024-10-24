@@ -1,0 +1,63 @@
+---
+category:
+    products:
+        limit: {{theme_settings.categorypage_products_per_page}}
+---
+{{inject "categoryProductsPerPage" theme_settings.categorypage_products_per_page}}
+{{#partial "head"}}
+    {{#if pagination.category.previous}}
+        <link rel="prev" href="{{pagination.category.previous}}">
+    {{/if}}
+    {{#if pagination.category.next}}
+        <link rel="next" href="{{pagination.category.next}}">
+    {{/if}}
+{{/partial}}
+
+{{#partial "page"}}
+
+{{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+
+{{#if category.image}}
+    {{> components/common/responsive-img image=category.image
+        fetchpriority="high"
+        fallback_size=theme_settings.zoom_size
+        lazyload=theme_settings.lazyload_mode
+        class="category-header-image"
+    }}
+{{/if}}
+
+{{#unless theme_settings.hide_category_page_heading }}
+    <h1 class="page-heading text-center">{{category.name}}</h1>
+    {{{region name="category_below_header"}}}
+{{/unless}}
+
+{{#if category.description}}
+    <div class="text-sm">
+    {{{category.description}}}
+    </div>
+{{/if}}
+
+<div x-data="serenityProductList" class="flex flex-row gap-4 w-full flex-wrap">
+    <aside class="min-w-60 sm:w-60 2xl:w-80 w-full shrink-0" x-bind="facetSidebar">
+        {{#if category.faceted_search_enabled}}
+            {{> components/category/sidebar}}
+        {{else if category.subcategories}}
+            {{> components/category/sidebar}}
+        {{else if theme_settings.shop_by_price_visibility}}
+            {{> components/category/sidebar}}
+        {{/if}}
+    </aside>
+
+    <div class="basis-1 flex-grow">
+        <main class="w-full" x-bind="productListing">
+            {{> components/category/product-listing}}
+        </main>
+
+        <div class="w-full">
+            {{{region name="category_below_content"}}}
+        </div>
+    </div>
+</div>
+
+{{/partial}}
+{{> layout/base}}

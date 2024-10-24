@@ -1,0 +1,81 @@
+{{#if settings.add_this.buttons}}
+    {{assignVar 'encodedUrl' (encodeURI url)}}
+    {{assignVar 'encodedTitle' (encodeURI head.title)}}
+    <div>
+        <ul class="flex-row-middle gap-4 my-10 transition-all">
+            {{#each settings.add_this.buttons}}
+                <li class="w-6 h-6 hover:opacity-60">
+                    {{#if service '===' 'facebook'}}
+                    <a
+                       title="{{{capitalize service}}}"
+                       href="https://facebook.com/sharer/sharer.php?u={{getVar 'encodedUrl'}}"
+                       target="_blank"
+                       rel="noopener"
+                       {{{annotation}}}
+                    >
+                        <img class="w-full h-full" src="/assets/icons/facebook.svg" alt="{{{capitalize service}}}"/>
+                    </a>
+                    {{else if service '===' 'email'}}
+                    <a
+                       title="{{{capitalize service}}}"
+                       href="mailto:?subject={{getVar 'encodedTitle'}}&amp;body={{getVar 'encodedUrl'}}"
+                       target="_self"
+                       rel="noopener"
+                       {{{annotation}}}
+                    >
+                        <img class="w-full h-full" src="/assets/icons/envelope.svg" alt="{{{capitalize service}}}"/>
+                    </a>
+                    {{else if service '===' 'print'}}
+                    <a
+                       title="{{{capitalize service}}}"
+                       onclick="window.print();return false;"
+                       {{{annotation}}}
+                    >
+                        <img class="w-full h-full" src="/assets/icons/print.svg" alt="{{{capitalize service}}}"/>
+                    </a>
+                    {{else if service '===' 'twitter'}}
+                    <a
+                       href="https://x.com/intent/tweet/?text={{getVar 'encodedTitle'}}&amp;url={{getVar 'encodedUrl'}}"
+                       target="_blank"
+                       rel="noopener"
+                       title="X"
+                       {{{annotation}}}
+                    >
+                        <img class="w-full h-full" src="/assets/icons/x.svg" alt="{{{capitalize service}}}"/>
+                    </a>
+                    {{else if service '===' 'linkedin'}}
+                    <a
+                       title="{{{capitalize service}}}"
+                       href="https://www.linkedin.com/shareArticle?mini=true&amp;url={{getVar 'encodedUrl'}}&amp;title={{getVar 'encodedTitle'}}&amp;summary={{getVar 'encodedTitle'}}&amp;source={{getVar 'encodedUrl'}}"
+                       target="_blank"
+                       rel="noopener"
+                       {{{annotation}}}
+                    >
+                        <img class="w-full h-full" src="/assets/icons/linkedin.svg" alt="{{{capitalize service}}}"/>
+                    </a>
+                    {{else if service '===' 'pinterest'}}
+                    <a
+                       title="{{{capitalize service}}}"
+                       href="https://pinterest.com/pin/create/button/?url={{getVar 'encodedUrl'}}&amp;media={{getImageSrcset ../product.main_image (cdn ../theme_settings.default_image_product) 1x=../theme_settings.zoom_size}}&amp;description={{getVar 'encodedTitle'}}"
+                       target="_blank"
+                       rel="noopener"
+                       {{{annotation}}}
+                    >
+                        <img class="w-full h-full" src="/assets/icons/pinterest.svg" alt="{{{capitalize service}}}"/>
+                    </a>
+                    {{/if}}
+                </li>
+            {{/each}}
+        </ul>
+    </div>
+{{/if}}
+{{#if settings.facebook_like_button.enabled}}
+    <iframe
+        class="facebook{{#if settings.facebook_like_button.verb '===' 'recommend'}}Recommend{{else}}Like{{/if}}Btn"
+        style="border:none; overflow:hidden; margin: 0; padding: 0; position:absolute"
+        src="https://www.facebook.com/plugins/like.php?href={{settings.facebook_like_button.href}}&amp;layout=button_count{{#if settings.facebook_like_button.verb '===' 'recommend'}}&amp;action=recommend{{/if}}&amp;colorscheme=light&amp;height=20"
+        scrolling="no"
+        frameborder="0"
+        allowTransparency="true">
+    </iframe>
+{{/if}}

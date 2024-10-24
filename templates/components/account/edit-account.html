@@ -1,0 +1,46 @@
+<form action="{{urls.account.update_action}}" method="post" x-data="serenityEditAccountForm" x-bind="editAccountForm">
+    {{inject 'firstName' (lang 'forms.validate.account.edit.first_name')}}
+    {{inject 'lastName' (lang 'forms.validate.account.edit.last_name')}}
+    {{inject 'phoneNumber' (lang 'forms.validate.account.edit.phone')}}
+    {{inject 'currentPassword' (lang 'forms.validate.account.edit.password')}}
+    <fieldset>
+        <div class="flex flex-col gap-2 w-1/2 m-auto">
+            <div>
+                <label class="form-label" for="account_firstname">
+                    {{lang 'account.settings.first_name' }}
+                    <small class="required float-right">{{lang 'common.required' }}</small>
+                </label>
+                <input aria-labelledby="account_firstname_id" aria-live="polite" autocomplete="given-name" type="text" class="input" name="account_firstname" id="account_firstname" value="{{forms.edit_account.first_name}}">
+            </div>
+            <div>
+                <label class="form-label" for="account_lastname">
+                    {{lang 'account.settings.last_name' }}
+                    <small class="required float-right">{{lang 'common.required' }}</small>
+                </label>
+                <input aria-labelledby="account_lastname_id" aria-live="polite" autocomplete="family-name" type="text" class="input" name="account_lastname" id="account_lastname" value="{{forms.edit_account.last_name}}">
+            </div>
+            <div>
+                <label class="form-label" for="account_companyname">
+                    {{lang 'account.settings.company' }}
+                </label>
+                <input aria-labelledby="account_companyname_id" aria-live="polite" autocomplete="organization" type="text" class="input" name="account_companyname" id="account_companyname" value="{{forms.edit_account.company_name}}">
+            </div>
+            <div>
+                <label class="form-label" for="account_phone">
+                    {{lang 'account.settings.phone' }}
+                </label>
+                <input aria-labelledby="account_phone_id" aria-live="polite" autocomplete="tel" type="text" class="input" name="account_phone" id="account_phone" value="{{forms.edit_account.phone}}">
+            </div>
+
+            {{#each forms.edit_account.fields}}
+                {{{dynamicComponent 'components/common/forms'}}}
+            {{/each}}
+
+            <button
+                :disabled="isEditAccountFormSubmitting"
+                :class="{ 'opacity-50 cursor-progress': isEditAccountFormSubmitting }"
+                class="button-primary mt-4"
+            >{{lang 'account.settings.update_details'}}</button>
+        </div>
+    </fieldset>
+</form>

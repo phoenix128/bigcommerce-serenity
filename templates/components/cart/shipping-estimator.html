@@ -1,0 +1,83 @@
+{{inject 'shippingCountryErrorMessage' (lang 'cart.shipping_estimator.empty_country_error')}}
+{{inject 'shippingProvinceErrorMessage' (lang 'cart.shipping_estimator.empty_province_error')}}
+
+<div x-data="serenityDropdown({ disableClickAway: true })">
+    {{#if shipping_cost}}
+        <div class="float-right -mt-5">
+            <a href="#" x-bind="button" class="underline underline-offset-2">{{shipping_cost.formatted}}</a>
+        </div>
+    {{else}}
+        <div class="float-right -mt-5">
+            <button aria-labelledby="estimator-add" class="underline underline-offset-2">
+                <span x-show="!isOpen" x-bind="button">{{lang 'cart.shipping_estimator.add_info'}}</span>
+                <span x-show="isOpen" x-cloak x-bind="button">{{lang 'cart.shipping_estimator.cancel'}}</span>
+            </button>
+        </div>
+    {{/if}}
+
+    <div class="clear-both"></div>
+
+    <div x-bind="menu" class="my-3 pl-4 border-l-8 border-divider">
+        <div x-data="serenityShippingEstimator">
+            <form x-bind="shippingEstimatorForm">
+                <dl x-data="serenityCountrySelect" class="grid grid-cols-1 sm:grid-cols-[180px_1fr] items-center gap-y-2 mb-2">
+                    <dt>
+                        <label for="shipping-country">{{lang 'cart.shipping_estimator.select_a_country'}}</label>
+                    </dt>
+                    <dd>
+                        <select class="select" name="shipping-country" data-field-type="Country">
+                            <option value="">{{lang 'cart.shipping_estimator.select_a_country'}}</option>
+                            {{#each countries}}
+                                <option value="{{id}}" {{#if selected}}selected="selected"{{/if}}>
+                                    {{name}}
+                                </option>
+                            {{/each}}
+                        </select>
+                    </dd>
+
+                    <dt>
+                        <label for="shipping-state">{{lang 'cart.shipping_estimator.select_a_state'}}</label>
+                    </dt>
+                    <dd data-type="State">
+                        {{#if states.length}}
+                            <select class="select" name="shipping-state" data-field-type="State">
+                                <option value="">{{lang 'cart.shipping_estimator.select_a_state'}}</option>
+                                {{#each states}}
+                                    <option value="{{id}}" {{#if selected}}selected="selected"{{/if}}>
+                                        {{name}}
+                                    </option>
+                                {{/each}}
+                            </select>
+                        {{else}}
+                            <input class="input" type="text" name="shipping-state" data-field-type="State" placeholder="{{lang 'cart.shipping_estimator.select_a_state'}}">
+                        {{/if}}
+                    </dd>
+
+                    <dt>
+                        <label for="shipping-city">{{lang 'cart.shipping_estimator.suburb_city'}}</label>
+                    </dt>
+                    <dd>
+                        <input class="input" type="text" name="shipping-city" value="{{selected_city}}" placeholder="{{lang 'cart.shipping_estimator.suburb_city'}}">
+                    </dd>
+
+                    <dt>
+                        <label for="shipping-zip">{{lang 'cart.shipping_estimator.zip_postal_code'}}</label>
+                    </dt>
+                    <dd>
+                        <input autocomplete="postal-code" class="input" type="text" name="shipping-zip" value="{{selected_zip}}" placeholder="{{lang 'cart.shipping_estimator.zip_postal_code'}}">
+                    </dd>
+
+                    <dt></dt>
+                    <dd>
+                        <button x-bind="shippingEstimatorSubmit" class="button-primary flex-row-middle" type="submit">
+                            <span x-show="!isSubmitting" class="material-symbols-outlined icon-base">local_shipping</span>
+                            <span x-cloak x-show="isSubmitting" class="material-symbols-outlined animate-spin icon-base">refresh</span>
+                            <span class="ml-2">{{lang 'cart.shipping_estimator.estimate_shipping'}}</span>
+                        </button>
+                    </dd>
+                </dl>
+            </form>
+            <div x-bind="shippingQuotes" role="alert" aria-atomic="true" aria-live="assertive"></div>
+        </div>
+    </div>
+</div>

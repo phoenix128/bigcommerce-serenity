@@ -1,0 +1,42 @@
+<div x-data="serenityProductAttribute({ id: {{id}} })" class="form-field" data-product-attribute="set-rectangle" role="radiogroup" aria-labelledby="rectangle-group-label">
+    <label class="flex-row-middle gap-2 mb-1" id="rectangle-group-label">
+        <span class="font-semibold">{{display_name}}:</span>
+        <span class="required">{{> components/common/requireness-msg}}</span>
+    </label>
+
+    {{#unless required}}
+        <input
+            type="radio"
+            id="attribute_rectangle__{{id}}_none"
+            name="attribute[{{id}}]"
+            checked="{{#if defaultValue '==' ''}}checked{{/if}}"
+            value=""
+        >
+        <label for="attribute_rectangle__{{id}}_none">
+            <span>{{lang 'products.none'}}</span>
+        </label>
+    {{/unless}}
+
+    <div class="flex-row-middle gap-1">
+        {{#each this.values}}
+        <div x-data="serenityProductOption({ id: {{id}} })">
+            <input
+                x-bind="optionInput"
+                class="hidden"
+                type="radio"
+                id="attribute_rectangle__{{../id}}_{{id}}"
+                name="attribute[{{../id}}]"
+                value="{{id}}"
+                {{#if selected}}checked{{/if}}
+                {{#if ../required}}required{{/if}}
+            >
+            <label
+                x-bind="optionSquareButton"
+                class="product-option-rectangle"
+                for="attribute_rectangle__{{../id}}_{{id}}">
+                <span class="product-option-rectangle-inner"><span>{{this.label}}</span></span>
+            </label>
+        </div>
+        {{/each}}
+    </div>
+</div>

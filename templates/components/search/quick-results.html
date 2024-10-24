@@ -1,0 +1,21 @@
+<div class="text-sm border-t border-gray-300 py-4 mt-4">
+    {{#if product_results.products}}
+        <ul class="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-6 fhd:grid-cols-8 gap-4" data-list-name="Quick Search Results">
+            {{#each product_results.products}}
+            <li>
+                {{> components/products/card
+                        settings=../settings
+                        alternate=true
+                        show_compare=../show_compare
+                        theme_settings=../theme_settings
+                        customer=../customer
+                        event="list"
+                        position=(add @index 1)
+                }}
+            </li>
+            {{/each}}
+        </ul>
+    {{else}}
+        <div class="text-center font-semibold">{{{lang 'search.results.quick_count' count=pagination.product_results.total search_query=(sanitize forms.search.query) }}}</div>
+    {{/if}}
+</div>

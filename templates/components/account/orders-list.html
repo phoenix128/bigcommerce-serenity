@@ -1,0 +1,53 @@
+<ul class="w-full m-auto my-6 max-w-screen-md">
+    {{#each orders}}
+    <li class="border-b border-divider my-2 py-2 last:border-0">
+        <div class="flex flex-row justify-start gap-4">
+            <div class="hidden sm:block sm:w-48 shrink-0 grow-0">
+                {{#if items.0.type '===' 'giftcertificate'}}
+                    <img
+                        alt="GiftCertificate"
+                        title="GiftCertificate"
+                        src="{{cdn ../theme_settings.default_image_gift_certificate}}" />
+                {{else}}
+                    {{> components/common/responsive-img
+                        image=image
+                        class="w-full aspect-square mx-auto"
+                        fallback_size=../theme_settings.productthumb_size
+                        lazyload=../theme_settings.lazyload_mode
+                        default_image=../theme_settings.default_image_product
+                    }}
+                {{/if}}
+            </div>
+            <div class="flex flex-col sm:flex-row gap-4 justify-start grow">
+                <div class="grow">
+                    <h5 class="text-xl font-semibold">
+                        <a href="{{this.details_url}}">{{lang 'account.orders.list.order_number' number=this.id}}</a>
+                    </h5>
+                    <p>{{lang 'account.orders.list.product_details' num_products=this.items.length cost=this.total.formatted}}</p>
+
+                    <div class="mt-6 flex flex-col md:flex-row justify-start gap-6">
+                        <div>
+                            <h6 class="uppercase text-gray-500">{{lang 'account.orders.order_placed' }}</h6>
+                            <span>{{this.date}}</span>
+                        </div>
+                        <div>
+                            <h6 class="uppercase text-gray-500">{{lang 'account.orders.last_update' }}</h6>
+                            <span>{{this.last_update_date}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="grow-0 shrink-0 min-w-48 text-center">
+                    <h6 class="rounded-md bg-gray-300 p-2 text-black">{{this.status}}</h6>
+                    {{#if ../settings.returns_enabled}}
+                        {{#if this.return_url}}
+                            <a class="text-sm" href="{{this.return_url}}">
+                                {{lang 'account.orders.return_items' }}
+                            </a>
+                        {{/if}}
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </li>
+    {{/each}}
+</ul>

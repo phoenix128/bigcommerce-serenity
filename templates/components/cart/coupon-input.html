@@ -1,0 +1,43 @@
+<div x-data="serenityAddCouponForm">
+    <div class="float-right -mt-5">
+        <button
+            class="underline underline-offset-2"
+            x-show="!isOpen"
+            x-bind="addCouponToggleButton"
+            aria-label="{{lang 'cart.coupons.add_coupon'}}"
+            aria-controls="add-coupon"
+            aria-expanded="false"
+        >
+            {{lang 'cart.coupons.add_coupon'}}
+        </button>
+
+        <button
+            class="underline underline-offset-2"
+            x-show="isOpen"
+            x-cloak
+            x-bind="addCouponToggleButton"
+            aria-label="{{lang 'cart.coupons.add_coupon'}}"
+            aria-controls="add-coupon"
+            aria-expanded="true"
+        >
+            {{lang 'cart.coupons.cancel'}}
+        </button>
+    </div>
+
+    <div class="clear-both"></div>
+
+    <div class="mt-2" x-show="isOpen" x-cloak x-transition>
+        <form x-bind="addCouponForm" method="post" action="{{urls.cart}}">
+            <label for="couponcode" class="hidden">{{lang 'cart.coupons.coupon_code'}}</label>
+            <div class="flex-row-middle">
+                <input x-bind="couponCodeInput" class="input" data-error="{{lang 'cart.coupons.empty_error'}}" type="text" name="couponcode" value="" placeholder="{{lang 'cart.coupons.coupon_code'}}">
+                <button x-bind="couponCodeSubmitButton" class="button-primary w-28 flex-row-middle gap-2" type="submit" aria-label="{{lang 'cart.coupons.apply_coupon'}}">
+                    <span x-show="!isSubmitting" class="material-symbols-outlined icon-xs">sell</span>
+                    <span x-show="isSubmitting" class="material-symbols-outlined icon-xs animate-spin">refresh</span>
+                    {{lang 'cart.coupons.button'}}
+                </button>
+            </div>
+            <input type="hidden" name="action" value="applycoupon">
+        </form>
+    </div>
+</div>

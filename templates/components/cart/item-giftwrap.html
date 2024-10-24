@@ -1,0 +1,33 @@
+{{#if show_gift_wrapping}}
+    <dl class="my-4">
+        <dt class="font-semibold">
+            {{lang 'cart.gift_wrapping.title'}}:
+        </dt>
+        {{#if gift_wrapping}}
+            <dd>
+                {{gift_wrapping.name}}: {{gift_wrapping.price.formatted}}
+                <span>
+                    (<a class="underline" href="" x-data="serenityAddGiftWrap({ itemId: '{{id}}' })">{{lang 'cart.gift_wrapping.change'}}</a>
+                    or
+                    <a
+                        href="{{gift_wrapping.remove_url}}"
+                        x-data="serenityConfirm({ message: {{ JSONstringify (lang 'cart.gift_wrapping.remove_confirm') }} })"
+                        x-bind="confirmLink"
+                    >{{lang 'cart.gift_wrapping.remove'}}</a>)
+                </span>
+            </dd>
+            {{#if gift_wrapping.message}}
+                <dt class="font-semibold mt-2">
+                    {{lang 'cart.gift_wrapping.gift_message'}}:
+                </dt>
+                <dd>
+                    {{gift_wrapping.message}}
+                </dd>
+            {{/if}}
+        {{else}}
+            <dd>
+                <a x-data="serenityAddGiftWrap({ itemId: '{{id}}' })" class="underline" href="">{{lang 'cart.gift_wrapping.add'}}</a>
+            </dd>
+        {{/if}}
+    </dl>
+{{/if}}

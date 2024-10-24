@@ -1,0 +1,17 @@
+@layer components {
+    .swal2-popup {
+        @apply !rounded-none;
+    }
+
+    .swal2-confirm, .swal2-cancel, .swal2-deny {
+        @apply !rounded-none text-base;
+    }
+
+    .swal2-confirm {
+        @apply bg-blue-500 hover:bg-blue-600 text-white;
+    }
+
+    .swal2-title {
+        @apply text-lg font-semibold;
+    }
+}

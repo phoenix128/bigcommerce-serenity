@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        "orta.vscode-jest",
+        "kamikillerto.vscode-colorize",
+        "oderwat.indent-rainbow",
+        "streetsidesoftware.code-spell-checker",
+        "andrejunges.handlebars",
+        "marianoibarra.material-icons-intellisense"
+    ]
+}

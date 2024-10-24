@@ -1,0 +1,144 @@
+
+<article
+    class="appear-quick border border-divider p-2 bg-gray-50 text-base h-full flex flex-col relative"
+    {{#if alternate}} card--alternate{{/if}}"
+    data-event-type="{{event}}"
+    data-entity-id="{{id}}"
+    data-position="{{position}}"
+    data-name="{{name}}"
+    data-product-category="
+    {{#each category}}
+        {{#if @last}}
+            {{this}}
+        {{else}}
+            {{this}},
+        {{/if}}
+    {{/each}}"
+    data-product-brand="{{brand.name}}"
+    data-product-price="
+    {{#or customer (unless settings.hide_price_from_guests)}}
+        {{#if price.with_tax}}
+            {{price.with_tax.value}}
+        {{else}}
+            {{price.without_tax.value}}
+        {{/if}}
+    {{else}}
+        {{lang 'common.login_for_pricing'}}
+    {{/or}}"
+>
+    <figure class="grow-0 relative group">
+        {{#if stock_level '===' 0}}
+            {{#if theme_settings.pdp_sold_out_label '===' ''}}
+                {{> components/products/product-badge
+                    badge-type='sold-out'
+                    badge_view=theme_settings.product_sold_out_badges
+                    badge_label=(lang "page_builder.pdp_sold_out_label")
+                }}
+            {{else}}
+                {{> components/products/product-badge
+                    badge-type='sold-out'
+                    badge_view=theme_settings.product_sold_out_badges
+                    badge_label=theme_settings.pdp_sold_out_label
+                }}
+            {{/if}}
+        {{else}}
+            {{#or price.sale_price_with_tax.value price.sale_price_without_tax.value}}
+                {{#if theme_settings.pdp_sale_badge_label '===' ''}}
+                    {{> components/products/product-badge
+                        badge-type='sale'
+                        badge_view=theme_settings.product_sale_badges
+                        badge_label=(lang "page_builder.pdp_sale_badge_label")
+                    }}
+                {{else}}
+                    {{> components/products/product-badge
+                        badge-type='sale'
+                        badge_view=theme_settings.product_sale_badges
+                        badge_label=theme_settings.pdp_sale_badge_label
+                    }}
+                {{/if}}
+            {{/or}}
+        {{/if}}
+
+        <a href="{{url}}"
+            aria-label="{{> components/products/product-info}}"
+            data-event-type="product-click"
+        >
+            <div class="w-full overflow-hidden border border-divider">
+                {{> components/common/responsive-img
+                    image=image
+                    fetchpriority="high"
+                    class="w-full aspect-square group-hover:scale-125 transition-all"
+                    fallback_size=theme_settings.productgallery_size
+                    lazyload=theme_settings.lazyload_mode
+                    default_image=theme_settings.default_image_product
+                }}
+            </div>
+        </a>
+
+        <div class="opacity-0 hidden flex-col justify-end gap-2 absolute bottom-2 right-2 w-10 group-hover:opacity-100 group-hover:flex transition-opacity">
+            {{#unless hide_product_quick_view}}
+                {{#if theme_settings.show_product_quick_view}}
+                <button x-data="serenityQuickView({id: '{{id}}'})" title="{{lang 'products.quick_view'}}" type="button" class="button-secondary w-10 h-10 p-2 hidden sm:block" data-event-type="product-click" data-product-id="{{id}}">
+                    <span class="material-symbols-outlined icon-base" aria-label="{{lang 'products.quick_view'}}">visibility</span>
+                </button>
+                {{/if}}
+            {{/unless}}
+            {{#if show_compare}}
+                <button title="{{lang 'products.compare'}}" class="button-secondary w-10 h-10 p-2 hidden sm:block" x-data="serenityAddToCompare({productId: '{{id}}'})" x-bind="addToCompareButton">
+                    <span class="material-symbols-outlined icon-base" aria-label="{{lang 'products.compare'}}">difference</span>
+                </button>
+            {{/if}}
+        </div>
+    </figure>
+
+    {{#if brand.name}}
+    <p class="text-sm absolute left-2 bottom-2" data-test-info-type="brandName">{{brand.name}}</p>
+    {{/if}}
+
+    <div class="flex flex-col gap-2 mt-2 grow">
+        <h3 class="text-base font-light overflow-hidden text-ellipsis line-clamp-2 h-10">
+            <a aria-label="{{> components/products/product-info}}"
+                href="{{url}}"
+                data-event-type="product-click"
+            >
+                {{name}}
+            </a>
+        </h3>
+
+        {{#if show_cart_action}}
+        <div>
+            {{#if has_options}}
+            <a href="{{url}}" data-event-type="product-click" data-button-type="product-click" class="button-primary">{{lang 'products.choose_options'}}</a>
+            {{else}}
+                {{#if add_to_cart_url }}
+                <a href="{{add_to_cart_url}}" x-bind="addToCartButton" x-data="serenityQuickAddToCartButton({ addToCartUrl: '{{add_to_cart_url}}' })" data-event-type="product-click" data-button-type="add-cart" class="button-primary">{{lang 'products.add_to_cart'}}</a>
+                {{/if}}
+                {{#if pre_order}}
+                <a href="{{pre_order_add_to_cart_url}}" data-event-type="product-click" class="button-secondary">{{lang 'products.pre_order'}}</a>
+                {{/if}}
+            {{/if}}
+
+            {{#if out_of_stock_message }}
+            <a href="{{url}}" data-event-type="product-click" data-product-id="{{id}}">{{out_of_stock_message}}</a>
+            {{/if}}
+        </div>
+        {{/if}}
+
+        <div class="flex flex-col grow">
+            {{#and rating show_rating}}
+                <p data-test-info-type="productRating">
+                    {{> components/products/ratings rating_target=name rating=rating}}
+                </p>
+            {{/and}}
+
+            <div class="text-base text-right grow flex flex-col justify-end" data-test-info-type="price">
+                {{#or customer (unless settings.hide_price_from_guests)}}
+                    {{> components/products/price price=price}}
+                {{else}}
+                    {{> components/common/login-for-pricing}}
+                {{/or}}
+            </div>
+            {{> components/products/bulk-discount-rates}}
+        </div>
+    </div>
+</article>

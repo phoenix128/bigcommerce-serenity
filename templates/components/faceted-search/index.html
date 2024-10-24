@@ -1,0 +1,13 @@
+<div role="region" aria-label="{{lang 'search.faceted.label'}}" class="flex flex-col gap-4">
+    {{> components/faceted-search/selected-facets selected}}
+
+    {{#any facets visible=true}}
+    <div class="flex flex-col gap-4">
+        {{#each facets}}
+            {{#if visible}}
+                {{{dynamicComponent 'components/faceted-search/facets'}}}
+            {{/if}}
+        {{/each}}
+    </div>
+    {{/any}}
+</div>

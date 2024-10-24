@@ -1,0 +1,37 @@
+<div class="my-4 relative">
+    <form action="{{product.add_to_wishlist_url}}" method="post">
+        <div x-data="serenityDropdown">
+            <button x-bind="button" type="button" class="flex-row-middle button-secondary w-full lg:w-1/2 text-left justify-center">
+                <span>{{lang 'account.wishlists.add_item'}}</span>
+                <span class="material-symbols-outlined transition-transform" :class="{'rotate-180': isOpen}">keyboard_arrow_down</span>
+            </button>
+
+            <div x-bind="menu" x-cloak class="w-full lg:w-1/2 z-10 absolute bg-primary border border-divider items-center shadow-xl">
+                <ul aria-hidden="true" class="dropdown-menu" data-dropdown-content id="wishlist-dropdown">
+                    {{#if customer.wishlists}}
+                        {{#each customer.wishlists}}
+                            <li class="flex-row-middle gap-2 px-4 py-2 hover:bg-gray-100">
+                                <span class="material-symbols-outlined icon-base">add_circle</span>
+                                <input
+                                    class="cursor-pointer"
+                                    formaction="{{this.add_url}}&product_id={{../product.id}}"
+                                    type="submit"
+                                    value="{{this.name}}"
+                                />
+                            </li>
+                        {{/each}}
+                    {{else}}
+                    <li class="flex-row-middle gap-2 px-4 py-2 hover:bg-gray-100">
+                        <span class="material-symbols-outlined icon-base">add_circle</span>
+                        <input class="cursor-pointer" type="submit" value="{{lang 'account.wishlists.add_to_default'}}">
+                    </li>
+                    {{/if}}
+                    <li class="flex-row-middle gap-2 px-4 py-2 hover:bg-gray-100">
+                        <span class="material-symbols-outlined icon-base">add</span>
+                        <a class="cursor-pointer" href="/wishlist.php?action=addwishlist&product_id={{product.id}}">{{lang 'account.wishlists.create_new'}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </form>
+</div>

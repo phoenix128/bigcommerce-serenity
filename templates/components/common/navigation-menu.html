@@ -1,0 +1,66 @@
+<nav x-data="serenityNavigation({path: '{{settings.request.absolute_path}}'})" :class="{
+    'shadow-lg shadow-gray-600': isSticky
+}">
+    <ul class="text-sm hidden md:flex-row-middle justify-center gap-2 bg-primary uppercase font-semibold bg-opacity-80 backdrop-blur-sm h-12">
+        {{#each categories}}
+            <li x-data="serenityNavigationItem({url: '{{url}}'})" class="p-3" :class="{'bg-secondary': isOpen}">
+                {{> components/common/navigation-list}}
+            </li>
+        {{/each}}
+        {{#unless theme_settings.hide_content_navigation}}
+            {{#each pages}}
+                <li x-data="serenityNavigationItem({url: '{{url}}'})">
+                    <a
+                        :class="{'selected-menu-item': isActive}"
+                        href="{{url}}"
+                        aria-label="{{name}}"
+                        class="hover:text-primary-light"
+                    >
+                        {{name}}
+                    </a>
+                </li>
+            {{/each}}
+        {{/unless}}
+    </ul>
+    <div id="submenuContainer" class="relative w-full"></div>
+</nav>
+
+<nav
+    x-data="serenityNavigation({path: '{{settings.request.absolute_path}}'})"
+    class="flex-row-middle md:hidden bg-primary bg-opacity-70"
+    :class="{
+        'shadow-lg shadow-gray-600': isSticky
+    }"
+>
+    <div x-data="serenityDropdown" class="w-full backdrop-blur-md relative" :class="{'h-14': !isOpen}">
+        <button x-bind="button" type="button" aria-label="{{lang 'common.search'}}" class="p-4">
+            <span class="material-symbols-outlined icon-base" x-show="!isOpen">menu</span>
+            <span class="material-symbols-outlined icon-base" x-show="isOpen" x-cloak>close</span>
+        </button>
+        <div x-bind="menu" class="w-full sticky left-0 pb-4 pl-4 pr-4" x-cloak>
+            <ul class="text-sm flex flex-col uppercase font-semibold">
+                {{#each categories}}
+                    <li x-data="serenityNavigationItem({url: '{{url}}'})" class="p-3" :class="{'bg-secondary bg-opacity-50': isOpen}">
+                        {{> components/common/navigation-list-mobile}}
+                    </li>
+                {{/each}}
+                {{#if customer}}
+                <li x-data="serenityNavigationItem({url: ''})" class="p-3" :class="{'bg-secondary bg-opacity-50': isOpen}">
+                    <a class="flex-row-middle hover:text-primary-light cursor-pointer text-xl">
+                        <span :class="{'selected-menu-item': isActive}">{{lang 'common.account'}}</span>
+                        <span class="material-symbols-outlined icon-base transition-transform" :class="{'rotate-180': isOpen}">keyboard_arrow_down</span>
+                    </a>
+
+                    <div x-bind="childrenMenu" class="w-full" x-cloak>
+                        {{> components/common/navigation-list-customer-mobile customer=customer}}
+                    </div>
+                </li>
+                {{/if}}
+            </ul>
+        </div>
+    </div>
+
+    <div class="pr-3 pt-4 block sm:hidden self-start">
+        {{> components/cart/minicart}}
+    </div>
+</nav>

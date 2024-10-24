@@ -1,0 +1,48 @@
+<div x-cloak x-show="canPurchase">
+
+    {{#if product.show_quantity_input}}
+        {{inject 'productQuantityErrorMessage' (lang 'products.quantity_error_message')}}
+        <div class="my-4" x-data="serenityAddToCartQty({
+            min: {{product.min_purchase_quantity}},
+            max: {{product.max_purchase_quantity}}
+        })">
+            <label for="qty[]" class="block font-semibold mb-2">{{lang 'products.quantity'}}</label>
+            <div class="flex flex-row w-36">
+                <button type="button" class="bg-gray-100 px-2 hover:bg-gray-200" x-bind="decrease" title="{{lang 'products.quantity_decrease' name=product.title}}">
+                    <span class="material-symbols-outlined icon-sm">remove</span>
+                </button>
+                <input class="input grow border-l-0 border-r-0 text-center border-gray-100" id="qty[]" x-bind="input" aria-live="polite" />
+                <button type="button" class="bg-gray-100 px-2 hover:bg-gray-200" x-bind="increase" title="{{lang 'products.quantity_increase' name=product.title}}">
+                    <span class="material-symbols-outlined icon-sm">add</span>
+                </button>
+            </div>
+        </div>
+    {{/if}}
+
+    <div x-cloak x-bind="purchasingMessage" class="box-danger">
+        <span class="material-symbols-outlined icon-base animate-pulse">warning</span>
+        <div x-text="purchasingMessageText"></div>
+    </div>
+
+    {{#or customer (unless settings.hide_price_from_guests)}}
+        <input
+            class="button-primary"
+            type="submit"
+            x-data="serenityAddToCartButton({
+                strings: {
+                    {{#if product.pre_order}}
+                    default: {{JSONstringify (lang 'products.pre_order')}},
+                    {{else}}
+                    default: {{JSONstringify (lang 'products.add_to_cart')}},
+                    {{/if}}
+                    adding: {{JSONstringify (lang 'products.adding_to_cart')}},
+                    added: {{JSONstringify (lang 'category.add_cart_announcement')}}
+                }
+            })" />
+        {{#if this.with_wallet_buttons}}
+        <div>
+            {{> components/common/wallet-buttons}}
+        </div>
+        {{/if}}
+    {{/or}}
+</div>

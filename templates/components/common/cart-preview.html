@@ -1,0 +1,86 @@
+<div class="text-lg">
+    {{#if cart.items.length}}
+    <ul class="flex flex-col gap-2">
+        {{#each (limit cart.items 4)}}
+        <li class="flex flex-row-middle gap-4 border-b border-divider p-4 last:border-0">
+            <div class="w-24 h-24 border-divider shadow-lg bg-white shrink-0 grow-0">
+                {{#if type '==' 'GiftCertificate'}}
+                <img alt="GiftCertificate"
+                    title="GiftCertificate"
+                    class="w-full h-full object-contain"
+                    src="{{cdn ../theme_settings.default_image_gift_certificate}}" />
+                {{else}}
+                {{> components/common/responsive-img
+                    image=image
+                    class="w-full h-full object-contain"
+                    fallback_size=../theme_settings.productthumb_size
+                    lazyload=../theme_settings.lazyload_mode
+                    default_image=../theme_settings.default_image_product
+                }}
+                {{/if}}
+            </div>
+            <div class="flex flex-col gap-1 grow">
+                <span class="text-sm text-gray-500">
+                    {{brand.name}}
+                </span>
+
+                <h6 class="font-semibold">
+                    <a href="{{url}}" alt="{{name}}" title="{{name}}">{{name}}</a>
+                </h6>
+
+                <span>
+                    {{#if quantity '>' 1}}
+                        {{quantity}} &times;
+                    {{/if}}
+                    {{#or ../customer (unless ../settings.hide_price_from_guests) (if type '==' 'GiftCertificate')}}
+                    <span{{#if price_discounted}} class="price--discounted" {{/if}}>{{price.formatted}}
+                </span>
+                {{#if price_discounted}}
+                    {{price_discounted.formatted}}
+                {{/if}}
+                {{else}}
+                    {{> components/common/login-for-pricing}}
+                {{/or}}
+                </span>
+            </div>
+        </li>
+        {{/each}}
+    </ul>
+
+    <div class="my-4 flex flex-col gap-2">
+        {{#if cart.show_primary_checkout_button}}
+        <div class="button-primary">
+            <a href="{{urls.checkout.single_address}}">
+                {{lang 'cart.preview.checkout_now'}}
+            </a>
+        </div>
+        {{/if}}
+
+        <div
+            class="button-secondary">
+            <a href="{{urls.cart}}">
+                {{lang 'cart.preview.view_cart'}}
+            </a>
+        </div>
+
+        {{#if cart.show_multiple_address_shipping}}
+        <div>
+            <a class="button-primary" href="{{urls.checkout.multiple_address}}">
+                {{lang 'cart.preview.checkout_multiple'}}
+            </a>
+        </div>
+        {{/if}}
+    </div>
+    {{#if cart.additional_checkout_buttons}}
+    <div>
+        {{#each cart.additional_checkout_buttons}}
+            {{{this}}}
+        {{/each}}
+    </div>
+    {{/if}}
+    {{else}}
+    <div role="alert" aria-live="polite" aria-atomic="false">
+        {{lang 'cart.checkout.empty_cart'}}
+    </div>
+    {{/if}}
+</div>

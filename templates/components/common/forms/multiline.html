@@ -1,0 +1,17 @@
+<div  id="{{id}}" data-validation="{{validation}}">
+    <label for="{{id}}_input" class="mb-1 block">
+        {{label}}
+        {{#if required}}<small class="required float-right">{{lang 'common.required' }}</small>{{/if}}
+    </label>
+    <textarea name="{{name}}"
+              id="{{id}}_input"
+              data-label="{{label}}"
+              rows="{{rows}}"
+              aria-required="{{required}}"
+              aria-labelledby="{{id}}"
+              aria-live="polite"
+              data-input
+              class="form-input"
+              {{#if private_id}}data-field-type="{{private_id}}"{{/if}}
+    >{{value}}</textarea>
+</div>

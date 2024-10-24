@@ -1,0 +1,33 @@
+{{inject 'enterWishlistNameError' (lang 'account.wishlists.enter_wishlist_name_error')}}
+
+<form
+    class="w-full max-w-[500px] mx-auto my-16"
+    action="{{#if forms.wishlist.id}}{{urls.account.wishlists.edit}}{{else}}{{urls.account.wishlists.add}}&product_id={{forms.wishlist.product_id}}{{/if}}"
+    method="post"
+    x-data="serenityEditWishlist"
+>
+    <input type="hidden" name="submit" />
+
+    <div class="flex flex-col gap-4">
+        <div>
+            <label for="wishlistname" class="flex flex-row justify-between items-center mb-2">
+                {{lang 'forms.wishlist.name'}}
+                <small class="required">{{lang 'common.required' }}</small>
+            </label>
+            <input x-bind="wishlistName" name="wishlistname" id="wishlistname" class="input" value="{{forms.wishlist.name}}">
+        </div>
+        <div>
+            <input type="checkbox" name="publicwishlist" id="publicwishlist" {{#if forms.wishlist.is_public}}checked{{/if}}>
+            <label for="publicwishlist">{{lang 'forms.wishlist.public' }}</label>
+        </div>
+        <div>
+            {{#if forms.wishlist.id}}
+                <input type="submit" class="button-primary" x-bind="submitButton" value="{{lang 'account.wishlists.save'}}">
+                <input type="hidden" name="wishlistid" value="{{forms.wishlist.id}}">
+            {{else}}
+                <input type="submit" class="button-primary" x-bind="submitButton"
+                    value="{{lang 'account.wishlists.create'}}">
+            {{/if}}
+        </div>
+    </div>
+</form>

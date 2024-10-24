@@ -1,0 +1,76 @@
+<ul class="w-full m-auto my-6 max-w-[900px]">
+    {{#each returns}}
+    <li class="border-b border-divider my-2 py-2 last:border-0">
+        <div class="flex flex-row justify-between gap-4">
+            <div class="hidden sm:block sm:w-48 shrink-0 grow-0">
+                {{> components/common/responsive-img
+                    image=product.image
+                    class="w-full aspect-square mx-auto"
+                    fallback_size=../theme_settings.productthumb_size
+                    lazyload=../theme_settings.lazyload_mode
+                }}
+            </div>
+            <div class="grow">
+                <div class="flex flex-row flex-wrap gap-4 justify-between">
+                    <div>
+                        <h5 class="text-xl font-semibold">{{lang 'account.returns.list.return_number' id=id}}</h5>
+                        <p class="text-gray-500">
+                            {{lang 'account.returns.list.product_details' num_products=quantity}} <a href="{{product.url}}">{{product.name}}</a>
+                        </p>
+                    </div>
+
+                    <div class="min-w-48 text-center">
+                        {{#if status '===' 'ReturnStatusPending'}}
+                            <h6 class="rounded-md bg-gray-300 p-2 text-black">{{lang 'account.returns.status.pending'}}</h6>
+                        {{else if status '===' 'ReturnStatusReceived'}}
+                            <h6 class="rounded-md bg-gray-300 p-2 text-black">{{lang 'account.returns.status.received'}}</h6>
+                        {{else if status '===' 'ReturnStatusAuthorized'}}
+                            <h6 class="rounded-md bg-gray-300 p-2 text-black">{{lang 'account.returns.status.authorized'}}</h6>
+                        {{else if status '===' 'ReturnStatusRepaired'}}
+                            <h6 class="rounded-md bg-gray-300 p-2 text-black">{{lang 'account.returns.status.repaired'}}</h6>
+                        {{else if status '===' 'ReturnStatusRefunded'}}
+                            <h6 class="rounded-md bg-gray-300 p-2 text-black">{{lang 'account.returns.status.refunded'}}</h6>
+                        {{else if status '===' 'ReturnStatusRejected'}}
+                            <h6 class="rounded-md bg-gray-300 p-2 text-black">{{lang 'account.returns.status.rejected'}}</h6>
+                        {{else if status '===' 'ReturnStatusCancelled'}}
+                            <h6 class="rounded-md bg-gray-300 p-2 text-black">{{lang 'account.returns.status.cancelled'}}</h6>
+                        {{/if}}
+                    </div>
+                </div>
+
+                <div>
+                    {{#if product.options}}
+                        <dl class="grid grid-cols-[140px_1fr] my-4">
+                            {{#each product.options}}
+                                <dt>{{name}}:</dt>
+                                <dd>{{> components/common/product-options}}</dd>
+                            {{/each}}
+                        </dl>
+                    {{/if}}
+
+                    <div class="flex flex-row flex-wrap gap-6 items-center mt-6 w-full">
+                        <div>
+                            <h6 class="uppercase text-gray-500">{{lang 'account.returns.date_requested' }}</h6>
+                            <span>{{date_requested}}</span>
+                        </div>
+                        <div>
+                            <h6 class="uppercase text-gray-500">{{lang 'account.returns.action' }}</h6>
+                            <span>{{action}}</span>
+                        </div>
+                        <div>
+                            <h6 class="uppercase text-gray-500">{{lang 'account.returns.reason' }}</h6>
+                            <span>{{reason}}</span>
+                        </div>
+                        {{#if comments}}
+                        <div>
+                            <h6 class="uppercase text-gray-500">{{lang 'account.returns.comments' }}</h6>
+                            <span>{{comments}}</span>
+                        </div>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+    {{/each}}
+</ul>

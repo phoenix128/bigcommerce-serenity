@@ -1,0 +1,15 @@
+<ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-20">
+    {{#each wishlist.items}}
+    <li>
+        <div>
+            {{> components/products/card id=product_id show_cart_action=false theme_settings=../theme_settings}}
+        </div>
+        {{#if ../show_remove}}
+            <form action="{{remove_url}}" class="mt-4 appear-quick" method="post">
+                <input x-data="{deleting: false}" @click="deleting=true" :class="{'cursor-progress opacity-50': deleting}" type="submit" class="button-primary" value="{{lang 'account.wishlists.remove_item'}}" />
+            </form>
+        {{/if}}
+    </li>
+    {{/each}}
+</ul>
+{{> components/common/paginator wishlist.pagination}}

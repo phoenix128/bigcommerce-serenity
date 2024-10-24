@@ -1,0 +1,35 @@
+{{#if reviews.total}}
+<section>
+    <h4 class="font-semibold mb-4 text-lg">
+        {{lang 'products.reviews.header' total=reviews.total}}
+    </h4>
+    <div aria-hidden="false">
+        <ul>
+            {{#each reviews.list}}
+            <li class="mb-2 p-2 border-b last:border-0 border-divider">
+                <article>
+                    <header>
+                        <span class="flex-row-middle gap-2">
+                            {{> components/products/ratings rating=rating}}
+                            <span>({{ rating }})</span>
+                        </span>
+                        <h5 class="font-semibold">{{{ sanitize title }}}</h5>
+                        {{#if name}}
+                            <p class="text-sm mb-1">
+                                {{{lang 'products.reviews.post_on_by' date=date name=(sanitize name) }}}
+                            </p>
+                        {{else}}
+                            <p class="text-sm mb-1">
+                                {{lang 'products.reviews.post_on_by' date=date name=(lang 'products.reviews.anonymous_poster')}}
+                            </p>
+                        {{/if}}
+                    </header>
+                    <p>{{{ sanitize text }}}</p>
+                </article>
+            </li>
+            {{/each}}
+        </ul>
+        {{> components/common/paginator pagination.reviews reload=true}}
+    </div>
+</section>
+{{/if}}

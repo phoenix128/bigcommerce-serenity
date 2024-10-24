@@ -1,0 +1,8 @@
+.swiper .swiper-slide-thumb {
+    opacity: 0.3;
+    transition: opacity 0.5s;
+}
+
+.swiper .swiper-slide-thumb-active {
+    opacity: 1;
+}

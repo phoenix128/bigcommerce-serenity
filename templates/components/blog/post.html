@@ -1,0 +1,52 @@
+<article class="border-b border-divider py-4 last:border-b-0">
+    <div>
+        {{#if post.thumbnail}}
+            <figure class="mb-2">
+                <a href="{{post.url}}">
+                    {{> components/common/responsive-img
+                        image=post.thumbnail
+                        class="w-full aspect-ultra-wide object-cover"
+                        fallback_size=theme_settings.blog_size
+                        lazyload=theme_settings.lazyload_mode
+                    }}
+                </a>
+            </figure>
+        {{/if}}
+    </div>
+
+    <div>
+        <header class="text-sm mb-4">
+            <h{{#if is_blog_post}}1{{else}}2{{/if}} class="font-semibold text-xl">
+                <a href="{{post.url}}">{{post.title}}</a>
+            </h{{#if is_blog_post}}1{{else}}2{{/if}}>
+            <p >{{#if post.author}}{{lang 'blog.posted_by' name=post.author}} on {{/if}}{{post.date_published}}</p>
+        </header>
+
+        <div>
+            {{#if post.body}}
+                {{{post.body}}}
+            {{else}}
+                {{{post.summary}}}
+                {{#if post.show_read_more}}
+                    &hellip; <a href="{{url}}" aria-label="{{post.title}} {{lang 'blog.read_more'}}">{{lang 'blog.read_more'}}</a>
+                {{/if}}
+            {{/if}}
+        </div>
+
+
+        {{#if show_tags}}
+            {{#if post.tags}}
+                <ul class="flex-row-middle just gap-2 my-4">
+                    {{#each post.tags}}
+                    <li class="bg-primary rounded-md p-2">
+                        <a href="{{url}}">#{{name}}</a>
+                    </li>
+                    {{/each}}
+                </ul>
+            {{/if}}
+        {{/if}}
+        
+
+        {{>components/common/share url=post.url}}
+    </div>
+</article>

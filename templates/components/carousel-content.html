@@ -1,0 +1,13 @@
+<div class="sm:absolute z-10 top-0 left-0 w-full h-full flex flex-col justify-center items-center">
+    <div class="text-white m-auto w-full sm:w-3/4 md:w-full py-6 sm:py-3 md:py-6 flex flex-col justify-center items-center bg-black bg-opacity-70 sm:bg-opacity-20 backdrop-blur-sm md:backdrop-blur-lg gap-1 md:gap-2 appear">
+        {{#if heading}}
+            <p class="font-semibold text-xl sm:text-2xl lg:text-5xl">{{{heading}}}</p>
+        {{/if}}
+        {{#if text}}
+            <p class="text-lg sm:text-xl">{{{text}}}</p>
+        {{/if}}
+        {{#if button_text}}
+            <a class="button-inverted w-48 h-10 my-2 sm:my-4 p-3" href="{{url}}" aria-label="{{#if this.alt_text.length '!=' 0}}{{this.alt_text}}{{else}}{{lang 'carousel.slide_number' slide_number=(add @index 1)}}{{/if}}, {{button_text}}">{{{button_text}}}</a>
+        {{/if}}
+    </div>
+</div>

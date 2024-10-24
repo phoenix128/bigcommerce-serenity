@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.html": "handlebars"
+    },
+    "material-icons-intellisense.version": "4"
+}

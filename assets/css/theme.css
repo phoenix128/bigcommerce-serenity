@@ -1,0 +1,23 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@import "./alpine.css";
+@import "./serenity.css";
+@import "./sweetalert2.css";
+
+/* Prevent flickering of icons */
+.material-symbols-outlined {
+    overflow: hidden;
+    aspect-ratio: 1;
+    visibility: hidden;
+}
+
+.fonts-loaded .material-symbols-outlined {
+    visibility: visible;
+}
+
+body {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}

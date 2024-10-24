@@ -1,0 +1,40 @@
+<div x-data="serenityFlexCarousel" class="w-full overflow-hidden relative px-6 lg:px-12">
+    <button
+        title="Scroll left"
+        x-bind="scrollLeftButton"
+        x-cloak
+        x-show="hasNavigation"
+        class="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 p-2 bg-white rounded-full shadow disabled:hidden disabled:cursor-not-allowed"
+    >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+    </button>
+
+    <div x-bind="carouselWrapper" class="flex flex-row justify-start max-w-screen-2k m-auto overflow-hidden">
+        {{#each products}}
+        <div x-bind="slide" class="w-full sm:w-1/2 lg:w-1/4 grow-0 shrink-0 px-1 snap-start">
+            {{> components/products/card
+                settings=../settings
+                theme_settings=../theme_settings
+                customer=../customer
+                event="list"
+                show_rating=false
+                position=(add @index 1)
+            }}
+        </div>
+        {{/each}}
+    </div>
+
+    <button
+        title="Scroll right"
+        x-bind="scrollRightButton"
+        x-cloak
+        x-show="hasNavigation"
+        class="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 p-2 bg-white rounded-full shadow disabled:hidden disabled:cursor-not-allowed"
+    >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+    </button>
+</div>

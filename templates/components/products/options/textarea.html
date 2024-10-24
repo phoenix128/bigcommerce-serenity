@@ -1,0 +1,15 @@
+<div x-data="serenityProductAttribute({ id: {{id}}, autoUpdate: false })">
+    <label class="flex-row-middle gap-2 mb-1" for="attribute_textarea_{{id}}">
+        <span class="font-semibold">{{display_name}}:</span>
+        <span class="required">{{> components/common/requireness-msg}}</span>
+    </label>
+
+    <textarea
+        x-bind="attributeInput"
+        class="w-full h-28 input"
+        id="attribute_textarea_{{id}}"
+        name="attribute[{{id}}]"
+        {{#if required}}required{{/if}}
+        {{#if max_length}}maxlength={{max_length}}{{/if}}
+    >{{prefill}}</textarea>
+</div>

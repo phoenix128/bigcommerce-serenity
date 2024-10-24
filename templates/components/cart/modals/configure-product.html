@@ -1,0 +1,48 @@
+<div class="modal-heading">
+    <h2>
+        {{lang 'cart.reconfigure_product' name=product_name}}
+    </h2>
+</div>
+<div>
+    <div class="alertMessageBox" hidden>
+        {{> components/common/alert/alert-info}}
+    </div>
+
+    <form
+        method="post"
+        action="cart.php"
+        enctype="multipart/form-data"
+        x-data="serenityEditCartItemOptionsForm"
+        x-bind="editCartItemOptionsForm"
+    >
+        <input type="hidden" name="action" value="EditProductFieldsInCart">
+        <input type="hidden" name="item_id" value="{{quote_item_id}}">
+        
+        <div
+            x-data="serenityProductOptions"
+            class="relative"
+        >
+            <div x-cloak x-show="isLoading" x-transition class="absolute z-10 w-full h-full bg-white bg-opacity-50 backdrop-blur-sm transition-all"></div>
+            <div x-cloak x-show="isLoading" x-transition class="z-20 absolute right-2 top-4"><span class="text-6xl material-symbols-outlined animate-spin">refresh</span></div>
+            
+            <div class="flex flex-col gap-4 transition-all duration-200 p-2">
+            {{#each options}}
+                {{{dynamicComponent 'components/products/options'}}}
+            {{/each}}
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button
+                class="button-primary gap-2 w-48"
+                type="submit"
+                :disabled="isCartItemOptionsSubmitting"
+                :class="{ 'opacity-50 cursor-progress': isCartItemOptionsSubmitting }"
+            >
+                <span x-show="!isCartItemOptionsSubmitting" class="material-symbols-outlined icon-base">save</span>
+                <span x-cloak x-show="isCartItemOptionsSubmitting" class="material-symbols-outlined animate-spin icon-base">refresh</span>
+                <span>{{lang 'common.save'}}</span>
+            </button>
+        </div>
+    </form>
+</div>

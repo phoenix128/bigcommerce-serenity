@@ -1,0 +1,37 @@
+{{#if items}}
+<div>
+    <div role="region" aria-label="{{lang 'search.faceted.selected.facet-label'}}" class="bg-gray-50 border border-divider p-2">
+        <h2 class="font-semibold">{{lang 'search.faceted.selected.title'}}</h2>
+        <ul class="flex flex-col gap-2 mt-2">
+            {{#each items}}
+            <li class="border-b border-transparent hover:border-divider py-[2px]" x-data="serenityFacetItem({
+                url: '{{url}}'
+            })">
+                <a href="{{url}}" rel="nofollow" class="flex-row-middle" x-bind="button">
+                    <span class="grow">
+                        {{#if facet '===' 'rating'}}
+                            {{lang 'search.faceted.selected.rating-label' rating=title}}
+                        {{else}}
+                            {{{sanitize title}}}
+                        {{/if}}
+                    </span>
+
+                    <span x-show="!isLoading" class="material-symbols-outlined icon-base shrink text-2xl">close</span>
+                    <span x-cloak x-show="isLoading" class="material-symbols-outlined icon-base shrink text-2xl animate-spin">refresh</span>
+                </a>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+    {{#if remove_all_url}}
+    <div x-data="serenityFacetItem({
+        url: '{{remove_all_url}}'
+    })">
+        <a x-bind="button" href="{{remove_all_url}}"  class="button-secondary text-sm border-t-0 h-8">
+            <span x-show="!isLoading">{{lang 'search.faceted.selected.clear-all'}}</span>
+            <span x-cloak x-show="isLoading" class="material-symbols-outlined icon-sm shrink text-2xl animate-spin">refresh</span>
+        </a>
+    </div>
+    {{/if}}
+</div>
+{{/if}}

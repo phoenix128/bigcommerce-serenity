@@ -1,0 +1,6 @@
+<div x-data="serenityCompare({ compareUrl: '{{urls.compare}}' })" x-cloak x-show="productsCount > 0">
+    <a x-bind="compareLink" href="{{urls.compare}}" aria-label="{{lang 'common.compare'}}" class="flex-row-middle gap-2 text-nowrap">
+        <span>{{lang 'common.compare'}}</span>
+        <span x-bind="compareCounter" x-cloak class="chip"></span>
+    </a>
+</div>

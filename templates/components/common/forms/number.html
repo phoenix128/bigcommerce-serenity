@@ -1,0 +1,23 @@
+<div  id="{{id}}" data-validation="{{validation}}">
+    <label for="{{id}}_input" class="mb-1 block">
+        {{label}}
+        {{#if required}}<small class="required float-right">{{lang 'common.required' }}</small>{{/if}}
+    </label>
+    <input
+        type="number"
+        class="form-input"
+        data-label="{{label}}"
+        data-input
+        data-rule="lowerThan"
+        min="{{limitfrom}}"
+        max="{{limitto}}"
+        title="{{lang 'forms.range' limitFrom=limitfrom limitTo=limitto}}"
+        value="{{value}}"
+        id="{{id}}_input"
+        name="{{name}}"
+        aria-required="{{required}}"
+        aria-labelledby="{{id}}"
+        aria-live="polite"
+        {{#if private_id}}data-field-type="{{private_id}}"{{/if}}
+    >
+</div>
