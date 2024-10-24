@@ -1,5 +1,10 @@
 const navigate = (url, animate = true) => {
-    window.swup.navigate(url, { animate });
+    if (window?.swup) {
+        window.swup.navigate(url, { animate });
+        return;
+    }
+
+    window.location.href = url;
 }
 
 export default navigate;

@@ -1,16 +1,8 @@
-import { api } from '@bigcommerce/stencil-utils';
-import Swal from 'sweetalert2';
+import Alpine from 'alpinejs';
+import mergeQs from '../utils/merge-qs';
 import './facet';
 
-jest.mock('@bigcommerce/stencil-utils', () => ({
-    api: {
-        getPage: jest.fn(),
-    },
-}));
-
-jest.mock('sweetalert2', () => ({
-    fire: jest.fn(),
-}));
+jest.mock('../utils/merge-qs', () => jest.fn());
 
 const delayPromise = async (ms = 50) => {
     await Alpine.nextTick();
@@ -24,9 +16,8 @@ describe('serenityFacets', () => {
 
     beforeEach(() => {
         document.body.innerHTML = `
-            <div x-data="serenityFacets({ containerSelector: '#sidebar', listingSelector: '#product-listing', categoryProductsPerPage: 10 })">
+            <div x-data="serenityFacets()">
                 <div id="product-listing"></div>
-                <div id="sidebar"></div>
             </div>
         `;
         Alpine.initTree(document.body);
@@ -35,41 +26,26 @@ describe('serenityFacets', () => {
     afterEach(async () => {
         Alpine.destroyTree(document.body);
         await Alpine.nextTick();
-
-        window.history.pushState({}, document.title, '/');
     });
 
-    test('should update product listing and sidebar when applyFacets is called', async () => {
-        const mockContent = {
-            productListing: '<p>Product Listing Updated</p>',
-            sidebar: '<p>Sidebar Updated</p>',
-        };
-        
-        api.getPage.mockImplementation((url, options, callback) => {
-            callback(null, mockContent);
-        });
-
+    test('should throw an error if reloadProductListing method is missing', () => {
         const componentInstance = Alpine.$data(document.querySelector('[x-data]'));
-        componentInstance.applyFacets('/new-url');
+
+        expect(() => {
+            componentInstance.applyFacets('/test-url');
+        }).toThrow('reloadProductListing method is required');
+    });
+
+    test('should call reloadProductListing method when applyFacets is called', async () => {
+        const mockReloadProductListing = jest.fn();
+        const componentInstance = Alpine.$data(document.querySelector('[x-data]'));
+
+        componentInstance.reloadProductListing = mockReloadProductListing;
+
+        componentInstance.applyFacets('/test-url');
         await delayPromise();
 
-        expect(document.querySelector('#product-listing').innerHTML).toBe(mockContent.productListing);
-        expect(document.querySelector('#sidebar').innerHTML).toBe(mockContent.sidebar);
-    });
-
-    test('should show an error when api.getPage returns an error', async () => {
-        const mockError = async () => new Error('An error occurred');
-        api.getPage.mockImplementation((url, options, callback) => {
-            callback(mockError, null);
-        });
-
-        const componentInstance = Alpine.$data(document.querySelector('[x-data]'));
-
-        expect(() => componentInstance.applyFacets('/bad-url')).toThrow('An error occurred');
-        expect(Swal.fire).toHaveBeenCalledWith({
-            title: mockError.message,
-            icon: 'error',
-        });
+        expect(mockReloadProductListing).toHaveBeenCalledWith('/test-url');
     });
 });
 
@@ -92,7 +68,7 @@ describe('serenityFacetItem', () => {
         await Alpine.nextTick();
     });
 
-    test('should trigger applyFacets and set isLoading on click', async () => {
+    test('should call applyFacets and set isLoading when button is clicked', async () => {
         const mockApplyFacets = jest.fn();
         const componentInstance = Alpine.$data(document.querySelector('[x-data]'));
         componentInstance.applyFacets = mockApplyFacets;
@@ -113,8 +89,8 @@ describe('serenityFacetForm', () => {
 
     beforeEach(() => {
         document.body.innerHTML = `
-            <div x-data="serenityFacetForm">
-                <form x-bind="form">
+            <div x-data="serenityFacetForm()">
+                <form x-bind="form" x-ref="form">
                     <input name="test-input" value="test-value">
                 </form>
                 <button x-bind="button">Submit Facet</button>
@@ -128,17 +104,19 @@ describe('serenityFacetForm', () => {
         await Alpine.nextTick();
     });
 
-    test('should build query string and call applyFacets on form submit', async () => {
+    test('should call mergeQs and applyFacets when form is submitted', async () => {
         const mockApplyFacets = jest.fn();
         const componentInstance = Alpine.$data(document.querySelector('[x-data]'));
         componentInstance.applyFacets = mockApplyFacets;
 
-        const button = document.querySelector('button');
-        button.click();
+        mergeQs.mockImplementation(() => '/merged-url');
+
+        const form = document.querySelector('form');
+        form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
         await delayPromise();
 
-        const expectedUrl = '/?test-input=test-value';
-        expect(mockApplyFacets).toHaveBeenCalledWith(expectedUrl);
+        expect(mergeQs).toHaveBeenCalledWith(window.location.href, expect.any(Object));
+        expect(mockApplyFacets).toHaveBeenCalledWith('/merged-url');
         expect(componentInstance.isLoading).toBe(true);
     });
 });

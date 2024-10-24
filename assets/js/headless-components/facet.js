@@ -1,5 +1,6 @@
 import Alpine from 'alpinejs';
 import mergeQs from '../utils/merge-qs';
+import { normalizeFormData } from '../utils/api';
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('serenityFacets', (options = {}) => ({
@@ -42,12 +43,18 @@ document.addEventListener('alpine:init', () => {
     }));
 
     Alpine.data('serenityFacetForm', (options = {}) => ({
-        isSelected: options.selected ?? false,
         isLoading: false,
 
         form: {
             method: 'get',
             'x-ref': 'form',
+            '@submit'(evt) {
+                evt.preventDefault();
+                const targetUrl = mergeQs(window.location.href, this.$refs.form);
+
+                this.isLoading = true;
+                this.applyFacets(targetUrl);
+            }
         },
 
         button: {
@@ -57,14 +64,6 @@ document.addEventListener('alpine:init', () => {
 
             ':disabled'() {
                 return this.isLoading;
-            },
-
-            '@click'(evt) {
-                evt.preventDefault();
-                const targetUrl = mergeQs(window.location.href, formData);
-
-                this.isLoading = true;
-                this.applyFacets(targetUrl);
             }
         }
     }));

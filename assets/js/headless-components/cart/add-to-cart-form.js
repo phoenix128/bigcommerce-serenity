@@ -60,6 +60,10 @@ document.addEventListener('alpine:init', () => {
         },
 
         addToCart() {
+            if (!this.canBuy || !this.canPurchase) {
+                return;
+            }
+
             this.emitEvent('adding', this);
             utils.api.cart.itemAdd(normalizeFormData(new FormData(this.addToCartForm)), (err, response) => {
                 if (err) {
