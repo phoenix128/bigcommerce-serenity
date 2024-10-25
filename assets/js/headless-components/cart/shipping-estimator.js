@@ -1,4 +1,4 @@
-import JustValidate from "just-validate";
+import JustValidate from 'just-validate';
 import utils from '@bigcommerce/stencil-utils';
 
 document.addEventListener('alpine:init', () => {
@@ -26,21 +26,21 @@ document.addEventListener('alpine:init', () => {
                         this.onCountryChange();
                         break;
                 }
-            }
+            },
         },
 
         shippingEstimatorSubmit: {
             ':disabled': 'isSubmitting',
-            ':class': '{ "opacity-50 cursor-progress": isSubmitting }'
+            ':class': '{ "opacity-50 cursor-progress": isSubmitting }',
         },
 
         shippingQuotesForm: {
             'x-ref': 'shippingQuotesForm',
-            '@submit.prevent': 'onSubmitShippingQuotesForm'
+            '@submit.prevent': 'onSubmitShippingQuotesForm',
         },
 
         shippingQuotes: {
-            'x-html': 'shippingQuotesContent'
+            'x-html': 'shippingQuotesContent',
         },
 
         onSubmitForm() {
@@ -49,7 +49,7 @@ document.addEventListener('alpine:init', () => {
                 country_id: form.querySelector(this.shippingCountrySelector).value,
                 state_id: form.querySelector(this.shippingStateSelector).value,
                 city: form.querySelector(this.shippingCitySelector).value,
-                zip_code: form.querySelector(this.shippingZipSelector).value
+                zip_code: form.querySelector(this.shippingZipSelector).value,
             };
 
             utils.api.cart.getShippingQuotes(params, 'cart/shipping-quotes', (err, response) => {
@@ -81,26 +81,20 @@ document.addEventListener('alpine:init', () => {
             const context = Alpine.store('context');
             const validator = new JustValidate(form);
 
-            validator.addField(
-                shippingCountryFieldElement,
-                [
-                    {
-                        rule: 'required',
-                        errorMessage: context.shippingCountryErrorMessage
-                    }
-                ]
-            );
+            validator.addField(shippingCountryFieldElement, [
+                {
+                    rule: 'required',
+                    errorMessage: context.shippingCountryErrorMessage,
+                },
+            ]);
 
             if (shippingStateFieldElement.tagName === 'SELECT') {
-                validator.addField(
-                    shippingStateFieldElement,
-                    [
-                        {
-                            rule: 'required',
-                            errorMessage: context.shippingProvinceErrorMessage
-                        }
-                    ]
-                );
+                validator.addField(shippingStateFieldElement, [
+                    {
+                        rule: 'required',
+                        errorMessage: context.shippingProvinceErrorMessage,
+                    },
+                ]);
             }
 
             validator.onSuccess((evt) => {
@@ -108,11 +102,11 @@ document.addEventListener('alpine:init', () => {
                     this.onSubmitForm();
 
                     // Make sure isSubmitting is set after the form is submitted or the disabled fields will not be submitted
-                    this.isSubmitting = true; 
+                    this.isSubmitting = true;
                 }, 200); // Make sure the csrf token is set by waiting a bit
             });
 
             this.validator = validator;
-        }
+        },
     }));
 });

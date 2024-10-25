@@ -17,9 +17,7 @@ document.addEventListener('alpine:init', () => {
             ':class'() {
                 return this.isAddingToCart ? 'cursor-progress animate-pulse' : 'cursor-pointer';
             },
-            ':disabled'() {
-                return this.isAddingToCart;
-            }
+            ':disabled': 'isAddingToCart'
         },
 
         addToCart() {

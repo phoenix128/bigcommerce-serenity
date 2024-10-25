@@ -25,7 +25,7 @@
                         <label for="shipping-country">{{lang 'cart.shipping_estimator.select_a_country'}}</label>
                     </dt>
                     <dd>
-                        <select class="select" name="shipping-country" data-field-type="Country">
+                        <select class="select" id="shipping-country" name="shipping-country" data-field-type="Country">
                             <option value="">{{lang 'cart.shipping_estimator.select_a_country'}}</option>
                             {{#each countries}}
                                 <option value="{{id}}" {{#if selected}}selected="selected"{{/if}}>
@@ -40,7 +40,7 @@
                     </dt>
                     <dd data-type="State">
                         {{#if states.length}}
-                            <select class="select" name="shipping-state" data-field-type="State">
+                            <select id="shipping-state" class="select" name="shipping-state" data-field-type="State">
                                 <option value="">{{lang 'cart.shipping_estimator.select_a_state'}}</option>
                                 {{#each states}}
                                     <option value="{{id}}" {{#if selected}}selected="selected"{{/if}}>
@@ -57,14 +57,14 @@
                         <label for="shipping-city">{{lang 'cart.shipping_estimator.suburb_city'}}</label>
                     </dt>
                     <dd>
-                        <input class="input" type="text" name="shipping-city" value="{{selected_city}}" placeholder="{{lang 'cart.shipping_estimator.suburb_city'}}">
+                        <input id="shipping-city" class="input" type="text" name="shipping-city" value="{{selected_city}}" placeholder="{{lang 'cart.shipping_estimator.suburb_city'}}">
                     </dd>
 
                     <dt>
                         <label for="shipping-zip">{{lang 'cart.shipping_estimator.zip_postal_code'}}</label>
                     </dt>
                     <dd>
-                        <input autocomplete="postal-code" class="input" type="text" name="shipping-zip" value="{{selected_zip}}" placeholder="{{lang 'cart.shipping_estimator.zip_postal_code'}}">
+                        <input id="shipping-zip" autocomplete="postal-code" class="input" type="text" name="shipping-zip" value="{{selected_zip}}" placeholder="{{lang 'cart.shipping_estimator.zip_postal_code'}}">
                     </dd>
 
                     <dt></dt>

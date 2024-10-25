@@ -41,8 +41,6 @@ document.addEventListener('alpine:init', () => {
                     return;
                 }
 
-                console.log(response);
-
                 if (response.data.status === 'success') {
                     window.location.reload();
                 } else {

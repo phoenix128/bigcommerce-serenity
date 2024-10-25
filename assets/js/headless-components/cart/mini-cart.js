@@ -84,7 +84,7 @@ document.addEventListener('alpine:init', () => {
         },
 
         updateCartQuantity(showLoading = true) {
-            const { secureBaseUrl, cartId } = Alpine.store('context');
+            const { secureBaseUrl, cartId } = Alpine.store('context') ?? {};
 
             this.productsCount = null;
             if (showLoading) this.isLoading = true;
