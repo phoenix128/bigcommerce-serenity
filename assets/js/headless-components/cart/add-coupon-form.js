@@ -9,24 +9,24 @@ document.addEventListener('alpine:init', () => {
 
         addCouponForm: {
             'x-ref': 'addCouponForm',
-            '@submit.prevent': 'submitCoupon'
+            '@submit.prevent': 'submitCoupon',
         },
 
         couponCodeInput: {
             'x-model': 'couponCode',
             ':disabled': 'isSubmitting',
-            ':class': '{ "opacity-50 cursor-progress": isSubmitting }'
+            ':class': '{ "opacity-50 cursor-progress": isSubmitting }',
         },
 
         addCouponToggleButton: {
             '@click'() {
                 this.isOpen = !this.isOpen;
-            }
+            },
         },
 
         couponCodeSubmitButton: {
             ':disabled': 'isSubmitting',
-            ':class': '{ "opacity-50 cursor-progress": isSubmitting }'
+            ':class': '{ "opacity-50 cursor-progress": isSubmitting }',
         },
 
         submitCoupon() {
@@ -51,6 +51,6 @@ document.addEventListener('alpine:init', () => {
                     }).then();
                 }
             });
-        }
+        },
     }));
 });

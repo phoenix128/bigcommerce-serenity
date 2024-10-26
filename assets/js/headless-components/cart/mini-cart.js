@@ -28,7 +28,7 @@ document.addEventListener('alpine:init', () => {
             '@serenityCartReset.window.debounce'(evt) {
                 this.productsCount = null;
                 this.cartContent = null;
-            }
+            },
         },
 
         miniCartPreviewButton: {
@@ -38,7 +38,7 @@ document.addEventListener('alpine:init', () => {
                 this.$nextTick(() => { // Prevent '@click.outside' to be triggered for close
                     this.open();
                 });
-            }
+            },
         },
 
         miniCartPreviewWrapper: {
@@ -84,11 +84,17 @@ document.addEventListener('alpine:init', () => {
         },
 
         updateCartQuantity(showLoading = true) {
-            const { secureBaseUrl, cartId } = Alpine.store('context') ?? {};
+            const {
+                secureBaseUrl,
+                cartId,
+            } = Alpine.store('context') ?? {};
 
             this.productsCount = null;
             if (showLoading) this.isLoading = true;
-            utils.api.cart.getCartQuantity({ baseUrl: secureBaseUrl, cartId }, (err, qty) => {
+            utils.api.cart.getCartQuantity({
+                baseUrl: secureBaseUrl,
+                cartId,
+            }, (err, qty) => {
                 if (err) {
                     this.isLoading = false;
                     this.productsCount = 0;
@@ -110,6 +116,6 @@ document.addEventListener('alpine:init', () => {
             utils.api.cart.getContent(options, (err, response) => {
                 this.cartContent = response;
             });
-        }
+        },
     }));
 });

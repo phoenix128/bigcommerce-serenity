@@ -10,7 +10,7 @@ document.addEventListener('alpine:init', () => {
             '@click'(evt) {
                 evt.preventDefault();
                 this.editCartItemOptions();
-            }
+            },
         },
 
         getModal() {
@@ -26,7 +26,7 @@ document.addEventListener('alpine:init', () => {
             this.getModal().openLoading();
 
             const options = {
-                template: 'cart/modals/configure-product'
+                template: 'cart/modals/configure-product',
             };
 
             utils.api.productAttributes.configureInCart(this.itemId, options, (err, response) => {
@@ -52,9 +52,10 @@ document.addEventListener('alpine:init', () => {
             const productOptions = Alpine.$data(document.querySelector('[x-data="serenityProductOptions"]'));
             if (!productOptions) {
                 throw new Error('serenityProductOptions not found');
-            };
+            }
+
 
             productOptions.productId = productId;
-        }
+        },
     }));
 });

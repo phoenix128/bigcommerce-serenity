@@ -112,7 +112,10 @@ describe('serenityFacetForm', () => {
         mergeQs.mockImplementation(() => '/merged-url');
 
         const form = document.querySelector('form');
-        form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+        form.dispatchEvent(new Event('submit', {
+            bubbles: true,
+            cancelable: true,
+        }));
         await delayPromise();
 
         expect(mergeQs).toHaveBeenCalledWith(window.location.href, expect.any(Object));

@@ -1,4 +1,4 @@
-import './product-attribute-value-number'
+import './product-attribute-value-number';
 
 describe('serenityProductAttributeValueNumber', () => {
     beforeAll(() => {

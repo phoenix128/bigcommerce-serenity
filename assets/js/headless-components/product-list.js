@@ -1,5 +1,5 @@
 import { api } from '@bigcommerce/stencil-utils';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('serenityProductList', (options = {}) => ({
@@ -49,6 +49,6 @@ document.addEventListener('alpine:init', () => {
 
                 window.history.pushState({}, document.title, url);
             });
-        }
+        },
     }));
 });

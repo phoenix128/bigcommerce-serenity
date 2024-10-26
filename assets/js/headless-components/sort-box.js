@@ -27,6 +27,6 @@ document.addEventListener('alpine:init', () => {
 
             this.isLoading = true;
             this.reloadProductListing(url);
-        }
+        },
     }));
 });

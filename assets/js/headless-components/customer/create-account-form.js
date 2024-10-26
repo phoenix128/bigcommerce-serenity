@@ -1,4 +1,4 @@
-import formValidator from "../../utils/form-validator";
+import formValidator from '../../utils/form-validator';
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('serenityCreateAccountForm', (options = {}) => ({
@@ -18,9 +18,9 @@ document.addEventListener('alpine:init', () => {
             'x-ref': 'accountForm',
             '@serenityCountrySelect.window'(evt) {
                 switch (evt.detail.code) {
-                    case 'update':
-                        this.onCountryChange();
-                        break;
+                case 'update':
+                    this.onCountryChange();
+                    break;
                 }
             },
         },
@@ -30,7 +30,7 @@ document.addEventListener('alpine:init', () => {
             ':disabled': 'isSubmitting',
             ':class'() {
                 return this.isSubmitting ? 'cursor-not-allowed opacity-50' : '';
-            }
+            },
         },
 
         setupValidator() {
@@ -45,7 +45,7 @@ document.addEventListener('alpine:init', () => {
                     evt.target.submit();
 
                     // Make sure isSubmitting is set after the form is submitted or the disabled fields will not be submitted
-                    this.isSubmitting = true; 
+                    this.isSubmitting = true;
                 }, 200); // Make sure the csrf token is set by waiting a bit
             });
         },

@@ -38,7 +38,7 @@ document.addEventListener('alpine:init', () => {
                     'product-option-selected' : 'cursor-pointer';
 
                 return this.isAvailable() ? enabledClass : disabledClass;
-            }
+            },
         },
 
         // Select
@@ -61,7 +61,7 @@ document.addEventListener('alpine:init', () => {
                 }
 
                 return this.optionLabelText;
-            }
+            },
         },
 
         optionLabel: {
@@ -71,7 +71,7 @@ document.addEventListener('alpine:init', () => {
 
             ':class'() {
                 return this.isAvailable() ? 'cursor-pointer' : 'cursor-not-allowed opacity-50';
-            }
+            },
         },
 
         isModifier() {
@@ -100,6 +100,6 @@ document.addEventListener('alpine:init', () => {
 
         inputType() {
             return this.$refs.optionInput?.type;
-        }
+        },
     }));
 });

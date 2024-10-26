@@ -1,5 +1,5 @@
-import { Alpine } from "alpinejs";
-import JustValidate from "just-validate";
+import { Alpine } from 'alpinejs';
+import JustValidate from 'just-validate';
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('serenityLoginForm', (options = {}) => ({
@@ -14,26 +14,26 @@ document.addEventListener('alpine:init', () => {
 
         email: {
             'x-ref': 'emailField',
-            ':disabled': 'isSubmitting'
+            ':disabled': 'isSubmitting',
         },
 
         emailErrorsContainer: {
-            'x-ref': 'emailErrorsContainer'
+            'x-ref': 'emailErrorsContainer',
         },
 
         password: {
             'x-ref': 'passwordField',
-            ':disabled': 'isSubmitting'
+            ':disabled': 'isSubmitting',
         },
 
         passwordErrorsContainer: {
-            'x-ref': 'passwordErrorsContainer'
+            'x-ref': 'passwordErrorsContainer',
         },
 
         submit: {
             'x-ref': 'submitButton',
             ':disabled': 'isSubmitting',
-            ':class': '{ "opacity-50 cursor-progress": isSubmitting }'
+            ':class': '{ "opacity-50 cursor-progress": isSubmitting }',
         },
 
         applyValidation() {
@@ -45,16 +45,16 @@ document.addEventListener('alpine:init', () => {
                 [
                     {
                         rule: 'required',
-                        errorMessage: 'Email is required'
+                        errorMessage: 'Email is required',
                     },
                     {
                         rule: 'email',
-                        errorMessage: context.useValidEmail
-                    }
+                        errorMessage: context.useValidEmail,
+                    },
                 ],
                 {
-                    errorsContainer: this.$refs.emailErrorsContainer
-                }
+                    errorsContainer: this.$refs.emailErrorsContainer,
+                },
             );
 
             validator.addField(
@@ -62,12 +62,12 @@ document.addEventListener('alpine:init', () => {
                 [
                     {
                         rule: 'required',
-                        errorMessage: context.enterPass
-                    }
+                        errorMessage: context.enterPass,
+                    },
                 ],
                 {
-                    errorsContainer: this.$refs.passwordErrorsContainer
-                }
+                    errorsContainer: this.$refs.passwordErrorsContainer,
+                },
             );
 
             validator.onSuccess((evt) => {
@@ -75,11 +75,11 @@ document.addEventListener('alpine:init', () => {
                     evt.target.submit();
 
                     // Make sure isSubmitting is set after the form is submitted or the disabled fields will not be submitted
-                    this.isSubmitting = true; 
+                    this.isSubmitting = true;
                 }, 200); // Make sure the csrf token is set by waiting a bit
             });
 
             this.validator = validator;
-        }
+        },
     }));
 });

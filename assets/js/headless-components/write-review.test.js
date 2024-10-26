@@ -17,7 +17,10 @@ describe('serenityWriteReview', () => {
         originalLocation = window.location;
 
         delete window.location;
-        window.location = { href: '', assign: jest.fn() };
+        window.location = {
+            href: '',
+            assign: jest.fn(),
+        };
     });
 
     beforeEach(() => {

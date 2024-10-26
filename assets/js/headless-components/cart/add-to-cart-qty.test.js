@@ -15,9 +15,9 @@ describe('serenityAddToCartQty', () => {
             <html>
                 <body>
                     <div x-data="serenityAddToCartQty({ min: 1, max: 5 })">
-                        <button x-bind="decrease">-</button>
+                        <button x-bind="decreaseButton">-</button>
                         <input x-bind="input" x-ref="input" />
-                        <button x-bind="increase">+</button>
+                        <button x-bind="increaseButton">+</button>
                     </div>
                 </body>
             </html>
@@ -37,7 +37,7 @@ describe('serenityAddToCartQty', () => {
     });
 
     test('should increase quantity when increase button is clicked', async () => {
-        const increaseButton = document.querySelector('[x-bind="increase"]');
+        const increaseButton = document.querySelector('[x-bind="increaseButton"]');
         const inputElement = document.querySelector('[x-ref="input"]');
 
         increaseButton.click();
@@ -47,8 +47,8 @@ describe('serenityAddToCartQty', () => {
     });
 
     test('should decrease quantity when decrease button is clicked', async () => {
-        const increaseButton = document.querySelector('[x-bind="increase"]');
-        const decreaseButton = document.querySelector('[x-bind="decrease"]');
+        const increaseButton = document.querySelector('[x-bind="increaseButton"]');
+        const decreaseButton = document.querySelector('[x-bind="decreaseButton"]');
         const inputElement = document.querySelector('[x-ref="input"]');
 
         increaseButton.click();
@@ -61,7 +61,7 @@ describe('serenityAddToCartQty', () => {
     });
 
     test('should not decrease below minimum value', async () => {
-        const decreaseButton = document.querySelector('[x-bind="decrease"]');
+        const decreaseButton = document.querySelector('[x-bind="decreaseButton"]');
         const inputElement = document.querySelector('[x-ref="input"]');
 
         decreaseButton.click();
@@ -72,7 +72,7 @@ describe('serenityAddToCartQty', () => {
     });
 
     test('should not increase above maximum value', async () => {
-        const increaseButton = document.querySelector('[x-bind="increase"]');
+        const increaseButton = document.querySelector('[x-bind="increaseButton"]');
         const inputElement = document.querySelector('[x-ref="input"]');
 
         // Increment until reaching max
@@ -86,7 +86,7 @@ describe('serenityAddToCartQty', () => {
     });
 
     test('should disable increase button when quantity is at max', async () => {
-        const increaseButton = document.querySelector('[x-bind="increase"]');
+        const increaseButton = document.querySelector('[x-bind="increaseButton"]');
         const inputElement = document.querySelector('[x-ref="input"]');
 
         // Increment until reaching max
@@ -100,7 +100,7 @@ describe('serenityAddToCartQty', () => {
     });
 
     test('should disable decrease button when quantity is at min', async () => {
-        const decreaseButton = document.querySelector('[x-bind="decrease"]');
+        const decreaseButton = document.querySelector('[x-bind="decreaseButton"]');
         const inputElement = document.querySelector('[x-ref="input"]');
 
         decreaseButton.click();
@@ -112,8 +112,8 @@ describe('serenityAddToCartQty', () => {
 
     test('should work when numbers are input manually', async () => {
         const inputElement = document.querySelector('[x-ref="input"]');
-        const increaseButton = document.querySelector('[x-bind="increase"]');
-        const decreaseButton = document.querySelector('[x-bind="decrease"]');
+        const increaseButton = document.querySelector('[x-bind="increaseButton"]');
+        const decreaseButton = document.querySelector('[x-bind="decreaseButton"]');
 
         inputElement.value = 3;
         inputElement.dispatchEvent(new Event('input'));

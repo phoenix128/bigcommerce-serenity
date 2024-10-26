@@ -1,4 +1,4 @@
-import Alpine from "alpinejs";
+import Alpine from 'alpinejs';
 
 Alpine.data('serenityAddToCompare', (options = {}) => ({
     productId: options.productId ?? '',
@@ -13,7 +13,7 @@ Alpine.data('serenityAddToCompare', (options = {}) => ({
             }
 
             this.addProductToCompare();
-        }
+        },
     },
 
     addProductToCompare() {
@@ -23,6 +23,6 @@ Alpine.data('serenityAddToCompare', (options = {}) => ({
         }
 
         compareStore.addProduct(this.productId);
-    }
+    },
 }));
 

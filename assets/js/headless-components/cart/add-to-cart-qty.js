@@ -24,32 +24,36 @@ document.addEventListener('alpine:init', () => {
             ':value': 'qty',
         },
 
-        decrease: {
+        decreaseButton: {
             ':class'() {
                 return this.canDecrease() ? 'cursor-pointer' : 'cursor-not-allowed';
             },
             ':disabled'() {
                 return !this.canDecrease();
             },
-            '@click'() {
-                if (Number(this.qty) > this.min) {
-                    this.qty--;
-                }
-            },
+            '@click': 'decrease',
         },
 
-        increase: {
+        increaseButton: {
             ':class'() {
                 return this.canIncrease() ? 'cursor-pointer' : 'cursor-not-allowed';
             },
             ':disabled'() {
                 return !this.canIncrease();
             },
-            '@click'() {
-                if (Number(this.qty) < this.max) {
-                    this.qty++;
-                }
-            },
+            '@click': 'increase',
+        },
+
+        increase() {
+            if (Number(this.qty) < this.max) {
+                this.qty++;
+            }
+        },
+
+        decrease() {
+            if (Number(this.qty) > this.min) {
+                this.qty--;
+            }
         },
 
         canIncrease() {
@@ -58,6 +62,6 @@ document.addEventListener('alpine:init', () => {
 
         canDecrease() {
             return Number(this.qty) > this.min;
-        }
+        },
     }));
 });

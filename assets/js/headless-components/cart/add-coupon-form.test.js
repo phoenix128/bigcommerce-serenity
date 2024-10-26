@@ -45,7 +45,7 @@ describe('serenityAddCouponForm', () => {
     test('should toggle the form visibility when the toggle button is clicked', async () => {
         const componentInstance = Alpine.$data(document.querySelector('[x-data]'));
         const toggleButton = document.querySelector('button[x-bind="addCouponToggleButton"]');
-        
+
         expect(componentInstance.isOpen).toBe(false);
 
         toggleButton.click();
@@ -72,7 +72,7 @@ describe('serenityAddCouponForm', () => {
 
         couponCodeInput.value = 'TESTCODE';
         componentInstance.couponCode = 'TESTCODE';
-        
+
         form.dispatchEvent(new Event('submit'));
         await delayPromise();
 

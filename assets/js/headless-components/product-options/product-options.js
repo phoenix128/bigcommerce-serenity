@@ -66,6 +66,6 @@ document.addEventListener('alpine:init', () => {
             this.price = data.price;
 
             this.emitEvent('update', data);
-        }
+        },
     }));
 });

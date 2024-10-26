@@ -21,7 +21,7 @@ describe('serenityShippingEstimator', () => {
         Alpine.start();
         Alpine.store('context', {
             shippingCountryErrorMessage: 'shippingCountryErrorMessage',
-            shippingProvinceErrorMessage: 'shippingProvinceErrorMessage'
+            shippingProvinceErrorMessage: 'shippingProvinceErrorMessage',
         });
     });
 
@@ -94,7 +94,7 @@ describe('serenityShippingEstimator', () => {
                 zip_code: '12345',
             },
             'cart/shipping-quotes',
-            expect.any(Function)
+            expect.any(Function),
         );
 
         // Check that shippingQuotesContent is set correctly

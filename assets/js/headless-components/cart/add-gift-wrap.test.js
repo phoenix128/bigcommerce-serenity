@@ -53,7 +53,7 @@ describe('serenityAddGiftWrap', () => {
         let error;
         try {
             componentInstance.getModal();
-        } catch(e) {
+        } catch (e) {
             error = e;
         }
 
@@ -69,7 +69,7 @@ describe('serenityAddGiftWrap', () => {
         expect(utils.api.cart.getItemGiftWrappingOptions).toHaveBeenCalledWith(
             '12345',
             { template: 'cart/modals/gift-wrapping-form' },
-            expect.any(Function)
+            expect.any(Function),
         );
     });
 

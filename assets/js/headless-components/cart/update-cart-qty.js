@@ -8,6 +8,7 @@ document.addEventListener('alpine:init', () => {
     Alpine.data('serenityUpdateCartQty', (options = {}) => ({
         itemId: options.itemId,
         timeout: options.timeout ?? 750,
+        qty: 1,
 
         init() {
             // Check if a parent of type serenityAddToCartQty exists
@@ -15,7 +16,7 @@ document.addEventListener('alpine:init', () => {
             if (parent) {
                 this.qty = Alpine.$data(parent).qty;
             } else {
-                throw new Error("Parent element with x-data='serenityAddToCartQty' not found.");
+                throw new Error('Parent element with x-data=\'serenityAddToCartQty\' not found.');
             }
 
             this.$watch('qty', this.debounce((value) => {
@@ -46,7 +47,7 @@ document.addEventListener('alpine:init', () => {
 
         debounce(func, wait) {
             let t;
-            return function (...args) {
+            return function(...args) {
                 const later = () => {
                     clearTimeout(t);
                     func.apply(this, args);
@@ -54,6 +55,6 @@ document.addEventListener('alpine:init', () => {
                 clearTimeout(t);
                 t = setTimeout(later, wait);
             };
-        }
+        },
     }));
 });

@@ -1,4 +1,4 @@
-import JustValidate from "just-validate";
+import JustValidate from 'just-validate';
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('serenityEditWishlist', (options = {}) => ({
@@ -17,13 +17,13 @@ document.addEventListener('alpine:init', () => {
         },
 
         wishlistName: {
-            'x-ref': 'wishlistName'
+            'x-ref': 'wishlistName',
         },
 
         submitButton: {
             'x-ref': 'submitButton',
             ':disabled': 'isSubmitting',
-            ':class': '{ "opacity-50 cursor-progress": isSubmitting }'
+            ':class': '{ "opacity-50 cursor-progress": isSubmitting }',
         },
 
         applyValidation() {
@@ -35,9 +35,9 @@ document.addEventListener('alpine:init', () => {
                 [
                     {
                         rule: 'required',
-                        errorMessage: context.enterWishlistNameError
-                    }
-                ]
+                        errorMessage: context.enterWishlistNameError,
+                    },
+                ],
             );
 
             validator.onSuccess((evt) => {
@@ -45,7 +45,7 @@ document.addEventListener('alpine:init', () => {
                     evt.target.submit();
 
                     // Make sure isSubmitting is set after the form is submitted or the disabled fields will not be submitted
-                    this.isSubmitting = true; 
+                    this.isSubmitting = true;
                 }, 200); // Make sure the csrf token is set by waiting a bit
             });
 

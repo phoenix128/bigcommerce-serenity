@@ -21,14 +21,11 @@ const delayPromise = async (ms = 50) => {
 };
 
 describe('serenityUpdateCartQty', () => {
-    let mockParentQty;
-
     beforeAll(() => {
         Alpine.start();
     });
 
     beforeEach(async () => {
-        mockParentQty = { qty: 1 };
         document.body.innerHTML = `
             <div x-data="serenityAddToCartQty">
                 <div x-data="serenityUpdateCartQty({ itemId: '12345' })"></div>
@@ -36,9 +33,6 @@ describe('serenityUpdateCartQty', () => {
         `;
         Alpine.initTree(document.body);
         await delayPromise();
-
-        // Set qty on parent mock object to simulate qty changes
-        Alpine.$data(document.querySelector('[x-data="serenityAddToCartQty"]')).qty = mockParentQty.qty;
     });
 
     afterEach(async () => {
@@ -52,19 +46,24 @@ describe('serenityUpdateCartQty', () => {
         expect(componentInstance.qty).toBe(1);  // Check initial quantity from parent component
     });
 
-    test('should throw error if parent component is not found', () => {
+    test('should throw error if parent component is not found', async () => {
         document.body.innerHTML = `
-            <div x-data="serenityUpdateCartQty({ itemId: '12345' })"></div>
-        `; // No parent with x-data="serenityAddToCartQty"
+        <div x-data="serenityUpdateCartQty({ itemId: '12345' })"></div>
+    `; // No parent with x-data="serenityAddToCartQty"
 
-        let error = undefined;
-        try {
-            Alpine.initTree(document.body);
-        } catch (e) {
-            error = e;
-        }
+        let errorMessage = undefined;
+        const errorHandler = (event) => {
+            errorMessage = event.message;
+            event.preventDefault();
+        };
+        window.addEventListener('error', errorHandler);
 
-        expect(error?.message).toBe("Parent element with x-data='serenityAddToCartQty' not found.");
+        Alpine.initTree(document.body);
+        await delayPromise();
+
+        window.removeEventListener('error', errorHandler);
+
+        expect(errorMessage).toBe('Parent element with x-data=\'serenityAddToCartQty\' not found.');
     });
 
     test('should update cart quantity and trigger cart update event on successful update', async () => {
@@ -74,12 +73,13 @@ describe('serenityUpdateCartQty', () => {
             callback(null, mockResponse);
         });
 
+        delete window.location;
+        window.location = { reload: jest.fn() };
         const eventSpy = jest.spyOn(window, 'dispatchEvent');
 
         // Simulate qty change in parent component
-        mockParentQty.qty = 2;
-        componentInstance.qty = 2;  // Trigger watcher
-        await delayPromise();
+        componentInstance.qty = 2;
+        await delayPromise(1000); // Debounce timeout is 750ms
 
         // Check that the item update API was called with the correct itemId and qty
         expect(utils.api.cart.itemUpdate).toHaveBeenCalledWith('12345', 2, expect.any(Function));
@@ -98,10 +98,8 @@ describe('serenityUpdateCartQty', () => {
             callback(mockError, null);
         });
 
-        // Simulate qty change in parent component
-        mockParentQty.qty = 2;
         componentInstance.qty = 2;  // Trigger watcher
-        await delayPromise();
+        await delayPromise(1000); // Debounce timeout is 750ms
 
         // Check that Swal.fire was called with the error message
         expect(Swal.fire).toHaveBeenCalledWith(expect.objectContaining({
@@ -112,15 +110,19 @@ describe('serenityUpdateCartQty', () => {
 
     test('should show error Swal if item update response contains errors', async () => {
         const componentInstance = Alpine.$data(document.querySelector('[x-data="serenityUpdateCartQty({ itemId: \'12345\' })"]'));
-        const mockResponse = { data: { status: 'fail', errors: ['Quantity unavailable', 'Invalid request'] } };
+        const mockResponse = {
+            data: {
+                status: 'fail',
+                errors: ['Quantity unavailable', 'Invalid request'],
+            },
+        };
         utils.api.cart.itemUpdate.mockImplementation((itemId, qty, callback) => {
             callback(null, mockResponse);
         });
 
         // Simulate qty change in parent component
-        mockParentQty.qty = 3;
         componentInstance.qty = 3;  // Trigger watcher
-        await delayPromise();
+        await delayPromise(1000); // Debounce timeout is 750ms
 
         // Check that Swal.fire was called with the response errors
         expect(Swal.fire).toHaveBeenCalledWith(expect.objectContaining({

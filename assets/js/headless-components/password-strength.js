@@ -1,4 +1,4 @@
-import { passwordStrength } from 'check-password-strength'
+import { passwordStrength } from 'check-password-strength';
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('serenityPasswordStrength', (options = {}) => ({
@@ -9,7 +9,7 @@ document.addEventListener('alpine:init', () => {
             1: 'bg-red-500',
             2: 'bg-yellow-500',
             3: 'bg-green-500',
-            ...options.colors
+            ...options.colors,
         },
         color: '',
         passwordStrengthEnabled: options.isEnabled ?? true,
@@ -19,12 +19,12 @@ document.addEventListener('alpine:init', () => {
         },
 
         passwordInput: {
-            'x-model': 'password'
+            'x-model': 'password',
         },
 
         passwordStrengthMeter: {
             'x-show': 'passwordStrengthEnabled',
-            'x-ref': 'passwordStrengthMeter'
+            'x-ref': 'passwordStrengthMeter',
         },
 
         passwordStrengthText: {
@@ -34,7 +34,7 @@ document.addEventListener('alpine:init', () => {
                 }
 
                 return this.passwordStrength.value;
-            }
+            },
         },
 
         passwordStrengthBar: {
@@ -46,7 +46,7 @@ document.addEventListener('alpine:init', () => {
                     return 'width: 0';
                 }
                 return `width: ${(this.passwordStrength.id + 1) * 25}%`;
-            }
+            },
         },
 
         onPasswordChange(value) {
@@ -58,6 +58,6 @@ document.addEventListener('alpine:init', () => {
 
             this.passwordStrength = passwordStrength(value);
             this.color = this.colors[this.passwordStrength.id];
-        }
+        },
     }));
 });

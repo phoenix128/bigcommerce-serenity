@@ -39,6 +39,6 @@ document.addEventListener('alpine:init', () => {
             }
 
             return value;
-        }
+        },
     }));
 });

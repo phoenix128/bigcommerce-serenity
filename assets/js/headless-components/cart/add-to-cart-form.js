@@ -16,7 +16,7 @@ document.addEventListener('alpine:init', () => {
             message: 'Item added to cart',
             continueShopping: 'Continue Shopping',
             viewCart: 'View Cart',
-            ...options.strings
+            ...options.strings,
         },
 
         init() {
@@ -27,11 +27,11 @@ document.addEventListener('alpine:init', () => {
         el: {
             '@serenityProductOptions.window'(evt) {
                 switch (evt.detail.code) {
-                    case 'update':
-                        this.onProductOptionsUpdate(evt.detail.data);
-                        break;
+                case 'update':
+                    this.onProductOptionsUpdate(evt.detail.data);
+                    break;
                 }
-            }
+            },
         },
 
         purchasingMessage: {
@@ -91,6 +91,6 @@ document.addEventListener('alpine:init', () => {
                     }
                 });
             });
-        }
+        },
     }));
 });

@@ -1,4 +1,4 @@
-import Alpine from "alpinejs";
+import Alpine from 'alpinejs';
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('serenityNavigation', (options = {}) => ({
@@ -10,7 +10,7 @@ document.addEventListener('alpine:init', () => {
             const handleScroll = () => {
                 const navTop = nav.getBoundingClientRect().top + window.scrollY;
                 this.isSticky = window.scrollY >= navTop;
-            }
+            };
 
             window.addEventListener('scroll', handleScroll);
         },

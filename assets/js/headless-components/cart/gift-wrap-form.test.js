@@ -70,7 +70,7 @@ describe('serenityGiftWrapForm', () => {
 
         expect(singleGroup.style.display).toBe('none');
         expect(multipleGroup.style.display).toBe('');
-        expect(componentInstance.giftWrapMode).toBe('different');       
+        expect(componentInstance.giftWrapMode).toBe('different');
     });
 
     test('should select a wrapping and show details', async () => {

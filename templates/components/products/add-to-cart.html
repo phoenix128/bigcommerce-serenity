@@ -8,11 +8,11 @@
         })">
             <label for="qty[]" class="block font-semibold mb-2">{{lang 'products.quantity'}}</label>
             <div class="flex flex-row w-36">
-                <button type="button" class="bg-gray-100 px-2 hover:bg-gray-200" x-bind="decrease" title="{{lang 'products.quantity_decrease' name=product.title}}">
+                <button type="button" class="bg-gray-100 px-2 hover:bg-gray-200" x-bind="decreaseButton" title="{{lang 'products.quantity_decrease' name=product.title}}">
                     <span class="material-symbols-outlined icon-sm">remove</span>
                 </button>
                 <input class="input grow border-l-0 border-r-0 text-center border-gray-100" id="qty[]" x-bind="input" aria-live="polite" />
-                <button type="button" class="bg-gray-100 px-2 hover:bg-gray-200" x-bind="increase" title="{{lang 'products.quantity_increase' name=product.title}}">
+                <button type="button" class="bg-gray-100 px-2 hover:bg-gray-200" x-bind="increaseButton" title="{{lang 'products.quantity_increase' name=product.title}}">
                     <span class="material-symbols-outlined icon-sm">add</span>
                 </button>
             </div>

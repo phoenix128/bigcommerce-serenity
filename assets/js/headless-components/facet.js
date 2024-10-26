@@ -1,6 +1,5 @@
 import Alpine from 'alpinejs';
 import mergeQs from '../utils/merge-qs';
-import { normalizeFormData } from '../utils/api';
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('serenityFacets', (options = {}) => ({
@@ -10,7 +9,7 @@ document.addEventListener('alpine:init', () => {
             }
 
             this.reloadProductListing(url);
-        }
+        },
     }));
 
     Alpine.data('serenityFacetItem', (options = {}) => ({
@@ -38,8 +37,8 @@ document.addEventListener('alpine:init', () => {
 
                 this.isLoading = true;
                 this.applyFacets(this.url);
-            }
-        }
+            },
+        },
     }));
 
     Alpine.data('serenityFacetForm', (options = {}) => ({
@@ -54,7 +53,7 @@ document.addEventListener('alpine:init', () => {
 
                 this.isLoading = true;
                 this.applyFacets(targetUrl);
-            }
+            },
         },
 
         button: {
@@ -64,7 +63,7 @@ document.addEventListener('alpine:init', () => {
 
             ':disabled'() {
                 return this.isLoading;
-            }
-        }
+            },
+        },
     }));
 });

@@ -29,7 +29,7 @@ document.addEventListener('alpine:init', () => {
 
             const options = {
                 template: 'cart/modals/gift-wrapping-form',
-            };                
+            };
 
             utils.api.cart.getItemGiftWrappingOptions(this.itemId, options, (err, response) => {
                 if (err) {

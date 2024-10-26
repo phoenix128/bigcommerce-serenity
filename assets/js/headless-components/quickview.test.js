@@ -56,7 +56,7 @@ describe('serenityQuickView', () => {
         expect(utils.api.product.getById).toHaveBeenCalledWith(
             '123',
             { template: 'products/quick-view' },
-            expect.any(Function)
+            expect.any(Function),
         );
     });
 

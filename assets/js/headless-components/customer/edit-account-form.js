@@ -8,7 +8,7 @@ document.addEventListener('alpine:init', () => {
             'x-ref': 'editAccountForm',
             '@submit'() {
                 this.isEditAccountFormSubmitting = true;
-            }
+            },
         },
     }));
 });

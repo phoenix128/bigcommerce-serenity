@@ -22,9 +22,9 @@ document.addEventListener('alpine:init', () => {
             'x-ref': 'shippingEstimatorForm',
             '@serenityCountrySelect.window'(evt) {
                 switch (evt.detail.code) {
-                    case 'update':
-                        this.onCountryChange();
-                        break;
+                case 'update':
+                    this.onCountryChange();
+                    break;
                 }
             },
         },

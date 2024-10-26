@@ -1,4 +1,4 @@
-import navigate from "../../utils/navigate";
+import navigate from '../../utils/navigate';
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('serenityQuickAddToCartButton', (options = {}) => ({
@@ -17,7 +17,7 @@ document.addEventListener('alpine:init', () => {
             ':class'() {
                 return this.isAddingToCart ? 'cursor-progress animate-pulse' : 'cursor-pointer';
             },
-            ':disabled': 'isAddingToCart'
+            ':disabled': 'isAddingToCart',
         },
 
         addToCart() {
@@ -30,6 +30,6 @@ document.addEventListener('alpine:init', () => {
             }
 
             navigate(`/cart.php?action=add&product_id=${this.productId}`);
-        }
+        },
     }));
 });

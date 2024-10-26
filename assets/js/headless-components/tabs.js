@@ -1,4 +1,4 @@
-import Alpine from "alpinejs";
+import Alpine from 'alpinejs';
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('serenityTab', (options = {}) => ({
@@ -17,7 +17,7 @@ document.addEventListener('alpine:init', () => {
         el: {
             'x-show'() {
                 return this.tabs.length > 0;
-            }
+            },
         },
 
         openInitialTab() {
@@ -53,8 +53,8 @@ document.addEventListener('alpine:init', () => {
 
             ':class'() {
                 return this.isActiveTab(this.tabCode) ? 'tab-button-active' : '';
-            }
-        }
+            },
+        },
     }));
 
     Alpine.data('serenityTabContent', (options = {}) => ({
@@ -64,7 +64,7 @@ document.addEventListener('alpine:init', () => {
             Alpine.bind(this.$el, this.el);
         },
 
-        el: {            
+        el: {
             'x-show'() {
                 return this.isActiveTab(this.tabCode);
             },
@@ -72,6 +72,6 @@ document.addEventListener('alpine:init', () => {
             'x-transition'() {
                 return this.transition;
             },
-        }
+        },
     }));
 });

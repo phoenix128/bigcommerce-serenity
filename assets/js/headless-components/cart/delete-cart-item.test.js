@@ -63,13 +63,13 @@ describe('serenityDeleteCartItem', () => {
         window.location = { reload: jest.fn() };
 
         const eventSpy = jest.spyOn(window, 'dispatchEvent');
-        
+
         button.click();
         await delayPromise();
 
         expect(window.location.reload).toHaveBeenCalled();
         expect(eventSpy).toHaveBeenCalledWith(expect.objectContaining({
-            type: 'serenityCartUpdate'
+            type: 'serenityCartUpdate',
         }));
     });
 
@@ -114,7 +114,7 @@ describe('serenityDeleteCartItem', () => {
         const componentInstance = Alpine.$data(document.querySelector('[x-data]'));
         const button = document.querySelector('button');
         const mockResponse = { data: { status: 'succeed' } };
-        
+
         utils.api.cart.itemRemove.mockImplementation((itemId, callback) => {
             callback(null, mockResponse);
         });
@@ -129,7 +129,7 @@ describe('serenityDeleteCartItem', () => {
         const componentInstance = Alpine.$data(document.querySelector('[x-data]'));
         const button = document.querySelector('button');
         const mockError = new Error('Failed to remove item');
-        
+
         utils.api.cart.itemRemove.mockImplementation((itemId, callback) => {
             callback(mockError, null);
         });

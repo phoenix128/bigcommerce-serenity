@@ -46,15 +46,15 @@ document.addEventListener('alpine:init', () => {
             // Listener for serenityAddToCartForm events
             '@serenityAddToCartForm.window'(evt) {
                 switch (evt.detail.code) {
-                    case 'adding':
-                        this.onAdding();
-                        break;
-                    case 'added':
-                        this.onAdded();
-                        break;
-                    case 'error':
-                        this.onError();
-                        break;
+                case 'adding':
+                    this.onAdding();
+                    break;
+                case 'added':
+                    this.onAdded();
+                    break;
+                case 'error':
+                    this.onError();
+                    break;
                 }
             },
         },
@@ -71,10 +71,10 @@ document.addEventListener('alpine:init', () => {
             this.isAdding = false;
             this.value = this.strings.default;
         },
-        
+
         onAdding() {
             this.isAdding = true;
             this.value = this.strings.adding;
-        }
+        },
     }));
 });

@@ -1,4 +1,4 @@
-import './add-to-cart-button'
+import './add-to-cart-button';
 
 const delayPromise = async (ms = 50) => {
     await Alpine.nextTick();
@@ -47,11 +47,14 @@ describe('serenityAddToCartButton', () => {
             button,
             componentInstance,
             addToCart: componentInstance.addToCart,
-        }
+        };
     };
 
     test('should call addToCart method when button is clicked', async () => {
-        const {addToCart, button} = await setupButton();
+        const {
+            addToCart,
+            button,
+        } = await setupButton();
 
         button.click();
         await delayPromise();
@@ -60,23 +63,23 @@ describe('serenityAddToCartButton', () => {
     });
 
     test('button should be enabled if canBuy is true', async () => {
-        const {button} = await setupButton();
+        const { button } = await setupButton();
         expect(button.disabled).toBe(false);
     });
 
     test('button should be disabled if canBuy is false', async () => {
-        const {button} = await setupButton(false);
+        const { button } = await setupButton(false);
         expect(button.disabled).toBe(true);
     });
 
-    test ('should use the default string when component is started', async () => {
-        const {button} = await setupButton();
+    test('should use the default string when component is started', async () => {
+        const { button } = await setupButton();
         expect(button.value).toBe('Add to Cart');
     });
-        
+
 
     test('should update to "Adding..." when added event is dispatched', async () => {
-        const {button} = await setupButton();
+        const { button } = await setupButton();
 
         // Simulate adding event
         button.dispatchEvent(new CustomEvent('serenityAddToCartForm', {
@@ -89,7 +92,7 @@ describe('serenityAddToCartButton', () => {
     });
 
     test('should update to "Added!" when added event is dispatched', async () => {
-        const {button} = await setupButton();
+        const { button } = await setupButton();
 
         button.dispatchEvent(new CustomEvent('serenityAddToCartForm', {
             detail: { code: 'adding' },
@@ -106,7 +109,7 @@ describe('serenityAddToCartButton', () => {
     });
 
     test('should reset to default text after "Added!" state', async () => {
-        const {button} = await setupButton();
+        const { button } = await setupButton();
 
         // Simulate added event
         button.dispatchEvent(new CustomEvent('serenityAddToCartForm', {
@@ -122,7 +125,7 @@ describe('serenityAddToCartButton', () => {
     });
 
     test('should handle error event and reset to default text', async () => {
-        const {button} = await setupButton();
+        const { button } = await setupButton();
 
         // Simulate error event
         button.dispatchEvent(new CustomEvent('serenityAddToCartForm', {
@@ -136,7 +139,7 @@ describe('serenityAddToCartButton', () => {
     });
 
     test('should set denied pointer cursor when adding and revert when added', async () => {
-        const {button} = await setupButton();
+        const { button } = await setupButton();
         expect(button.className).toBe('cursor-pointer');
 
         button.dispatchEvent(new CustomEvent('serenityAddToCartForm', {

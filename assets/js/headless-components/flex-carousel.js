@@ -15,28 +15,48 @@ document.addEventListener('alpine:init', () => {
 
         carouselWrapper: {
             'x-ref': 'carouselWrapper',
-            '@touchstart.passive'(evt) { this.handleTouchStart(evt); },
-            '@touchmove.passive'(evt) { this.handleTouchMove(evt); },
-            '@touchend.passive'() { this.handleTouchEnd(); },
-            '@mousedown'(evt) { this.handleMouseDown(evt); },
-            '@mousemove'(evt) { this.handleMouseMove(evt); },
-            '@mouseleave.passive'() { this.handleMouseLeave(); },
-            '@mouseup'() { this.handleMouseUp(); },
-            '@scroll.passive'() { this.checkScroll(); },
+            '@touchstart.passive'(evt) {
+                this.handleTouchStart(evt);
+            },
+            '@touchmove.passive'(evt) {
+                this.handleTouchMove(evt);
+            },
+            '@touchend.passive'() {
+                this.handleTouchEnd();
+            },
+            '@mousedown'(evt) {
+                this.handleMouseDown(evt);
+            },
+            '@mousemove'(evt) {
+                this.handleMouseMove(evt);
+            },
+            '@mouseleave.passive'() {
+                this.handleMouseLeave();
+            },
+            '@mouseup'() {
+                this.handleMouseUp();
+            },
+            '@scroll.passive'() {
+                this.checkScroll();
+            },
             ':class'() {
                 return this.isDragging ? 'cursor-grab' : 'snap-x snap-mandatory scroll-smooth';
-            }
+            },
         },
 
         scrollLeftButton: {
-            '@click'() { this.moveLeft(); },
+            '@click'() {
+                this.moveLeft();
+            },
             ':disabled'() {
                 return this.isAtStart;
-            }
+            },
         },
 
         scrollRightButton: {
-            '@click'() { this.moveRight(); },
+            '@click'() {
+                this.moveRight();
+            },
             ':disabled'() {
                 return this.isAtEnd;
             },

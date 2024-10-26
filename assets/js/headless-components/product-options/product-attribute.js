@@ -14,6 +14,6 @@ document.addEventListener('alpine:init', () => {
                     this.updateOptions();
                 }
             },
-        }
+        },
     }));
 });

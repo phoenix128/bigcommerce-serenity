@@ -1,5 +1,5 @@
-import Swal from "sweetalert2";
-import navigate from "../utils/navigate";
+import Swal from 'sweetalert2';
+import navigate from '../utils/navigate';
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('serenityConfirm', (options = {}) => ({
@@ -9,14 +9,14 @@ document.addEventListener('alpine:init', () => {
             '@submit.prevent'(evt) {
                 Swal.fire({
                     title: this.submitConfirmMessage,
-                    icon: "warning",
+                    icon: 'warning',
                     showCancelButton: true,
                 }).then((result) => {
                     if (result.isConfirmed) {
                         evt.target.submit();
                     }
                 });
-            }
+            },
         },
 
         confirmLink: {
@@ -25,14 +25,14 @@ document.addEventListener('alpine:init', () => {
 
                 Swal.fire({
                     title: this.submitConfirmMessage,
-                    icon: "warning",
+                    icon: 'warning',
                     showCancelButton: true,
                 }).then((result) => {
                     if (result.isConfirmed) {
                         navigate(evt.target.href);
                     }
                 });
-            }
-        }
+            },
+        },
     }));
 });

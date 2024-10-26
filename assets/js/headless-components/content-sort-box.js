@@ -22,6 +22,6 @@ document.addEventListener('alpine:init', () => {
             const url = mergeQs(window.location.href, { sort: sortCriterion });
             this.isLoading = true;
             window.location.href = url;
-        }
+        },
     }));
 });

@@ -11,7 +11,7 @@ document.addEventListener('alpine:init', () => {
         compareLink: {
             ':href'() {
                 return this.getCompareUrl();
-            }
+            },
         },
 
         init() {
@@ -27,9 +27,9 @@ document.addEventListener('alpine:init', () => {
             }));
 
             switch (code) {
-                case 'update':
-                    this.productsCount = data.length;
-                    break;
+            case 'update':
+                this.productsCount = data.length;
+                break;
             }
         },
 

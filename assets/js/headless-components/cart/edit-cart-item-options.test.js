@@ -1,7 +1,7 @@
 import utils from '@bigcommerce/stencil-utils';
 import Swal from 'sweetalert2';
 import './edit-cart-item-options';
-import '../product-options'
+import '../product-options';
 import Alpine from 'alpinejs';
 
 jest.mock('@bigcommerce/stencil-utils', () => ({

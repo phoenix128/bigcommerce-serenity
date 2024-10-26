@@ -3,7 +3,8 @@ document.addEventListener('alpine:init', () => {
         isOpen: options.initialState ?? false,
         disableClickAway: options.disableClickAway ?? false,
 
-        init() {},
+        init() {
+        },
 
         button: {
             '@click'(evt) {

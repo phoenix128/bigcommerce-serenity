@@ -130,11 +130,11 @@
                             max: {{#if max_purchase_quantity}}{{max_purchase_quantity}}{{else}}0{{/if}},
                         })">
                             <div class="flex flex-row w-28 lg:w-36 sm:mx-auto" x-data="serenityUpdateCartQty({ itemId: '{{id}}' })">
-                                <button type="button" class="bg-gray-100 px-1 lg:px-2 hover:bg-gray-200" x-bind="decrease" title="{{lang 'products.quantity_decrease' name=product.title}}">
+                                <button type="button" class="bg-gray-100 px-1 lg:px-2 hover:bg-gray-200" x-bind="decreaseButton" title="{{lang 'products.quantity_decrease' name=product.title}}">
                                     <span class="material-symbols-outlined icon-sm">remove</span>
                                 </button>
                                 <input name="qty-{{id}}" class="input-sm lg:input grow border-l-0 border-r-0 text-center border-gray-100" x-bind="input" aria-live="polite" />
-                                <button type="button" class="bg-gray-100 px-1 lg:px-2 hover:bg-gray-200" x-bind="increase" title="{{lang 'products.quantity_increase' name=product.title}}">
+                                <button type="button" class="bg-gray-100 px-1 lg:px-2 hover:bg-gray-200" x-bind="increaseButton" title="{{lang 'products.quantity_increase' name=product.title}}">
                                     <span class="material-symbols-outlined icon-sm">add</span>
                                 </button>
                             </div>

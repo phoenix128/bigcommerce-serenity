@@ -80,8 +80,8 @@ describe('serenityAddToCartForm', () => {
             detail: {
                 code: 'adding',
                 data: componentInstance,
-                form: componentInstance.addToCartForm
-            }
+                form: componentInstance.addToCartForm,
+            },
         }));
     });
 
@@ -124,7 +124,10 @@ describe('serenityAddToCartForm', () => {
         componentInstance.addToCart();
         await delayPromise();
 
-        expect(Swal.fire).toHaveBeenCalledWith(expect.objectContaining({ icon: 'error', title: mockError.message }));
+        expect(Swal.fire).toHaveBeenCalledWith(expect.objectContaining({
+            icon: 'error',
+            title: mockError.message,
+        }));
     });
 
     test('should not add to cart if cannot purchase', async () => {
@@ -140,8 +143,8 @@ describe('serenityAddToCartForm', () => {
             detail: {
                 code: 'adding',
                 data: componentInstance,
-                form: componentInstance.addToCartForm
-            }
+                form: componentInstance.addToCartForm,
+            },
         }));
 
         expect(utils.api.cart.itemAdd).not.toHaveBeenCalled();

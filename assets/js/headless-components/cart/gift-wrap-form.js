@@ -14,12 +14,12 @@ document.addEventListener('alpine:init', () => {
         giftWrapForm: {
             '@submit'() {
                 this.isGiftWrapSubmitting = true;
-            }
+            },
         },
 
         giftWrapSubmitButton: {
-            ':disabled': 'isGiftWrapSubmitting'
-        }
+            ':disabled': 'isGiftWrapSubmitting',
+        },
     }));
 
     Alpine.data('serenityGiftWrapItemDetail', (options = {}) => ({
@@ -48,6 +48,6 @@ document.addEventListener('alpine:init', () => {
             this.previewImageUrl = wrapping?.preview_image.data.replace('{:size}', '256x256') ?? '';
             this.previewImageZoomUrl = wrapping?.preview_image.data.replace('{:size}', 'original') ?? '';
             this.previewImageAlt = wrapping?.preview_image.alt ?? '';
-        }
+        },
     }));
 });

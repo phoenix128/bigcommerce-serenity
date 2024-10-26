@@ -1,5 +1,4 @@
-import { Alpine } from "alpinejs";
-import _ from 'lodash';
+import { Alpine } from 'alpinejs';
 import utils from '@bigcommerce/stencil-utils';
 import Swal from 'sweetalert2';
 
@@ -25,7 +24,7 @@ document.addEventListener('alpine:init', () => {
                 Alpine.bind(requiredLabel, this.requiredStateLabel);
             }
 
-            if (stateWrapperElement) {               
+            if (stateWrapperElement) {
                 this.stateWrapperElementValidation = JSON.parse(stateWrapperElement.getAttribute('data-validation'));
             }
 
@@ -38,22 +37,22 @@ document.addEventListener('alpine:init', () => {
             '@change'(evt) {
                 this.onCountryChange(evt.target.value);
             },
-            'x-ref': 'countryField'
+            'x-ref': 'countryField',
         },
 
         stateWrapper: {
-            'x-ref': 'stateWrapper'
+            'x-ref': 'stateWrapper',
         },
 
         stateField: {
             'x-ref': 'stateField',
             ':required'() {
                 return this.isStateDropdown;
-            }
+            },
         },
 
         requiredStateLabel: {
-            'x-show': 'isStateDropdown'
+            'x-show': 'isStateDropdown',
         },
 
         onCountryChange(countryName) {
@@ -74,7 +73,7 @@ document.addEventListener('alpine:init', () => {
 
                     throw err;
                 }
-    
+
                 this.states = response.data.states;
                 this.updateStateField();
             });
@@ -128,7 +127,7 @@ document.addEventListener('alpine:init', () => {
                     input.setAttribute('x-ref', 'stateField');
 
                     stateFieldElement.parentNode.replaceChild(input, stateFieldElement);
-                    
+
                     this.$refs.stateField = input;
                     Alpine.bind(input, this.stateField);
                 }
@@ -140,8 +139,8 @@ document.addEventListener('alpine:init', () => {
                 'data-validation',
                 JSON.stringify({
                     ...this.stateWrapperElementValidation,
-                    required: this.states.length > 0
-                })
+                    required: this.states.length > 0,
+                }),
             );
 
             window.dispatchEvent(new CustomEvent('serenityCountrySelect', {
@@ -149,6 +148,6 @@ document.addEventListener('alpine:init', () => {
                     code: 'update',
                 },
             }));
-        }
+        },
     }));
 });

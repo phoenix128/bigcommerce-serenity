@@ -10,7 +10,7 @@ document.addEventListener('alpine:init', () => {
 
         content: {
             'x-ref': 'content',
-            'x-show': 'false'
+            'x-show': 'false',
         },
 
         el: {

@@ -5,12 +5,12 @@ document.addEventListener('alpine:init', () => {
         subscribeForm: {
             '@submit'() {
                 this.isSubscribing = true;
-            }
+            },
         },
 
         subscribeFormSubmit: {
             ':disabled': 'isSubscribing',
-            ':class': '{ "opacity-50 cursor-progress": isSubscribing }'
-        }
+            ':class': '{ "opacity-50 cursor-progress": isSubscribing }',
+        },
     }));
 });

@@ -1,5 +1,5 @@
 import Swiper from 'swiper';
-import { Thumbs, Navigation } from 'swiper/modules';
+import { Navigation, Thumbs } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
@@ -61,14 +61,14 @@ document.addEventListener('alpine:init', () => {
                 slidesPerView: options.slidesPerView ?? 1,
                 freeMode: options.freeMode ?? false,
                 watchSlidesProgress: options.watchSlidesProgress ?? true,
-                breakpoints: options.breakpoints ?? {}
+                breakpoints: options.breakpoints ?? {},
             };
 
             const mainOptions = {
                 ...commonOptions,
                 modules: [Thumbs, Navigation],
-                navigation: {}
-            }
+                navigation: {},
+            };
 
             if (this.$refs.buttonNext) {
                 mainOptions.navigation.nextEl = this.$refs.buttonNext;
@@ -82,11 +82,11 @@ document.addEventListener('alpine:init', () => {
                 const swiperThumbsOptions = {
                     ...commonOptions,
                     slidesPerView: options.thumbsSlider ?? 4,
-                    breakpoints: options.thumbsBreakpoints ?? {}
-                }
+                    breakpoints: options.thumbsBreakpoints ?? {},
+                };
 
                 mainOptions.thumbs = {
-                    swiper: new Swiper(this.$refs.thumbs, swiperThumbsOptions)
+                    swiper: new Swiper(this.$refs.thumbs, swiperThumbsOptions),
                 };
             }
 
