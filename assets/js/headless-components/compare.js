@@ -46,7 +46,7 @@ document.addEventListener('alpine:init', () => {
         },
 
         removeProduct(productId) {
-            this.productIds = this.productIds.filter(product => product.id !== productId);
+            this.productIds = this.productIds.filter(p => p !== productId);
             this.emitEvent('update', this.productIds);
         },
 
