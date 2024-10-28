@@ -1,5 +1,3 @@
-__webpack_public_path__ = window.__webpack_public_path__;
-
 import '../css/theme.css';
 import './headless-components';
 import Alpine from 'alpinejs';
@@ -10,6 +8,8 @@ import SwupOverlayTheme from '@swup/overlay-theme';
 import SwupScrollPlugin from '@swup/scroll-plugin';
 import SwupFormsPlugin from '@swup/forms-plugin';
 import persist from '@alpinejs/persist';
+
+__webpack_public_path__ = window.__webpack_public_path__;
 
 /**
  * Initialize Alpine.js
@@ -119,11 +119,18 @@ const initializePageTransitions = () => {
         ],
     });
 
+    swup.hooks.on('content:replace', () => {
+        if (!checkSwupTree()) {
+            console.error('Swup tree not found. This page probably has some non closed tags. Reloading the page.');
+            window.location.reload();
+        }
+    });
+
     window.swup = swup;
 };
 
 const checkSwupTree = () => {
-    const swupCheckBlock = document.querySelector('#swup #swup-check');
+    const swupCheckBlock = document.querySelector('#swup > #swup-check');
     return !!swupCheckBlock;
 };
 
@@ -138,20 +145,16 @@ window.stencilBootstrap = function stencilBootstrap(pageType, contextJSON = null
     const context = JSON.parse(contextJSON || '{}');
     window.bcContext = context;
 
-    initializeFontsLoadingMonitor();
-    initializePageTransitions();
-    initializeAlpine();
-
     return {
         load() {
             Alpine.store('context', context);
-
-            if (!checkSwupTree()) {
-                console.error('Swup tree not found. Make sure you have a #swup element with a #swup-check child element and all HTML tags are correctly closed.');
-            }
 
             initializeLazySizes();
             initializeAppearEffects();
         },
     };
 };
+
+initializeFontsLoadingMonitor();
+initializePageTransitions();
+initializeAlpine();
