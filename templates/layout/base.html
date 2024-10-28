@@ -64,6 +64,9 @@
             {{> components/common/footer}}        
             {{> components/common/modal}}
 
+            {{{footer.scripts}}}
+            <div id="swup-check"></div>
+
             <script>
                 window.__webpack_public_path__ = "{{cdn 'assets/dist/'}}";
             </script>
@@ -76,8 +79,6 @@
                 src="{{cdn 'assets/dist/theme-bundle.main.js' resourceHint='preload' as='script'}}"
                 onload="onThemeBundleMain()"
             ></script>
-
-            {{{footer.scripts}}}
         </div>
     </body>
 </html>

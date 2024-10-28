@@ -33,14 +33,13 @@
                         {{quantity}} &times;
                     {{/if}}
                     {{#or ../customer (unless ../settings.hide_price_from_guests) (if type '==' 'GiftCertificate')}}
-                    <span{{#if price_discounted}} class="price--discounted" {{/if}}>{{price.formatted}}
-                </span>
-                {{#if price_discounted}}
-                    {{price_discounted.formatted}}
-                {{/if}}
-                {{else}}
-                    {{> components/common/login-for-pricing}}
-                {{/or}}
+                    <span{{#if price_discounted}} class="price--discounted" {{/if}}>{{price.formatted}}</span>
+                    {{#if price_discounted}}
+                        {{price_discounted.formatted}}
+                    {{/if}}
+                    {{else}}
+                        {{> components/common/login-for-pricing}}
+                    {{/or}}
                 </span>
             </div>
         </li>

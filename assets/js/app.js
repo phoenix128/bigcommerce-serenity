@@ -9,7 +9,7 @@ import SwupPreloadPlugin from '@swup/preload-plugin';
 import SwupOverlayTheme from '@swup/overlay-theme';
 import SwupScrollPlugin from '@swup/scroll-plugin';
 import SwupFormsPlugin from '@swup/forms-plugin';
-import persist from '@alpinejs/persist'
+import persist from '@alpinejs/persist';
 
 /**
  * Initialize Alpine.js
@@ -35,11 +35,11 @@ const initializeLazySizes = () => {
 
 const initializeFontsLoadingMonitor = () => {
     if (document.fonts) {
-        document.fonts.ready.then(function () {
+        document.fonts.ready.then(function() {
             document.documentElement.classList.add('fonts-loaded');
         });
     }
-}
+};
 
 const initializeAppearEffects = () => {
     const onIntersection = (entries, opts) => {
@@ -54,13 +54,11 @@ const initializeAppearEffects = () => {
                     entry.target.classList.remove('appear');
                     entry.target.classList.remove('appear-quick');
                 } else {
-                    if (entry.target.classList.contains('appear-quick'))
-                    {
+                    if (entry.target.classList.contains('appear-quick')) {
                         setTimeout(() => {
                             entry.target.classList.add('appear-active-quick');
                         }, scrollPosition === 0 ? delay / 10 : 0);
-                    }
-                    else {
+                    } else {
                         setTimeout(() => {
                             entry.target.classList.add('appear-active');
                         }, scrollPosition === 0 ? delay : 0);
@@ -70,12 +68,12 @@ const initializeAppearEffects = () => {
                 }
             }
         });
-    }
+    };
 
     const observer = new IntersectionObserver(onIntersection, {
         root: null,
         rootMargin: '0px',
-        threshold: .1
+        threshold: .1,
     });
 
     const appearElements = document.querySelectorAll('[data-widget-id], .appear, .appear-quick');
@@ -93,7 +91,7 @@ const initializeAppearEffects = () => {
                         if (node.matches('[data-widget-id], .appear, .appear-quick')) {
                             observer.observe(node);
                         }
-                        
+
                         const matchingDescendants = node.querySelectorAll('[data-widget-id], .appear, .appear-quick');
                         matchingDescendants.forEach((descendant) => {
                             observer.observe(descendant);
@@ -104,8 +102,11 @@ const initializeAppearEffects = () => {
         }
     });
 
-    mutationObserver.observe(document.body, { childList: true, subtree: true });
-}
+    mutationObserver.observe(document.body, {
+        childList: true,
+        subtree: true,
+    });
+};
 
 const initializePageTransitions = () => {
     const swup = new Swup({
@@ -114,12 +115,18 @@ const initializePageTransitions = () => {
             new SwupOverlayTheme(),
             new SwupPreloadPlugin(),
             new SwupScrollPlugin(),
-            new SwupFormsPlugin()
-        ]
+            new SwupFormsPlugin(),
+        ],
     });
 
     window.swup = swup;
-}
+};
+
+const checkSwupTree = () => {
+    const swupCheckBlock = document.querySelector('#swup #swup-check');
+    return !!swupCheckBlock;
+};
+
 /**
  * This function gets added to the global window and then called
  * on page load with the current template loaded and JS Context passed in
@@ -138,6 +145,10 @@ window.stencilBootstrap = function stencilBootstrap(pageType, contextJSON = null
     return {
         load() {
             Alpine.store('context', context);
+
+            if (!checkSwupTree()) {
+                console.error('Swup tree not found. Make sure you have a #swup element with a #swup-check child element and all HTML tags are correctly closed.');
+            }
 
             initializeLazySizes();
             initializeAppearEffects();

@@ -7,7 +7,7 @@
     >
         <thead class="hidden lg:table-header-group">
             <tr>
-                <th colspan="2" class="text-lg text-left py-4">{{lang 'cart.checkout.item'}}</th>
+                <th class="text-lg text-left py-4" colspan="2">{{lang 'cart.checkout.item'}}</th>
                 <th class="text-lg text-left py-4">{{lang 'cart.checkout.price'}}</th>
                 <th class="text-lg text-center py-4">{{lang 'cart.checkout.quantity'}}</th>
                 <th class="text-lg text-left py-4">{{lang 'cart.checkout.total'}}</th>
@@ -20,9 +20,9 @@
                     <td class="py-4 w-24 sm:w-36 row-span-4 sm:row-span-2 lg:w-52 flex flex-col justify-start sm:justify-center lg:table-cell">
                         {{#if type '==' 'GiftCertificate'}}
                             <img
+                                alt="{{lang 'cart.gift_certificates.gift_certificate'}}"
                                 class="w-full mx-auto block aspect-square"
                                 src="{{cdn ../theme_settings.default_image_gift_certificate}}"
-                                alt="{{lang 'cart.gift_certificates.gift_certificate'}}"
                                 title="{{lang 'cart.gift_certificates.gift_certificate'}}"
                             >
                         {{else}}
@@ -40,7 +40,7 @@
                             <p class="text-base text-gray-400 mb-1">{{brand.name}}</p>
                         {{/if}}
                         <h2>
-                            <a href="{{url}}" class="text-lg sm:text-xl">{{name}}</a>
+                            <a class="text-lg sm:text-xl" href="{{url}}">{{name}}</a>
                         </h2>
                         {{#if release_date}}
                             <p>({{release_date}})</p>
@@ -62,11 +62,11 @@
 
                             {{#if can_modify}}
                                 <a
-                                    href="#"
-                                    x-data="serenityEditCartItemOptions({ itemId: '{{id}}', productId: '{{product_id}}' })"
-                                    x-bind="editCartItemOptionsButton"
-                                    class="underline"
                                     aria-label="{{lang 'products.change_product_options' name=name}}"
+                                    class="underline"
+                                    href="#"
+                                    x-bind="editCartItemOptionsButton"
+                                    x-data="serenityEditCartItemOptions({ itemId: '{{id}}', productId: '{{product_id}}' })"
                                 >
                                     {{lang 'common.change'}}
                                 </a>
@@ -75,8 +75,8 @@
 
                         {{#if type '==' 'GiftCertificate'}}
                             <a
-                                href="{{edit_url}}"
                                 aria-label="{{lang 'cart.gift_certificates.change_gift_certificate' certificate_name=name}}"
+                                href="{{edit_url}}"
                             >
                                 {{lang 'common.change'}}
                             </a>
@@ -98,9 +98,9 @@
                     <td class="flex row-span-3 sm:hidden flex-col justify-start pt-4">
                         {{#or can_modify (if type '==' 'GiftCertificate')}}
                             <button
-                                x-data="serenityDeleteCartItem({ itemId: '{{id}}' })"
-                                x-bind="deleteCartItemButton"
                                 aria-label="{{lang 'cart.remove_item' name=name}}"
+                                x-bind="deleteCartItemButton"
+                                x-data="serenityDeleteCartItem({ itemId: '{{id}}' })"
                             >
                                 <span class="material-symbols-outlined icon-base">delete</span>
                             </button>
@@ -130,11 +130,11 @@
                             max: {{#if max_purchase_quantity}}{{max_purchase_quantity}}{{else}}0{{/if}},
                         })">
                             <div class="flex flex-row w-28 lg:w-36 sm:mx-auto" x-data="serenityUpdateCartQty({ itemId: '{{id}}' })">
-                                <button type="button" class="bg-gray-100 px-1 lg:px-2 hover:bg-gray-200" x-bind="decreaseButton" title="{{lang 'products.quantity_decrease' name=product.title}}">
+                                <button class="bg-gray-100 px-1 lg:px-2 hover:bg-gray-200" title="{{lang 'products.quantity_decrease' name=product.title}}" type="button" x-bind="decreaseButton">
                                     <span class="material-symbols-outlined icon-sm">remove</span>
                                 </button>
-                                <input name="qty-{{id}}" class="input-sm lg:input grow border-l-0 border-r-0 text-center border-gray-100" x-bind="input" aria-live="polite" />
-                                <button type="button" class="bg-gray-100 px-1 lg:px-2 hover:bg-gray-200" x-bind="increaseButton" title="{{lang 'products.quantity_increase' name=product.title}}">
+                                <input aria-live="polite" class="input-sm lg:input grow border-l-0 border-r-0 text-center border-gray-100" name="qty-{{id}}" x-bind="input" />
+                                <button class="bg-gray-100 px-1 lg:px-2 hover:bg-gray-200" title="{{lang 'products.quantity_increase' name=product.title}}" type="button" x-bind="increaseButton">
                                     <span class="material-symbols-outlined icon-sm">add</span>
                                 </button>
                             </div>
@@ -155,15 +155,15 @@
                             {{else}}
                                 --
                             {{/or}}
-                        </td>
+                        </div>
                     </td>
 
                     <td class="hidden lg:table-cell sm:flex flex-col justify-center">
                         {{#or can_modify (if type '==' 'GiftCertificate')}}
                             <button
-                                x-data="serenityDeleteCartItem({ itemId: '{{id}}' })"
-                                x-bind="deleteCartItemButton"
                                 aria-label="{{lang 'cart.remove_item' name=name}}"
+                                x-bind="deleteCartItemButton"
+                                x-data="serenityDeleteCartItem({ itemId: '{{id}}' })"
                             >
                                 <span class="material-symbols-outlined icon-base">delete</span>
                             </button>

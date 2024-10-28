@@ -7,10 +7,10 @@ product_results:
 {{inject 'searchResultsCount' (lang 'search.results.count' count=result_count search_query=(sanitize forms.search.query))}}
 {{#partial "head"}}
     {{#if pagination.product_results.previous}}
-        <link rel="prev" href="{{pagination.product_results.previous}}">
+        <link href="{{pagination.product_results.previous}}" rel="prev">
     {{/if}}
     {{#if pagination.product_results.next}}
-        <link rel="next" href="{{pagination.product_results.next}}">
+        <link href="{{pagination.product_results.next}}" rel="next">
     {{/if}}
 {{/partial}}
 
@@ -28,14 +28,14 @@ product_results:
         <span class="hidden">
             {{lang 'search.tabs_accesibility_hint'}}
         </span>
-        <ul role="tablist" class="flex-row-middle w-full m-auto justify-center gap-4 sm:gap-10 my-8 text-base md:text-xl font-semibold text-gray-500">
+        <ul class="flex-row-middle w-full m-auto justify-center gap-4 sm:gap-10 my-8 text-base md:text-xl font-semibold text-gray-500" role="tablist">
             <li role="presentation">
-                <a class="underline underline-offset-2" aria-describedby="search-tabs-widget-description" role="tab" aria-controls="product-listing-container" href="{{forms.search.product_url}}">
+                <a aria-controls="product-listing-container" aria-describedby="search-tabs-widget-description" class="underline underline-offset-2" href="{{forms.search.product_url}}" role="tab">
                     {{>components/search/product-count}}
                 </a>
             </li>
             <li role="presentation">
-                <a class="underline underline-offset-2" aria-describedby="search-tabs-widget-description" role="tab" aria-controls="search-results-content" href="{{forms.search.content_url}}">
+                <a aria-controls="search-results-content" aria-describedby="search-tabs-widget-description" class="underline underline-offset-2" href="{{forms.search.content_url}}" role="tab">
                     {{>components/search/content-count}}
                 </a>
             </li>
@@ -47,16 +47,16 @@ product_results:
 </section>
 
 <div
+    class="flex flex-row gap-4 w-full flex-wrap"
     x-data="serenityProductList({
         productListingTemplate: 'search/product-listing',
         facetSidebarTemplate: 'search/sidebar'
     })"
-    class="flex flex-row gap-4 w-full flex-wrap"
 >
     {{#if forms.search.section '==' 'product'}}
         {{#if product_results.faceted_search_enabled}}
-            <div x-data="serenityDropdown" class="w-full block sm:hidden">
-                <button x-bind="button" class="flex-row-middle w-full gap-1 p-1" :class="{'border-b border-divider': !isOpen}">
+            <div class="w-full block sm:hidden" x-data="serenityDropdown">
+                <button :class="{'border-b border-divider': !isOpen}" class="flex-row-middle w-full gap-1 p-1" x-bind="button">
                     <span class="material-symbols-outlined icon-base shrink grow-0 w-6">tune</span>
 
                     <span class="grow text-left">
@@ -68,9 +68,9 @@ product_results:
                         
                     </span>
 
-                    <span class="material-symbols-outlined icon-base transition-transform" :class="{'rotate-180': isOpen}">keyboard_arrow_down</span>
+                    <span :class="{'rotate-180': isOpen}" class="material-symbols-outlined icon-base transition-transform">keyboard_arrow_down</span>
                 </button>
-                <div x-bind="menu" x-cloak class="w-full mt-2 bg-gray-50 border border-gray-100 p-4">
+                <div class="w-full mt-2 bg-gray-50 border border-gray-100 p-4" x-bind="menu" x-cloak>
                     <aside class="min-w-60 sm:w-60 2xl:w-80 w-full shrink-0" x-bind="facetSidebar" x-data="serenityFacets">
                         {{> components/faceted-search/index product_results}}
                     </aside>
@@ -113,7 +113,7 @@ product_results:
                                 <li>
 
                                     {{#each this}}
-                                        <a href="{{url}}" class="underline underline-offset-2">{{name}}</a>
+                                        <a class="underline underline-offset-2" href="{{url}}">{{name}}</a>
                                         {{#unless @last}} > {{/unless}}
                                     {{/each}}
 
@@ -130,7 +130,7 @@ product_results:
                                 {{#each brand_results}}
                                 <li>
                                     {{#each this}}
-                                        <a href="{{url}}" class="underline underline-offset-2">{{name}}</a>
+                                        <a class="underline underline-offset-2" href="{{url}}">{{name}}</a>
                                         {{#unless @last}} > {{/unless}}
                                     {{/each}}
                                 </li>
@@ -162,7 +162,7 @@ product_results:
         {{{region name="search_below_content"}}}
         </main>
     </div>
-</section>
+</div>
 
 {{/partial}}
 {{> layout/base}}
