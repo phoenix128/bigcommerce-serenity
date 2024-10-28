@@ -11,6 +11,10 @@ document.addEventListener('alpine:init', () => {
             });
         },
 
+        orderMessageForm: {
+            'x-ref': 'orderMessageForm',
+        },
+
         submit: {
             'x-ref': 'submitButton',
             ':disabled': 'isSubmitting',
@@ -39,7 +43,7 @@ document.addEventListener('alpine:init', () => {
         },
 
         applyValidation() {
-            const form = this.$el;
+            const form = this.$refs.orderMessageForm;
             const context = Alpine.store('context');
 
             const validator = new JustValidate(form);

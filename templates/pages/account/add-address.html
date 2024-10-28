@@ -1,42 +1,43 @@
 {{#partial "page"}}
-    {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+{{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
 
-    {{#if forms.address.address_id}}
-        <h2 class="page-heading">{{lang 'forms.address.edit.heading'}}</h2>
-    {{else}}
-        <h2 class="page-heading">{{lang 'forms.address.add.heading'}}</h2>
-    {{/if}}
+{{#if forms.address.address_id}}
+<h2 class="page-heading">{{lang 'forms.address.edit.heading'}}</h2>
+{{else}}
+<h2 class="page-heading">{{lang 'forms.address.add.heading'}}</h2>
+{{/if}}
 
-    {{> components/account/navigation account_page='addresses'}}
+{{> components/account/navigation account_page='addresses'}}
 
-    {{#if forms.address.error}}
-        {{> components/common/alert/alert-error forms.address.error}}
-    {{/if}}
+{{#if forms.address.error}}
+{{> components/common/alert/alert-error forms.address.error}}
+{{/if}}
 
-    <div class="w-full m-auto my-6 max-w-screen-md">
-        <section>
-            <form x-data="serenityEditAddressForm" action="{{forms.address.action}}" method="post">
-                <div x-data="serenityCountrySelect">
-                    {{#if forms.address.address_id }}
-                        <input type="hidden" name="shipid" value="{{forms.address.address_id}}">
-                    {{/if}}
-                    <fieldset>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:mx-4">
-                            {{#each forms.address.shipping_fields }}
-                                {{{dynamicComponent 'components/common/forms'}}}
-                            {{/each}}
-                        </div>
-                    </fieldset>
-                    <div class="flex flex-col sm:flex-row gap-x-10 gap-y-4 justify-center sm:mx-10 mt-10">
-                        <input x-bind="submitButton" type="submit" class="button-primary" value="{{lang 'forms.address.submit_value'}}">
-                        <a href="{{urls.account.addresses}}" class="button-secondary">{{lang 'common.cancel'}}</a>
-                        {{inject 'required' (lang 'common.required')}}
-                        {{inject 'state_error' (lang 'errors.state_error')}}
+<div class="w-full m-auto my-6 max-w-screen-md">
+    <section>
+        <form action="{{forms.address.action}}" method="post" x-bind="addressForm" x-data="serenityEditAddressForm">
+            <div x-data="serenityCountrySelect">
+                {{#if forms.address.address_id }}
+                <input name="shipid" type="hidden" value="{{forms.address.address_id}}">
+                {{/if}}
+                <fieldset>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:mx-4">
+                        {{#each forms.address.shipping_fields }}
+                        {{{dynamicComponent 'components/common/forms'}}}
+                        {{/each}}
                     </div>
+                </fieldset>
+                <div class="flex flex-col sm:flex-row gap-x-10 gap-y-4 justify-center sm:mx-10 mt-10">
+                    <input class="button-primary" type="submit" value="{{lang 'forms.address.submit_value'}}"
+                           x-bind="submitButton">
+                    <a class="button-secondary" href="{{urls.account.addresses}}">{{lang 'common.cancel'}}</a>
+                    {{inject 'required' (lang 'common.required')}}
+                    {{inject 'state_error' (lang 'errors.state_error')}}
                 </div>
-            </form>
-        </section>
-    </div>
+            </div>
+        </form>
+    </section>
+</div>
 
 {{/partial}}
 {{> layout/base}}

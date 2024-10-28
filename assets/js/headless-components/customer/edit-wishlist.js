@@ -29,7 +29,7 @@ document.addEventListener('alpine:init', () => {
         applyValidation() {
             const context = Alpine.store('context');
 
-            const validator = new JustValidate(this.$el);
+            const validator = new JustValidate(this.$refs.wishlistForm);
             validator.addField(
                 this.$refs.wishlistName,
                 [

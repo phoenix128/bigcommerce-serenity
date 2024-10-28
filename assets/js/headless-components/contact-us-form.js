@@ -11,6 +11,10 @@ document.addEventListener('alpine:init', () => {
             });
         },
 
+        contactUsForm: {
+            'x-ref': 'contactUsForm',
+        },
+
         emailField: {
             'x-ref': 'emailField',
         },
@@ -28,7 +32,7 @@ document.addEventListener('alpine:init', () => {
         applyValidation() {
             const context = Alpine.store('context');
 
-            const validator = new JustValidate(this.$el);
+            const validator = new JustValidate(this.$refs.contactUsForm);
             validator.addField(
                 this.$refs.emailField,
                 [

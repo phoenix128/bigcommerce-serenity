@@ -1,5 +1,5 @@
 import navigate from '../../utils/navigate';
-import './quick-add-to-cart-button'; // Adjust the path to your component
+import './quick-add-to-cart-button';
 
 jest.mock('../../utils/navigate', () => jest.fn());
 

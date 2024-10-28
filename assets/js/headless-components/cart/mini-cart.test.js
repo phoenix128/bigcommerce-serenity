@@ -1,7 +1,7 @@
 import utils from '@bigcommerce/stencil-utils';
 import './mini-cart';
 import Alpine from 'alpinejs';
-import persist from '@alpinejs/persist'; // Adjust the path to your component
+import persist from '@alpinejs/persist';
 
 jest.mock('@bigcommerce/stencil-utils', () => ({
     api: {

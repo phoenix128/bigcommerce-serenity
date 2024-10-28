@@ -1,43 +1,46 @@
 {{#if customer.inbox.orders}}
-    <h2 class="page-heading2">{{lang 'forms.inbox.send_message'}}</h2>
-    <form x-data="serenityOrderMessageForm" action="{{urls.account.send_message}}" method="post" class="flex flex-col gap-4">
-        {{inject 'enterOrderNum' (lang 'forms.validate.account.inbox.order')}}
-        {{inject 'enterSubject' (lang 'forms.validate.account.inbox.subject')}}
-        {{inject 'enterMessage' (lang 'forms.validate.account.inbox.message')}}
-        <div>
-            <label for="message_order_id" class="mb-1 block">
-                {{lang 'forms.inbox.order' }}
-                <small class="required">{{lang 'common.required' }}</small>
-            </label>
-            <select x-bind="orderIdField" class="select" name="message_order_id" id="message_order_id">
-                {{#each customer.inbox.orders}}
-                    <option value="{{id}}">{{lang 'forms.inbox.order_display' id=id date=date total=amount.formatted}}</option>
-                {{/each}}
-            </select>
+<h2 class="page-heading2">{{lang 'forms.inbox.send_message'}}</h2>
+<form action="{{urls.account.send_message}}" class="flex flex-col gap-4" method="post" x-bind="orderMessageForm"
+      x-data="serenityOrderMessageForm">
+    {{inject 'enterOrderNum' (lang 'forms.validate.account.inbox.order')}}
+    {{inject 'enterSubject' (lang 'forms.validate.account.inbox.subject')}}
+    {{inject 'enterMessage' (lang 'forms.validate.account.inbox.message')}}
+    <div>
+        <label class="mb-1 block" for="message_order_id">
+            {{lang 'forms.inbox.order' }}
+            <small class="required">{{lang 'common.required' }}</small>
+        </label>
+        <select class="select" id="message_order_id" name="message_order_id" x-bind="orderIdField">
+            {{#each customer.inbox.orders}}
+            <option value="{{id}}">{{lang 'forms.inbox.order_display' id=id date=date total=amount.formatted}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div>
+        <label class="mb-1 block" for="message_subject">
+            {{lang 'forms.inbox.subject' }}
+            <small class="required">{{lang 'common.required' }}</small>
+        </label>
+        <input aria-labelledby="message_subject_field_id" aria-live="polite" class="input" id="message_subject"
+               name="message_subject" type="text" x-bind="messageSubjectField">
+    </div>
+    <div>
+        <label class="mb-1 block" for="message_content">
+            {{lang 'forms.inbox.message' }}
+            <small class="required">{{lang 'common.required' }}</small>
+        </label>
+        <textarea aria-labelledby="message_content_field_id" aria-live="polite" class="input"
+                  id="message_content" name="message_content" rows="7" x-bind="messageContentField"></textarea>
+    </div>
+    <div class="flex flex-row flex-wrap gap-4 justify-center w-full">
+        <div class="md:max-w-48 w-full">
+            <input class="button-primary" type="submit" value="{{lang 'forms.inbox.submit_value' }}" x-bind="submit">
         </div>
-        <div>
-            <label for="message_subject" class="mb-1 block">
-                {{lang 'forms.inbox.subject' }}
-                <small class="required">{{lang 'common.required' }}</small>
-            </label>
-            <input x-bind="messageSubjectField" aria-labelledby="message_subject_field_id" aria-live="polite" type="text" class="input" name="message_subject" id="message_subject">
+        <div class="md:max-w-48 w-full">
+            <input class="button-secondary" type="reset" value="{{lang 'forms.inbox.clear_value' }}" x-bind="clear">
         </div>
-        <div>
-            <label for="message_content" class="mb-1 block">
-                {{lang 'forms.inbox.message' }}
-                <small class="required">{{lang 'common.required' }}</small>
-            </label>
-            <textarea x-bind="messageContentField" aria-labelledby="message_content_field_id" aria-live="polite" class="input" name="message_content" id="message_content" rows="7" ></textarea>
-        </div>
-        <div class="flex flex-row flex-wrap gap-4 justify-center w-full">
-            <div class="md:max-w-48 w-full">
-                <input x-bind="submit" class="button-primary" type="submit" value="{{lang 'forms.inbox.submit_value' }}">
-            </div>
-            <div class="md:max-w-48 w-full">
-                <input x-bind="clear" class="button-secondary" type="reset" value="{{lang 'forms.inbox.clear_value' }}">
-            </div>
-        </div>
-    </form>
+    </div>
+</form>
 {{else}}
-    {{> components/common/alert/alert-info (lang 'forms.inbox.no_orders')}}
+{{> components/common/alert/alert-info (lang 'forms.inbox.no_orders')}}
 {{/if}}

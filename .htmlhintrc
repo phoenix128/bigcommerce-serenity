@@ -1,0 +1,38 @@
+{
+  "tagname-lowercase": false,
+  "attr-lowercase": false,
+  "attr-value-double-quotes": true,
+  "attr-value-not-empty": false,
+  "attr-no-duplication": true,
+  "doctype-first": false,
+  "tag-pair": true,
+  "tag-self-close": false,
+  "spec-char-escape": false,
+  "id-unique": true,
+  "src-not-empty": true,
+  "alt-require": true,
+  "space-tab-mixed-disabled": "space",
+  "attr-unsafe-chars": true,
+  "file-format": false,
+  "special-tag-regex": "{{.*?}}",
+  "custom-rules": {
+    "handlebars-expressions": {
+      "description": "Ensure Handlebars expressions are properly closed",
+      "pattern": "{{[^}]+}}|{{[^}]+}}|{{{[^}]+}}}",
+      "message": "Handlebars expression not properly closed"
+    }
+  },
+  "ignore-patterns": [
+    "{{>\\s+[\\w-]+}}",         // Partial includes
+    "{{#>\\s+[\\w-]+}}",        // Partial blocks
+    "{{!--[\\s\\S]*?--}}",      // Comments
+    "{{![^}]*}}",               // Inline comments
+    "{{lookup[^}]*}}",          // Lookup helper
+    "{{#each[^}]*}}",           // Each blocks
+    "{{#if[^}]*}}",             // If blocks
+    "{{#unless[^}]*}}",         // Unless blocks
+    "{{#with[^}]*}}",           // With blocks
+    "{{#block[^}]*}}",          // Block helpers
+    "{{#component[^}]*}}"       // Component helpers
+  ]
+}

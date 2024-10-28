@@ -5,6 +5,7 @@
     action="{{#if forms.wishlist.id}}{{urls.account.wishlists.edit}}{{else}}{{urls.account.wishlists.add}}&product_id={{forms.wishlist.product_id}}{{/if}}"
     method="post"
     x-data="serenityEditWishlist"
+    x-bind="wishlistForm"
 >
     <input type="hidden" name="submit" />
 

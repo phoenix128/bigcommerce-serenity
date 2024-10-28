@@ -1,11 +1,12 @@
-import './create-account-form';
+import './edit-address-form';
+import * as formValidator from '../../utils/form-validator';
 
 const delayPromise = async (ms = 50) => {
     await Alpine.nextTick();
     await new Promise((resolve) => setTimeout(resolve, ms));
 };
 
-describe('serenityCreateAccountForm', () => {
+describe('serenityEditAddressForm', () => {
     let originalSubmit;
 
     beforeAll(() => {
@@ -20,10 +21,12 @@ describe('serenityCreateAccountForm', () => {
 
     beforeEach(async () => {
         document.body.innerHTML = `
-            <form x-data="serenityCreateAccountForm" x-bind="accountForm">           
-                <input type="password" data-type="Password" data-validation='{"type": "password", "required": true, "minlength": 8}' />
-                <button type="submit" x-bind="submitButton">Submit</button>
-            </form>
+            <div x-data="serenityEditAddressForm">
+                <form x-bind="addressForm">
+                    <input type="text" data-validation='{"type": "text", "required": true}' />
+                    <button x-bind="submitButton">Submit</button>
+                </form>
+            </div>
         `;
 
         originalSubmit = HTMLFormElement.prototype.submit;
@@ -36,71 +39,90 @@ describe('serenityCreateAccountForm', () => {
     afterEach(async () => {
         Alpine.destroyTree(document.body);
         HTMLFormElement.prototype.submit = originalSubmit;
+        jest.clearAllMocks();
+        await Alpine.nextTick();
+    });
+
+    test('should initialize and set up validator on form', async () => {
+        const componentInstance = Alpine.$data(document.querySelector('[x-data]'));
         await delayPromise();
+
+        expect(componentInstance.validator).not.toBeNull();
     });
 
-    test('should initialize validator on form load', async () => {
-        const formInstance = Alpine.$data(document.querySelector('[x-data]'));
+    test('should destroy previous validator and reinitialize on country change', async () => {
+        jest.clearAllMocks(); // Reset the initial calls
 
-        expect(formInstance.validator).not.toBeNull();
+        const componentInstance = Alpine.$data(document.querySelector('[x-data]'));
+        const mockValidator = {
+            destroy: jest.fn(),
+            onSuccess: jest.fn(),
+        };
+        componentInstance.validator = mockValidator;
+        const formValidatorSpy = jest.spyOn(formValidator, 'default');
+
+        componentInstance.onCountryChange();
+        await delayPromise();
+
+        expect(mockValidator.destroy).toHaveBeenCalled();
+        expect(formValidatorSpy).toHaveBeenCalled();
     });
 
-    test('should enable password strength meter on password field', () => {
-        const passwordField = document.querySelector('[data-type="Password"]');
-        const passwordFieldData = Alpine.$data(passwordField);
+    test('should submit form after validation success', async () => {
+        const componentInstance = Alpine.$data(document.querySelector('[x-data]'));
+        const form = componentInstance.$refs.addressForm;
+        const submitButton = componentInstance.$refs.submitButton;
+        const addressField = form.querySelector('input');
 
-        expect(passwordFieldData.passwordStrengthEnabled).toBe(true);
-    });
+        addressField.value = '123 Main St';
+        submitButton.click();
 
-    test('should set isSubmitting to true after successful form submission', async () => {
-        const form = document.querySelector('[x-data]');
-        const submitButton = document.querySelector('button');
-
-        const passwordField = document.querySelector('[data-type="Password"]');
-        passwordField.value = 'password123';
-
-        form.dispatchEvent(new Event('submit', { cancelable: true }));
-        await delayPromise(250);
-
+        await delayPromise(500); // 200ms timeout + 300ms delay for tolerance
         expect(form.submit).toHaveBeenCalled();
-        expect(submitButton.disabled).toBe(true);
     });
 
     test('should not submit form if validation fails', async () => {
-        const form = document.querySelector('[x-data]');
+        const componentInstance = Alpine.$data(document.querySelector('[x-data]'));
+        const form = componentInstance.$refs.addressForm;
+        const submitButton = componentInstance.$refs.submitButton;
+        const addressField = form.querySelector('input');
 
-        const passwordField = document.querySelector('[data-type="Password"]');
-        passwordField.value = 'abc123';
+        addressField.value = '';
+        submitButton.click();
 
-        form.dispatchEvent(new Event('submit', { cancelable: true }));
-        await delayPromise();
-
+        await delayPromise(500); // 200ms timeout + 300ms delay for tolerance
         expect(form.submit).not.toHaveBeenCalled();
     });
 
-    test('should reinitialize validator on country change', async () => {
-        const formInstance = Alpine.$data(document.querySelector('[x-data]'));
-        const previousValidator = formInstance.validator;
+    test('should disable submit button and show loading state while submitting', async () => {
+        const componentInstance = Alpine.$data(document.querySelector('[x-data]'));
+        const form = componentInstance.$refs.addressForm;
+        const submitButton = componentInstance.$refs.submitButton;
+        const addressField = form.querySelector('input');
 
-        window.dispatchEvent(new CustomEvent('serenityCountrySelect', { detail: { code: 'update' } }));
-        await delayPromise();
+        addressField.value = '123 Main St';
+        submitButton.click();
 
-        expect(formInstance.validator).not.toBe(previousValidator);
+        await delayPromise(500); // 200ms timeout + 300ms delay for tolerance
+
+        // Check that isSubmitting is true and button has loading styles
+        expect(submitButton.disabled).toBe(true);
+        expect(submitButton.classList.contains('cursor-not-allowed')).toBe(true);
     });
 
     test('should wait 200ms before submitting to make sure the external csfr token is set', async () => {
-        const form = document.querySelector('[x-data]');
-        const submitButton = document.querySelector('button');
+        const componentInstance = Alpine.$data(document.querySelector('[x-data]'));
+        const form = componentInstance.$refs.addressForm;
+        const submitButton = componentInstance.$refs.submitButton;
+        const addressField = form.querySelector('input');
 
-        const passwordField = document.querySelector('[data-type="Password"]');
-        passwordField.value = 'password123';
+        addressField.value = '123 Main St';
+        submitButton.click();
 
-        form.dispatchEvent(new Event('submit', { cancelable: true }));
-        await delayPromise(50);
+        await delayPromise(50); // 50ms delay
         expect(form.submit).not.toHaveBeenCalled();
 
-        await delayPromise(250);
+        await delayPromise(250); // 200ms timeout + 50ms delay
         expect(form.submit).toHaveBeenCalled();
-        expect(submitButton.disabled).toBe(true);
     });
 });

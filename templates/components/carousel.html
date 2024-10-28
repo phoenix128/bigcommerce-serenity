@@ -1,19 +1,18 @@
 {{#if carousel.slides.length '>' 0}}
-    <section x-data="serenitySlider({
+    <section class="swiper" x-bind="main" x-data="serenitySlider({
         autoplay: {
             delay: 5000,
             {{#if settings.homepage_stretch_carousel_images}}autoHeight: true,{{/if}}
         }
-    })" x-bind="main" class="swiper">
-        <div x-bind="wrapper" class="swiper-wrapper">
+    })">
+        <div class="swiper-wrapper" x-bind="wrapper">
             {{#each carousel.slides}}
-            <div x-bind="slide" class="swiper-slide">
+            <div class="swiper-slide" x-bind="slide">
                 <div class="relative">
                     {{#unless button_text}}
-                    <a href="{{url}}" aria-label="{{#if this.alt_text.length '!=' 0}}{{this.alt_text}}{{else}}{{lang 'carousel.slide_number' slide_number=(add @index 1)}}{{/if}}">
+                    <a aria-label="{{#if this.alt_text.length '!=' 0}}{{this.alt_text}}{{else}}{{lang 'carousel.slide_number' slide_number=(add @index 1)}}{{/if}}" href="{{url}}">
                     {{/unless}}
-                        
-                    {{#if button_text}}<a href="{{url}}">{{else}}<div>{{/if}}
+
                     {{#if @first}}
                         {{> components/common/responsive-img
                             image=stencil_image
@@ -30,11 +29,10 @@
                         }}
                     {{/if}}
 
-                    {{#if button_text}}</a>{{else}}</div>{{/if}}
                     {{#or heading text button_text}}
                         {{> components/carousel-content}}
                     {{/or}}
-                        
+
                     {{#unless button_text}}</a>{{/unless}}
                 </div>
             </div>
@@ -42,8 +40,8 @@
         </div>
 
         {{#if arrows}}
-            <div x-bind="buttonPrev" class="swiper-button-prev" x-cloak x-show="isReady"></div>
-            <div x-bind="buttonNext" class="swiper-button-next" x-cloak x-show="isReady"></div>
+            <div class="swiper-button-prev" x-bind="buttonPrev" x-cloak x-show="isReady"></div>
+            <div class="swiper-button-next" x-bind="buttonNext" x-cloak x-show="isReady"></div>
         {{/if}}
     </section>
 {{/if}}

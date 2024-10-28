@@ -52,6 +52,7 @@
     "grunt-run": "^0.8.1",
     "grunt-stylelint": "^0.16.0",
     "grunt-svgstore": "^2.0.0",
+    "htmlhint": "^1.1.4",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jsdom": "^25.0.0",
@@ -81,7 +82,7 @@
     "build": "npx webpack --config webpack.prod.js",
     "buildDev": "npx webpack --config webpack.dev.js",
     "lighthouse": "npx lighthouse --config-path=lighthouse-config.js --quiet --output html --chrome-flags=\"--headless\" $URL",
-    "test": "npx jest",
+    "test": "npx jest --silent",
     "format": "prettier --write \"**/*.{js,css}\"",
     "stylelint": "npx stylelint **/*.css",
     "stylelint:fix": "npx stylelint --fix **/*.css"

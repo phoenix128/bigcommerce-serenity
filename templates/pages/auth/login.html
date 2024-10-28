@@ -3,14 +3,14 @@
     {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
     <h1 class="page-heading">{{lang 'login.heading' }}</h1>
     {{#if forms.login.error}}
-        {{> components/common/alert/alert-error forms.login.error}}
+    {{> components/common/alert/alert-error forms.login.error}}
     {{/if}}
     {{#if forms.login.success}}
-        {{> components/common/alert/alert-success forms.login.success}}
+    {{> components/common/alert/alert-success forms.login.success}}
     {{/if}}
     <div class="flex-row-middle m-auto flex-wrap w-full lg:w-2/3 2xl:w-1/2 gap-8 2xl:gap-12 my-8">
         <div class="min-w-64 max-w-128 grow appear-quick">
-            <form action="{{urls.auth.check_login}}" method="post" x-data="serenityLoginForm">
+            <form action="{{urls.auth.check_login}}" method="post" x-bind="loginForm" x-data="serenityLoginForm">
                 {{inject 'useValidEmail' (lang 'forms.validate.common.email_address')}}
                 {{inject 'enterPass' (lang 'forms.validate.common.password')}}
                 <div class="flex flex-col gap-5">
@@ -18,7 +18,7 @@
                         <label class="mb-2 block font-semibold" for="login_email">{{lang 'login.field_email'}}</label>
                         <div class="input-wrapper">
                             <span class="material-symbols-outlined input-icon">mail</span>
-                            <input x-bind="email" name="login_email" type="email" class="input-inner" />
+                            <input class="input-inner" name="login_email" type="email" x-bind="email" />
                         </div>
                         <div class="absolute" x-bind="emailErrorsContainer"></div>
                     </div>
@@ -26,13 +26,14 @@
                         <label class="mb-2 block font-semibold" for="login_pass">{{lang 'login.field_password'}}</label>
                         <div class="input-wrapper">
                             <span class="material-symbols-outlined input-icon">key</span>
-                            <input x-bind="password" class="input-inner" type="password" name="login_pass" autocomplete="off" />
+                            <input autocomplete="off" class="input-inner" name="login_pass" type="password"
+                                   x-bind="password" />
                         </div>
                         <div class="absolute" x-bind="passwordErrorsContainer"></div>
                     </div>
                 </div>
                 <div class="mt-6 text-center">
-                    <button type="submit" class="button-primary" x-bind="submit">
+                    <button class="button-primary" type="submit" x-bind="submit">
                         <span class="material-symbols-outlined mr-2">login</span>
                         <span>{{lang 'login.submit_value' }}</span>
                     </button>
@@ -41,27 +42,27 @@
             </form>
         </div>
         {{#if settings.account_creation_enabled}}
-            <div class="min-w-64 max-w-128 grow bg-gray-100 p-6 appear-quick">
+        <div class="min-w-64 max-w-128 grow bg-gray-100 p-6 appear-quick">
+            <div>
                 <div>
-                    <div>
-                        <h2 class="text-2xl font-semibold mb-2">{{lang 'login.new_customer.heading' }}</h2>
-                    </div>
-                    <div>
-                        <p>{{lang 'login.new_customer.intro' }}</p>
-                        <ul class="list-disc pl-8 my-4">
-                            <li>{{lang 'login.new_customer.fact1' }}</li>
-                            <li>{{lang 'login.new_customer.fact2' }}</li>
-                            <li>{{lang 'login.new_customer.fact3' }}</li>
-                            <li>{{lang 'login.new_customer.fact4' }}</li>
-                            <li>{{lang 'login.new_customer.fact5' }}</li>
-                        </ul>
-                        <a class="mt-1 button-primary" href="{{urls.auth.create_account}}">
-                            <span class="material-symbols-outlined mr-2">person_edit</span>
-                            <span>{{lang 'login.new_customer.create_account' }}</span>
-                        </a>
-                    </div>
+                    <h2 class="text-2xl font-semibold mb-2">{{lang 'login.new_customer.heading' }}</h2>
+                </div>
+                <div>
+                    <p>{{lang 'login.new_customer.intro' }}</p>
+                    <ul class="list-disc pl-8 my-4">
+                        <li>{{lang 'login.new_customer.fact1' }}</li>
+                        <li>{{lang 'login.new_customer.fact2' }}</li>
+                        <li>{{lang 'login.new_customer.fact3' }}</li>
+                        <li>{{lang 'login.new_customer.fact4' }}</li>
+                        <li>{{lang 'login.new_customer.fact5' }}</li>
+                    </ul>
+                    <a class="mt-1 button-primary" href="{{urls.auth.create_account}}">
+                        <span class="material-symbols-outlined mr-2">person_edit</span>
+                        <span>{{lang 'login.new_customer.create_account' }}</span>
+                    </a>
                 </div>
             </div>
+        </div>
         {{/if}}
     </div>
 </div>

@@ -6,8 +6,6 @@ document.addEventListener('alpine:init', () => {
         isSubmitting: false,
 
         init() {
-            Alpine.bind(this.$el, this.addressForm);
-
             this.$nextTick(() => {
                 this.setupValidator();
             });
