@@ -3,7 +3,6 @@ import './headless-components';
 import Alpine from 'alpinejs';
 import '@sweetalert2/themes/material-ui/material-ui.min.css';
 import Swup from 'swup';
-import SwupPreloadPlugin from '@swup/preload-plugin';
 import SwupOverlayTheme from '@swup/overlay-theme';
 import SwupScrollPlugin from '@swup/scroll-plugin';
 import SwupFormsPlugin from '@swup/forms-plugin';
@@ -110,10 +109,11 @@ const initializeAppearEffects = () => {
 
 const initializePageTransitions = () => {
     const swup = new Swup({
+        cache: false,
         plugins: [
             //new SwupProgressPlugin(),
             new SwupOverlayTheme(),
-            new SwupPreloadPlugin(),
+            // new SwupPreloadPlugin(),
             new SwupScrollPlugin(),
             new SwupFormsPlugin(),
         ],
@@ -134,27 +134,33 @@ const checkSwupTree = () => {
     return !!swupCheckBlock;
 };
 
+const cacheClear = () => {
+    window.swup.cache.clear();
+};
+
 /**
  * This function gets added to the global window and then called
  * on page load with the current template loaded and JS Context passed in
  * @param pageType String
  * @param contextJSON
+ * @param loadGlobal
  * @returns {*}
  */
 window.stencilBootstrap = function stencilBootstrap(pageType, contextJSON = null, loadGlobal = true) {
     const context = JSON.parse(contextJSON || '{}');
     window.bcContext = context;
+    window.cacheClear = cacheClear;
 
     return {
         load() {
             Alpine.store('context', context);
-
-            initializeLazySizes();
-            initializeAppearEffects();
         },
     };
 };
 
 initializeFontsLoadingMonitor();
 initializePageTransitions();
+initializeLazySizes();
+initializeAppearEffects();
+
 initializeAlpine();

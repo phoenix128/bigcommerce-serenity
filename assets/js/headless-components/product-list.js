@@ -8,7 +8,7 @@ document.addEventListener('alpine:init', () => {
                 category: {
                     shop_by_price: true,
                     products: {
-                        limit: options.categoryProductsPerPage ?? window.bcContext.categoryProductsPerPage,
+                        limit: options.categoryProductsPerPage, // See init() method
                     },
                 },
             },
@@ -24,6 +24,13 @@ document.addEventListener('alpine:init', () => {
 
         facetSidebar: {
             'x-ref': 'facetSidebar',
+        },
+
+        init() {
+            this.$nextTick(() => {
+                const context = Alpine.store('context');
+                this.requestOptions.config.category.products.limit = options.categoryProductsPerPage ?? context.categoryProductsPerPage;
+            });
         },
 
         reloadProductListing(url) {
