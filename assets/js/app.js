@@ -126,7 +126,12 @@ const initializePageTransitions = () => {
         }
     });
 
+    swup.hooks.on('animation:in:end', () => {
+        window.dispatchEvent(new Event('serenityPageReady'));
+    });
+
     window.swup = swup;
+    window.dispatchEvent(new Event('serenityPageReady')); // Fake event to make sure the first page is loaded
 };
 
 const checkSwupTree = () => {
